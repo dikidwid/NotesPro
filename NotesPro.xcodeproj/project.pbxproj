@@ -47,6 +47,7 @@
 		3A7DBC642C3E48F700FF9CEB /* NoteEditorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoteEditorView.swift; sourceTree = "<group>"; };
 		3A7DBC652C3E48F700FF9CEB /* NotesView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotesView.swift; sourceTree = "<group>"; };
 		3A7DBC662C3E48F700FF9CEB /* SettingsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		E671A9EB2C3EBE470008E410 /* SwiftData.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = SwiftData.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -129,6 +130,7 @@
 				3A7DBC452C3E48D300FF9CEB /* Extension */,
 				3A7DBC472C3E48D300FF9CEB /* Service */,
 				3A7DBC492C3E48D300FF9CEB /* Utilities */,
+				E671A9EA2C3EBE420008E410 /* Docs */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -171,6 +173,14 @@
 				3A7DBC662C3E48F700FF9CEB /* SettingsView.swift */,
 			);
 			path = Screen;
+			sourceTree = "<group>";
+		};
+		E671A9EA2C3EBE420008E410 /* Docs */ = {
+			isa = PBXGroup;
+			children = (
+				E671A9EB2C3EBE470008E410 /* SwiftData.md */,
+			);
+			path = Docs;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
