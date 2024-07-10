@@ -15,3 +15,15 @@ struct NotesProApp: App {
         }
     }
 }
+
+struct ContentView: View {
+    var body: some View {
+        MainView()
+            .modelContainer(for: swiftDataModels)
+    }
+}
+
+
+#Preview {
+    ContentView()
+}
