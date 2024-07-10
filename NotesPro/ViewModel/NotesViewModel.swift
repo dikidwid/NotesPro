@@ -4,17 +4,18 @@
 //
 //  Created by Arya Adyatma on 09/07/24.
 //
-
 import Foundation
 import SwiftData
 
 class NotesViewModel: ObservableObject {
-    @Published var navigateToNewNote = false
-    @Published var newNote: Note = Note(title: "", content: "")
+    @Published var newNoteId: UUID?
     
-    func addNote() {
-        newNote = Note(title: "", content: "")
-        navigateToNewNote = true
+    func addNote(modelContext: ModelContext) -> Note {
+        let newNote = Note(title: "", content: "")
+        modelContext.insert(newNote)
+        try? modelContext.save()
+        newNoteId = newNote.id
+        return newNote
     }
     
     func deleteNotes(at offsets: IndexSet, notes: [Note], modelContext: ModelContext) {
@@ -24,9 +25,26 @@ class NotesViewModel: ObservableObject {
     }
     
     func saveNote(modelContext: ModelContext) {
-        if !newNote.title.isEmpty && !newNote.content.isEmpty {
-            modelContext.insert(newNote)
-            try? modelContext.save()
+        try? modelContext.save()
+    }
+    
+    func toggleTask(_ task: DailyTask) {
+        task.isChecked.toggle()
+        task.checkedDate = task.isChecked ? Date() : nil
+    }
+    
+    func addTask(to note: Note, taskName: String, modelContext: ModelContext) {
+        let newTask = DailyTask(taskName: taskName)
+        note.tasks.append(newTask)
+        try? modelContext.save()
+    }
+    
+    func deleteTasks(at offsets: IndexSet, from note: Note, modelContext: ModelContext) {
+        for index in offsets {
+            let task = note.tasks[index]
+            note.tasks.remove(at: index)
+            modelContext.delete(task)
         }
+        try? modelContext.save()
     }
 }
