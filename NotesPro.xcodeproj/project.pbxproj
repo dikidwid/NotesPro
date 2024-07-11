@@ -25,6 +25,11 @@
 		3A7DBC6A2C3E48F700FF9CEB /* NoteEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A7DBC642C3E48F700FF9CEB /* NoteEditorView.swift */; };
 		3A7DBC6B2C3E48F700FF9CEB /* NotesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A7DBC652C3E48F700FF9CEB /* NotesView.swift */; };
 		3A7DBC6C2C3E48F700FF9CEB /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A7DBC662C3E48F700FF9CEB /* SettingsView.swift */; };
+		CD2812C32C4019E300EB0F77 /* GoalsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD2812C22C4019E300EB0F77 /* GoalsViewModel.swift */; };
+		CD2812C92C401A4F00EB0F77 /* AddHabitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD2812C82C401A4F00EB0F77 /* AddHabitView.swift */; };
+		CD2812CB2C401A5A00EB0F77 /* AddGoalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD2812CA2C401A5A00EB0F77 /* AddGoalView.swift */; };
+		CD2812CD2C401C1300EB0F77 /* HabitsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD2812CC2C401C1300EB0F77 /* HabitsViewModel.swift */; };
+		CDAF880E2C405381005EA0B1 /* DetailHabitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDAF880D2C405381005EA0B1 /* DetailHabitView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -47,6 +52,11 @@
 		3A7DBC642C3E48F700FF9CEB /* NoteEditorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoteEditorView.swift; sourceTree = "<group>"; };
 		3A7DBC652C3E48F700FF9CEB /* NotesView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotesView.swift; sourceTree = "<group>"; };
 		3A7DBC662C3E48F700FF9CEB /* SettingsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		CD2812C22C4019E300EB0F77 /* GoalsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalsViewModel.swift; sourceTree = "<group>"; };
+		CD2812C82C401A4F00EB0F77 /* AddHabitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddHabitView.swift; sourceTree = "<group>"; };
+		CD2812CA2C401A5A00EB0F77 /* AddGoalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddGoalView.swift; sourceTree = "<group>"; };
+		CD2812CC2C401C1300EB0F77 /* HabitsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitsViewModel.swift; sourceTree = "<group>"; };
+		CDAF880D2C405381005EA0B1 /* DetailHabitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailHabitView.swift; sourceTree = "<group>"; };
 		E671A9EB2C3EBE470008E410 /* SwiftData.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = SwiftData.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -151,6 +161,8 @@
 			isa = PBXGroup;
 			children = (
 				3A7DBC5C2C3E48EC00FF9CEB /* NotesViewModel.swift */,
+				CD2812C22C4019E300EB0F77 /* GoalsViewModel.swift */,
+				CD2812CC2C401C1300EB0F77 /* HabitsViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -166,11 +178,14 @@
 		3A7DBC672C3E48F700FF9CEB /* Screen */ = {
 			isa = PBXGroup;
 			children = (
-				3A7DBC622C3E48F700FF9CEB /* GoalsView.swift */,
 				3A7DBC632C3E48F700FF9CEB /* MainView.swift */,
-				3A7DBC642C3E48F700FF9CEB /* NoteEditorView.swift */,
 				3A7DBC652C3E48F700FF9CEB /* NotesView.swift */,
+				3A7DBC642C3E48F700FF9CEB /* NoteEditorView.swift */,
 				3A7DBC662C3E48F700FF9CEB /* SettingsView.swift */,
+				3A7DBC622C3E48F700FF9CEB /* GoalsView.swift */,
+				CD2812CA2C401A5A00EB0F77 /* AddGoalView.swift */,
+				CD2812C82C401A4F00EB0F77 /* AddHabitView.swift */,
+				CDAF880D2C405381005EA0B1 /* DetailHabitView.swift */,
 			);
 			path = Screen;
 			sourceTree = "<group>";
@@ -253,18 +268,23 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CDAF880E2C405381005EA0B1 /* DetailHabitView.swift in Sources */,
 				3A7DBC4F2C3E48D300FF9CEB /* Constants.swift in Sources */,
 				3A7DBC4E2C3E48D300FF9CEB /* AIService.swift in Sources */,
+				CD2812C32C4019E300EB0F77 /* GoalsViewModel.swift in Sources */,
 				3A7DBC6C2C3E48F700FF9CEB /* SettingsView.swift in Sources */,
 				3A7DBC612C3E48EC00FF9CEB /* Row.swift in Sources */,
+				CD2812CD2C401C1300EB0F77 /* HabitsViewModel.swift in Sources */,
 				3A7DBC582C3E48E300FF9CEB /* DailyTaskDefinition.swift in Sources */,
 				3A7DBC4D2C3E48D300FF9CEB /* String+Extension.swift in Sources */,
 				3A7DBC572C3E48E300FF9CEB /* DailyTask.swift in Sources */,
 				3A7DBC6A2C3E48F700FF9CEB /* NoteEditorView.swift in Sources */,
+				CD2812CB2C401A5A00EB0F77 /* AddGoalView.swift in Sources */,
 				3A7DBC5A2C3E48E300FF9CEB /* Habit.swift in Sources */,
 				3A7DBC5B2C3E48E300FF9CEB /* Note.swift in Sources */,
 				3A7DBC602C3E48EC00FF9CEB /* NotesViewModel.swift in Sources */,
 				3A7DBC6B2C3E48F700FF9CEB /* NotesView.swift in Sources */,
+				CD2812C92C401A4F00EB0F77 /* AddHabitView.swift in Sources */,
 				3A7DBC372C3E48A200FF9CEB /* NotesProApp.swift in Sources */,
 				3A7DBC682C3E48F700FF9CEB /* GoalsView.swift in Sources */,
 				3A7DBC592C3E48E300FF9CEB /* Goal.swift in Sources */,
@@ -402,7 +422,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"NotesPro/Preview Content\"";
-				DEVELOPMENT_TEAM = QJ4D5LRK3T;
+				DEVELOPMENT_TEAM = M73B4W9D68;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -410,6 +430,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -431,7 +452,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"NotesPro/Preview Content\"";
-				DEVELOPMENT_TEAM = QJ4D5LRK3T;
+				DEVELOPMENT_TEAM = M73B4W9D68;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -439,6 +460,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
