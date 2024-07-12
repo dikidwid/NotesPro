@@ -114,11 +114,6 @@ struct NoteRowView: View {
     
     var body: some View {
         HStack(spacing: 16) {
-//            Image(systemName: note.tasks.isEmpty ? "doc.fill" : "checklist")
-//                .foregroundColor(.yellow)
-//                .frame(width: 40, height: 40)
-//                .background(Color.yellow.opacity(0.2))
-//                .cornerRadius(8)
             
             VStack(alignment: .leading, spacing: 4) {
                 Text(note.title)

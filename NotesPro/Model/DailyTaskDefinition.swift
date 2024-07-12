@@ -5,7 +5,7 @@ import SwiftData
 final class DailyTaskDefinition: Identifiable {
     let id: UUID
     var taskName: String
-    let createdDate: Date
+    var createdDate: Date
     
     @Relationship var habit: Habit?
     @Relationship var reminder: DailyTaskReminder?
