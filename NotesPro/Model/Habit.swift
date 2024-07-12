@@ -9,15 +9,13 @@ import Foundation
 import SwiftData
 
 @Model
-final class Habit {
+final class Habit: Identifiable {
     var id: UUID
     var title: String
     var desc: String
     var createdDate: Date
     
-    @Relationship var goal: Goal?
-    @Relationship(deleteRule: .cascade) var tasks: [DailyTaskDefinition] = []
-    @Relationship(deleteRule: .cascade) var notes: [Note] = []
+    @Relationship(deleteRule: .cascade) var definedTasks: [DailyTaskDefinition] = []
     
     init(title: String, description: String) {
         self.id = UUID()

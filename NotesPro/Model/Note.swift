@@ -9,14 +9,11 @@ import Foundation
 import SwiftData
 
 @Model
-final class Note {
+final class Note: Identifiable {
     var id: UUID
     var createdDate: Date
     var title: String
     var content: String
-    
-    @Relationship var habit: Habit?
-    @Relationship(deleteRule: .cascade) var tasks: [DailyTask] = []
     
     init(title: String, content: String) {
         self.id = UUID()

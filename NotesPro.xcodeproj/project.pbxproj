@@ -15,7 +15,6 @@
 		3A7DBC4F2C3E48D300FF9CEB /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A7DBC482C3E48D300FF9CEB /* Constants.swift */; };
 		3A7DBC572C3E48E300FF9CEB /* DailyTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A7DBC512C3E48E300FF9CEB /* DailyTask.swift */; };
 		3A7DBC582C3E48E300FF9CEB /* DailyTaskDefinition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A7DBC522C3E48E300FF9CEB /* DailyTaskDefinition.swift */; };
-		3A7DBC592C3E48E300FF9CEB /* Goal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A7DBC532C3E48E300FF9CEB /* Goal.swift */; };
 		3A7DBC5A2C3E48E300FF9CEB /* Habit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A7DBC542C3E48E300FF9CEB /* Habit.swift */; };
 		3A7DBC5B2C3E48E300FF9CEB /* Note.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A7DBC552C3E48E300FF9CEB /* Note.swift */; };
 		3A7DBC602C3E48EC00FF9CEB /* NotesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A7DBC5C2C3E48EC00FF9CEB /* NotesViewModel.swift */; };
@@ -25,6 +24,7 @@
 		3A7DBC6A2C3E48F700FF9CEB /* NoteEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A7DBC642C3E48F700FF9CEB /* NoteEditorView.swift */; };
 		3A7DBC6B2C3E48F700FF9CEB /* NotesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A7DBC652C3E48F700FF9CEB /* NotesView.swift */; };
 		3A7DBC6C2C3E48F700FF9CEB /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A7DBC662C3E48F700FF9CEB /* SettingsView.swift */; };
+		E671A9F62C4113830008E410 /* DailyHabitEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = E671A9F52C41137E0008E410 /* DailyHabitEntry.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -37,7 +37,6 @@
 		3A7DBC482C3E48D300FF9CEB /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		3A7DBC512C3E48E300FF9CEB /* DailyTask.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DailyTask.swift; sourceTree = "<group>"; };
 		3A7DBC522C3E48E300FF9CEB /* DailyTaskDefinition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DailyTaskDefinition.swift; sourceTree = "<group>"; };
-		3A7DBC532C3E48E300FF9CEB /* Goal.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Goal.swift; sourceTree = "<group>"; };
 		3A7DBC542C3E48E300FF9CEB /* Habit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Habit.swift; sourceTree = "<group>"; };
 		3A7DBC552C3E48E300FF9CEB /* Note.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Note.swift; sourceTree = "<group>"; };
 		3A7DBC5C2C3E48EC00FF9CEB /* NotesViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotesViewModel.swift; sourceTree = "<group>"; };
@@ -48,6 +47,7 @@
 		3A7DBC652C3E48F700FF9CEB /* NotesView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotesView.swift; sourceTree = "<group>"; };
 		3A7DBC662C3E48F700FF9CEB /* SettingsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		E671A9EB2C3EBE470008E410 /* SwiftData.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = SwiftData.md; sourceTree = "<group>"; };
+		E671A9F52C41137E0008E410 /* DailyHabitEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyHabitEntry.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -138,9 +138,9 @@
 		3A7DBC562C3E48E300FF9CEB /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				E671A9F52C41137E0008E410 /* DailyHabitEntry.swift */,
 				3A7DBC512C3E48E300FF9CEB /* DailyTask.swift */,
 				3A7DBC522C3E48E300FF9CEB /* DailyTaskDefinition.swift */,
-				3A7DBC532C3E48E300FF9CEB /* Goal.swift */,
 				3A7DBC542C3E48E300FF9CEB /* Habit.swift */,
 				3A7DBC552C3E48E300FF9CEB /* Note.swift */,
 			);
@@ -266,8 +266,8 @@
 				3A7DBC602C3E48EC00FF9CEB /* NotesViewModel.swift in Sources */,
 				3A7DBC6B2C3E48F700FF9CEB /* NotesView.swift in Sources */,
 				3A7DBC372C3E48A200FF9CEB /* NotesProApp.swift in Sources */,
+				E671A9F62C4113830008E410 /* DailyHabitEntry.swift in Sources */,
 				3A7DBC682C3E48F700FF9CEB /* GoalsView.swift in Sources */,
-				3A7DBC592C3E48E300FF9CEB /* Goal.swift in Sources */,
 				3A7DBC692C3E48F700FF9CEB /* MainView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

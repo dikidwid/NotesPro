@@ -114,11 +114,11 @@ struct NoteRowView: View {
     
     var body: some View {
         HStack(spacing: 16) {
-            Image(systemName: note.tasks.isEmpty ? "doc.fill" : "checklist")
-                .foregroundColor(.yellow)
-                .frame(width: 40, height: 40)
-                .background(Color.yellow.opacity(0.2))
-                .cornerRadius(8)
+//            Image(systemName: note.tasks.isEmpty ? "doc.fill" : "checklist")
+//                .foregroundColor(.yellow)
+//                .frame(width: 40, height: 40)
+//                .background(Color.yellow.opacity(0.2))
+//                .cornerRadius(8)
             
             VStack(alignment: .leading, spacing: 4) {
                 Text(note.title)
@@ -145,7 +145,6 @@ struct NoteRowView: View {
         
         let todayNote2 = Note(title: "TOEFL Test", content: "Subtitle")
         todayNote2.createdDate = Date()
-        todayNote2.tasks = [DailyTask(taskName: "Sample Task")]
         
         let weekNote1 = Note(title: "Beli Jus", content: "Ayam 1 Ikan 3 Beras 3kg Susu")
         weekNote1.createdDate = Calendar.current.date(byAdding: .day, value: -3, to: Date())!

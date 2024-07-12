@@ -9,14 +9,15 @@ import Foundation
 import SwiftData
 
 @Model
-final class DailyTask {
+final class DailyTask: Identifiable {
     var id: UUID
     var taskName: String
     var isChecked: Bool
     var createdDate: Date
     var checkedDate: Date?
     
-    @Relationship var note: Note?
+    @Relationship var habit: Habit?
+    @Relationship var definition: DailyTaskDefinition?
     
     init(taskName: String) {
         self.id = UUID()
