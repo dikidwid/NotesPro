@@ -13,6 +13,10 @@ final class DailyTaskDefinition {
     var id: UUID
     var taskName: String
     var createdDate: Date
+    var isReminder: Bool
+    
+    var repeatSchedule: String?
+    var reminderTime: Date?
     
     @Relationship var habit: Habit?
     
@@ -20,5 +24,6 @@ final class DailyTaskDefinition {
         self.id = UUID()
         self.taskName = taskName
         self.createdDate = Date()
+        self.isReminder = false
     }
 }

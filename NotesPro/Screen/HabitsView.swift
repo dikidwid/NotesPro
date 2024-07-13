@@ -6,10 +6,15 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct HabitsView: View {
     
-    @State var goToNextPage = false
+    @Environment(\.modelContext) private var modelContext
+    @StateObject private var viewModel = HabitsViewModel()
+    @State private var isAddHabitSheetPresented = false
+    @State private var newHabit: Habit?
+    @Query private var habits: [Habit]
     
     var body: some View {
         NavigationStack {
@@ -23,6 +28,12 @@ struct HabitsView: View {
                     Text("18")
                     Text("19")
                 }
+                .padding()
+                
+                ForEach(habits) { habit in
+                    Text(habit.title)
+                        .foregroundStyle(.red)
+                }
                 
                 Spacer()
             }
@@ -30,7 +41,9 @@ struct HabitsView: View {
             .toolbar(content: {
                 ToolbarItem(placement: .topBarTrailing) {
                     Button {
-                        goToNextPage.toggle()
+                        isAddHabitSheetPresented.toggle()
+                        let habit = viewModel.addHabit(modelContext: modelContext)
+                        newHabit = habit
                     } label: {
                         Image(systemName: "plus.app")
                             .foregroundColor(.orange)
@@ -38,14 +51,32 @@ struct HabitsView: View {
 
                 }
             })
-            .sheet(isPresented: $goToNextPage, content: {
-                AddHabitView()
-                    .presentationDragIndicator(.visible)
+            .sheet(isPresented: $isAddHabitSheetPresented, content: {
+                if let habit = newHabit {
+                    AddHabitView(habit: habit)
+                        .presentationDragIndicator(.visible)
+                        .environmentObject(viewModel)
+                }
             })
         }
     }
 }
 
 #Preview {
-    HabitsView()
+    do {
+        let config = ModelConfiguration(isStoredInMemoryOnly: true)
+        let container = try ModelContainer(for: Habit.self, configurations: config)
+        
+        let habit = Habit(title: "Test1", description: "Desc 1")
+        let habit2 = Habit(title: "Test2", description: "Desc 1")
+        
+        container.mainContext.insert(habit)
+        container.mainContext.insert(habit2)
+
+        return HabitsView()
+            .modelContainer(container)
+
+    } catch {
+        return Text("Failed to create preview: \(error.localizedDescription)")
+    }
 }

@@ -27,6 +27,8 @@
 		3A7DBC6C2C3E48F700FF9CEB /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A7DBC662C3E48F700FF9CEB /* SettingsView.swift */; };
 		CDAF88102C41149D005EA0B1 /* HabitsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDAF880F2C41149D005EA0B1 /* HabitsViewModel.swift */; };
 		CDAF88122C411B3C005EA0B1 /* AddHabitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDAF88112C411B3C005EA0B1 /* AddHabitView.swift */; };
+		CDAF88142C4186DC005EA0B1 /* Reward.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDAF88132C4186DC005EA0B1 /* Reward.swift */; };
+		CDAF88162C41AA08005EA0B1 /* DetailTaskView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDAF88152C41AA08005EA0B1 /* DetailTaskView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -51,6 +53,8 @@
 		3A7DBC662C3E48F700FF9CEB /* SettingsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		CDAF880F2C41149D005EA0B1 /* HabitsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitsViewModel.swift; sourceTree = "<group>"; };
 		CDAF88112C411B3C005EA0B1 /* AddHabitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddHabitView.swift; sourceTree = "<group>"; };
+		CDAF88132C4186DC005EA0B1 /* Reward.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reward.swift; sourceTree = "<group>"; };
+		CDAF88152C41AA08005EA0B1 /* DetailTaskView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailTaskView.swift; sourceTree = "<group>"; };
 		E671A9EB2C3EBE470008E410 /* SwiftData.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = SwiftData.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -147,6 +151,7 @@
 				3A7DBC532C3E48E300FF9CEB /* Goal.swift */,
 				3A7DBC542C3E48E300FF9CEB /* Habit.swift */,
 				3A7DBC552C3E48E300FF9CEB /* Note.swift */,
+				CDAF88132C4186DC005EA0B1 /* Reward.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -176,6 +181,7 @@
 				3A7DBC652C3E48F700FF9CEB /* NotesView.swift */,
 				3A7DBC622C3E48F700FF9CEB /* HabitsView.swift */,
 				CDAF88112C411B3C005EA0B1 /* AddHabitView.swift */,
+				CDAF88152C41AA08005EA0B1 /* DetailTaskView.swift */,
 				3A7DBC662C3E48F700FF9CEB /* SettingsView.swift */,
 			);
 			path = Screen;
@@ -267,11 +273,13 @@
 				CDAF88122C411B3C005EA0B1 /* AddHabitView.swift in Sources */,
 				3A7DBC4D2C3E48D300FF9CEB /* String+Extension.swift in Sources */,
 				3A7DBC572C3E48E300FF9CEB /* DailyTask.swift in Sources */,
+				CDAF88162C41AA08005EA0B1 /* DetailTaskView.swift in Sources */,
 				3A7DBC6A2C3E48F700FF9CEB /* NoteEditorView.swift in Sources */,
 				3A7DBC5A2C3E48E300FF9CEB /* Habit.swift in Sources */,
 				3A7DBC5B2C3E48E300FF9CEB /* Note.swift in Sources */,
 				CDAF88102C41149D005EA0B1 /* HabitsViewModel.swift in Sources */,
 				3A7DBC602C3E48EC00FF9CEB /* NotesViewModel.swift in Sources */,
+				CDAF88142C4186DC005EA0B1 /* Reward.swift in Sources */,
 				3A7DBC6B2C3E48F700FF9CEB /* NotesView.swift in Sources */,
 				3A7DBC372C3E48A200FF9CEB /* NotesProApp.swift in Sources */,
 				3A7DBC682C3E48F700FF9CEB /* HabitsView.swift in Sources */,

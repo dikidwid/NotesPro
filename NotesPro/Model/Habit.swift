@@ -18,11 +18,13 @@ final class Habit {
     @Relationship var goal: Goal?
     @Relationship(deleteRule: .cascade) var tasks: [DailyTaskDefinition] = []
     @Relationship(deleteRule: .cascade) var notes: [Note] = []
+    @Relationship var reward: Reward?
     
     init(title: String, description: String) {
         self.id = UUID()
         self.title = title
         self.desc = description
         self.createdDate = Date()
+        self.reward = reward 
     }
 }
