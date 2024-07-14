@@ -9,14 +9,22 @@ import SwiftUI
 
 struct DetailTaskView: View {
     
+    @Environment(\.modelContext) private var modelContext
+    @Environment(\.dismiss) private var dismiss
+    @EnvironmentObject private var viewModel: HabitsViewModel
+    
+    @Bindable var task : DailyTaskDefinition
+    
     @State private var taskName: String = ""
     @State private var isReminder: Bool = false
     
     @State private var selectedTime = Date()
-    @State private var repeatOptions = ["Everyday", "Every Monday", "Every Tuesday", "Every Wednesday", "Every Thursday", "Every Friday", "Every Saturday", "Every Sunday"]
     @State private var selectedRepeatOption = 0
     
-    @Environment(\.dismiss) private var dismiss
+    init(task: DailyTaskDefinition) {
+        self._task = Bindable(task)
+        _selectedRepeatOption = State(initialValue: RepeatOption.allCases.firstIndex(where: { $0.rawValue == task.repeatSchedule }) ?? 0)
+    }
     
     var body: some View {
         NavigationStack {
@@ -24,21 +32,22 @@ struct DetailTaskView: View {
                 Divider()
                 Form(content: {
                     Section {
-                        TextField("Enter Task Name", text: $taskName)
+                        TextField("Enter Task Name", text: $task.taskName)
                     } header: {
                         Text("TASK")
                     }
                     
                     Section {
-                        Toggle(isOn: $isReminder, label: {
+                        Toggle(isOn: $task.isReminder, label: {
                             Text("Reminder")
                         })
-                        if isReminder {
-                            DatePicker("Time", selection: $selectedTime, displayedComponents: .hourAndMinute)
+                        if task.isReminder {
+                            DatePicker("Time", selection: $task.reminderTime, displayedComponents: .hourAndMinute)
+                                .environment(\.locale, Locale(identifier: "en_US_POSIX"))
                             
                             Picker(selection: $selectedRepeatOption, label: Text("Repeat")) {
-                                ForEach(repeatOptions.indices, id: \.self) { index in
-                                    Text(repeatOptions[index])
+                                ForEach(RepeatOption.allCases.indices, id: \.self) { index in
+                                    Text(RepeatOption.allCases[index].rawValue)
                                 }
                             }
                             .pickerStyle(MenuPickerStyle())
@@ -52,7 +61,7 @@ struct DetailTaskView: View {
                 })
             }
             .navigationBarBackButtonHidden(true)
-            .navigationTitle("New Task")
+            .navigationTitle(task.taskName.isEmpty ? "New Task" : "Edit Task")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar(content: {
                 ToolbarItem(placement: .topBarLeading) {
@@ -70,18 +79,27 @@ struct DetailTaskView: View {
             })
             .toolbar(content: {
                 ToolbarItem(placement: .topBarTrailing) {
-                    Button(action: {
-                        print("yay")
-                    }, label: {
-                        Text("Add")
-                    })
-                    .foregroundColor(.orange)
+                    if task.taskName.isEmpty{
+                        Button(action: {
+                            task.repeatSchedule = RepeatOption.allCases[selectedRepeatOption].rawValue
+                            viewModel.saveHabit(modelContext: modelContext)
+                            dismiss()
+                        }, label: {
+                            Text("Add")
+                        })
+                        .foregroundColor(.orange)
+                    } else {
+                        EmptyView()
+                    }
                 }
             })
         }
+        .padding(.top, 10)
     }
+    
+    
 }
 
-#Preview {
-    DetailTaskView()
-}
+//#Preview {
+//    DetailTaskView()
+//}

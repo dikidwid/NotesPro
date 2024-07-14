@@ -13,7 +13,7 @@ struct HabitsView: View {
     @Environment(\.modelContext) private var modelContext
     @StateObject private var viewModel = HabitsViewModel()
     @State private var isAddHabitSheetPresented = false
-    @State private var newHabit: Habit?
+    @State private var selectedHabit: Habit?
     @Query private var habits: [Habit]
     
     var body: some View {
@@ -31,8 +31,12 @@ struct HabitsView: View {
                 .padding()
                 
                 ForEach(habits) { habit in
-                    Text(habit.title)
-                        .foregroundStyle(.red)
+                    Button(action: {
+                        selectedHabit = habit
+                    }, label: {
+                        Text(habit.title)
+                            .foregroundStyle(.red)
+                    })
                 }
                 
                 Spacer()
@@ -41,9 +45,8 @@ struct HabitsView: View {
             .toolbar(content: {
                 ToolbarItem(placement: .topBarTrailing) {
                     Button {
-                        isAddHabitSheetPresented.toggle()
                         let habit = viewModel.addHabit(modelContext: modelContext)
-                        newHabit = habit
+                        selectedHabit = habit
                     } label: {
                         Image(systemName: "plus.app")
                             .foregroundColor(.orange)
@@ -51,11 +54,19 @@ struct HabitsView: View {
 
                 }
             })
+            .onChange(of: selectedHabit, { oldValue, newValue in
+                if newValue != nil {
+                    isAddHabitSheetPresented = true
+                }
+            })
             .sheet(isPresented: $isAddHabitSheetPresented, content: {
-                if let habit = newHabit {
+                if let habit = selectedHabit {
                     AddHabitView(habit: habit)
                         .presentationDragIndicator(.visible)
                         .environmentObject(viewModel)
+                        .onDisappear {
+                            selectedHabit = nil
+                        }
                 }
             })
         }

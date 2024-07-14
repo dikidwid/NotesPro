@@ -29,6 +29,7 @@
 		CDAF88122C411B3C005EA0B1 /* AddHabitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDAF88112C411B3C005EA0B1 /* AddHabitView.swift */; };
 		CDAF88142C4186DC005EA0B1 /* Reward.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDAF88132C4186DC005EA0B1 /* Reward.swift */; };
 		CDAF88162C41AA08005EA0B1 /* DetailTaskView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDAF88152C41AA08005EA0B1 /* DetailTaskView.swift */; };
+		CDAF88182C42EB06005EA0B1 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = CDAF88172C42EB06005EA0B1 /* Localizable.xcstrings */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -55,6 +56,7 @@
 		CDAF88112C411B3C005EA0B1 /* AddHabitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddHabitView.swift; sourceTree = "<group>"; };
 		CDAF88132C4186DC005EA0B1 /* Reward.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reward.swift; sourceTree = "<group>"; };
 		CDAF88152C41AA08005EA0B1 /* DetailTaskView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailTaskView.swift; sourceTree = "<group>"; };
+		CDAF88172C42EB06005EA0B1 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		E671A9EB2C3EBE470008E410 /* SwiftData.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = SwiftData.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -96,6 +98,7 @@
 				3A7DBC362C3E48A200FF9CEB /* NotesProApp.swift */,
 				3A7DBC3A2C3E48A400FF9CEB /* Assets.xcassets */,
 				3A7DBC3C2C3E48A400FF9CEB /* Preview Content */,
+				CDAF88172C42EB06005EA0B1 /* Localizable.xcstrings */,
 			);
 			path = NotesPro;
 			sourceTree = "<group>";
@@ -237,6 +240,7 @@
 			knownRegions = (
 				en,
 				Base,
+				id,
 			);
 			mainGroup = 3A7DBC2A2C3E48A200FF9CEB;
 			productRefGroup = 3A7DBC342C3E48A200FF9CEB /* Products */;
@@ -255,6 +259,7 @@
 			files = (
 				3A7DBC3E2C3E48A400FF9CEB /* Preview Assets.xcassets in Resources */,
 				3A7DBC3B2C3E48A400FF9CEB /* Assets.xcassets in Resources */,
+				CDAF88182C42EB06005EA0B1 /* Localizable.xcstrings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
