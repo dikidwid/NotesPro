@@ -197,8 +197,82 @@
         }
       }
     },
+    "Every Friday" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Setiap Jumat"
+          }
+        }
+      }
+    },
     "Every Monday" : {
-      "comment" : "Localized name for every monday"
+      "extractionState" : "manual",
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Setiap Senin"
+          }
+        }
+      }
+    },
+    "Every Saturday" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Setiap Sabtu"
+          }
+        }
+      }
+    },
+    "Every Sunday" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Setiap Minggu"
+          }
+        }
+      }
+    },
+    "Every Thursday" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Setiap Kamis"
+          }
+        }
+      }
+    },
+    "Every Tuesday" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Setiap Selasa"
+          }
+        }
+      }
+    },
+    "Everyday" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Setiap Hari"
+          }
+        }
+      }
     },
     "Failed to create preview: %@" : {
       "localizations" : {
@@ -339,9 +413,6 @@
           }
         }
       }
-    },
-    "Setiap Hari" : {
-      "comment" : "Localized name for everyday"
     },
     "Settings" : {
       "localizations" : {

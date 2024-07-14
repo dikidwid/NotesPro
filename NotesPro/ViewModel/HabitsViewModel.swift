@@ -8,7 +8,7 @@
 import Foundation
 import SwiftData
 
-enum RepeatOption: String, CaseIterable {
+enum RepeatOption: String, CaseIterable, Identifiable {
     case everyday = "Everyday"
     case monday = "Every Monday"
     case tuesday = "Every Tuesday"
@@ -17,6 +17,12 @@ enum RepeatOption: String, CaseIterable {
     case friday = "Every Friday"
     case saturday = "Every Saturday"
     case sunday = "Every Sunday"
+
+    var id: String { self.rawValue }
+
+    var localized: String {
+        return NSLocalizedString(self.rawValue, comment: "")
+    }
 }
 
 class HabitsViewModel: ObservableObject{

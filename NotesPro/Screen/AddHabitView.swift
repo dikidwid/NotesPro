@@ -115,7 +115,7 @@ struct TasksSection: View {
         }
         .sheet(isPresented: $showDetailTaskSheet) {
             if let task = newTask {
-                DetailTaskView(task: task).environmentObject(viewModel)
+                DetailTaskView(task: task, isNewTask: true).environmentObject(viewModel)
                     .onDisappear(perform: {
                         viewModel.deleteEmptyTasks(from: habit, modelContext: modelContext)
                     })
@@ -142,12 +142,12 @@ struct TaskRow: View {
                 }
             
             NavigationLink(
-                destination: DetailTaskView(task: task)
+                destination: DetailTaskView(task: task, isNewTask: false)
             ) {
                 VStack(alignment: .leading) {
                     Text(task.taskName)
                     if task.isReminder {
-                        Text("\(task.repeatSchedule) on \(formatTime(task.reminderTime))")
+                        Text("\(NSLocalizedString(task.repeatSchedule, comment: "")) on \(formatTime(task.reminderTime))")
                             .font(.footnote)
                             .opacity(0.6)
                     }
