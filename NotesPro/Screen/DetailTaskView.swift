@@ -21,9 +21,12 @@ struct DetailTaskView: View {
     @State private var selectedTime = Date()
     @State private var selectedRepeatOption = 0
     
-    init(task: DailyTaskDefinition) {
+    private let isNewTask: Bool
+
+    init(task: DailyTaskDefinition, isNewTask: Bool) {
         self._task = Bindable(task)
         _selectedRepeatOption = State(initialValue: RepeatOption.allCases.firstIndex(where: { $0.rawValue == task.repeatSchedule }) ?? 0)
+        self.isNewTask = isNewTask
     }
     
     var body: some View {
@@ -47,10 +50,16 @@ struct DetailTaskView: View {
                             
                             Picker(selection: $selectedRepeatOption, label: Text("Repeat")) {
                                 ForEach(RepeatOption.allCases.indices, id: \.self) { index in
-                                    Text(RepeatOption.allCases[index].rawValue)
+                                    Text(RepeatOption.allCases[index].localized)
                                 }
                             }
                             .pickerStyle(MenuPickerStyle())
+                            .onChange(of: selectedRepeatOption) {
+                                task.repeatSchedule = RepeatOption.allCases[selectedRepeatOption].rawValue
+                            }
+//                            .onChange(of: selectedRepeatOption) { newValue in
+//                                task.repeatSchedule = RepeatOption.allCases[newValue].rawValue
+//                            }
                         }
                     } header: {
                         Text("Reminders")
@@ -61,7 +70,7 @@ struct DetailTaskView: View {
                 })
             }
             .navigationBarBackButtonHidden(true)
-            .navigationTitle(task.taskName.isEmpty ? "New Task" : "Edit Task")
+            .navigationTitle(isNewTask ? "New Task" : "Edit Task")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar(content: {
                 ToolbarItem(placement: .topBarLeading) {
@@ -79,7 +88,7 @@ struct DetailTaskView: View {
             })
             .toolbar(content: {
                 ToolbarItem(placement: .topBarTrailing) {
-                    if task.taskName.isEmpty{
+                    if isNewTask{
                         Button(action: {
                             task.repeatSchedule = RepeatOption.allCases[selectedRepeatOption].rawValue
                             viewModel.saveHabit(modelContext: modelContext)
