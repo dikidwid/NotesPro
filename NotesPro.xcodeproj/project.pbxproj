@@ -24,6 +24,8 @@
 		3A7DBC6A2C3E48F700FF9CEB /* NoteEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A7DBC642C3E48F700FF9CEB /* NoteEditorView.swift */; };
 		3A7DBC6B2C3E48F700FF9CEB /* NotesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A7DBC652C3E48F700FF9CEB /* NotesView.swift */; };
 		3A7DBC6C2C3E48F700FF9CEB /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A7DBC662C3E48F700FF9CEB /* SettingsView.swift */; };
+		3A7DBCD42C4510CF00FF9CEB /* HabitDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A7DBCD32C4510CF00FF9CEB /* HabitDetailView.swift */; };
+		3A7DBCD62C4510DA00FF9CEB /* HabitListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A7DBCD52C4510DA00FF9CEB /* HabitListView.swift */; };
 		E671A9F62C4113830008E410 /* DailyHabitEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = E671A9F52C41137E0008E410 /* DailyHabitEntry.swift */; };
 		E671A9F82C4119610008E410 /* AIPromptSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E671A9F72C4119520008E410 /* AIPromptSheetView.swift */; };
 /* End PBXBuildFile section */
@@ -47,6 +49,8 @@
 		3A7DBC642C3E48F700FF9CEB /* NoteEditorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoteEditorView.swift; sourceTree = "<group>"; };
 		3A7DBC652C3E48F700FF9CEB /* NotesView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotesView.swift; sourceTree = "<group>"; };
 		3A7DBC662C3E48F700FF9CEB /* SettingsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		3A7DBCD32C4510CF00FF9CEB /* HabitDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitDetailView.swift; sourceTree = "<group>"; };
+		3A7DBCD52C4510DA00FF9CEB /* HabitListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitListView.swift; sourceTree = "<group>"; };
 		E671A9EB2C3EBE470008E410 /* SwiftData.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = SwiftData.md; sourceTree = "<group>"; };
 		E671A9F52C41137E0008E410 /* DailyHabitEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyHabitEntry.swift; sourceTree = "<group>"; };
 		E671A9F72C4119520008E410 /* AIPromptSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AIPromptSheetView.swift; sourceTree = "<group>"; };
@@ -174,6 +178,8 @@
 				3A7DBC642C3E48F700FF9CEB /* NoteEditorView.swift */,
 				3A7DBC652C3E48F700FF9CEB /* NotesView.swift */,
 				3A7DBC662C3E48F700FF9CEB /* SettingsView.swift */,
+				3A7DBCD32C4510CF00FF9CEB /* HabitDetailView.swift */,
+				3A7DBCD52C4510DA00FF9CEB /* HabitListView.swift */,
 			);
 			path = Screen;
 			sourceTree = "<group>";
@@ -258,6 +264,7 @@
 			files = (
 				3A7DBC4F2C3E48D300FF9CEB /* Constants.swift in Sources */,
 				3A7DBC4E2C3E48D300FF9CEB /* AIService.swift in Sources */,
+				3A7DBCD42C4510CF00FF9CEB /* HabitDetailView.swift in Sources */,
 				3A7DBC6C2C3E48F700FF9CEB /* SettingsView.swift in Sources */,
 				3A7DBC612C3E48EC00FF9CEB /* Row.swift in Sources */,
 				3A7DBC582C3E48E300FF9CEB /* DailyTaskDefinition.swift in Sources */,
@@ -266,6 +273,7 @@
 				3A7DBC6A2C3E48F700FF9CEB /* NoteEditorView.swift in Sources */,
 				3A7DBC5A2C3E48E300FF9CEB /* Habit.swift in Sources */,
 				3A7DBC5B2C3E48E300FF9CEB /* Note.swift in Sources */,
+				3A7DBCD62C4510DA00FF9CEB /* HabitListView.swift in Sources */,
 				E671A9F82C4119610008E410 /* AIPromptSheetView.swift in Sources */,
 				3A7DBC602C3E48EC00FF9CEB /* NotesViewModel.swift in Sources */,
 				3A7DBC6B2C3E48F700FF9CEB /* NotesView.swift in Sources */,
