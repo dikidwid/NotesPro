@@ -10,6 +10,8 @@ import SwiftData
 
 @Model
 final class Note: Identifiable {
+    // Note biasa. Tidak ada hubungannya dengan Habit.
+    
     var id: UUID
     var createdDate: Date
     var title: String

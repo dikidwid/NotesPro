@@ -3,12 +3,16 @@ import SwiftData
 
 @Model
 final class DailyTaskDefinition: Identifiable {
+    // Merupakan blueprint / template task yang di assign ke suatu habit. Objek ini hanya bersifat referensi untuk mendefinisikan tasks yang nantinya akan disalin kedalam objek DailyTask yang berubah setiap harinya.
     let id: UUID
     var taskName: String
     var createdDate: Date
     
     @Relationship var habit: Habit?
     @Relationship var reminder: DailyTaskReminder?
+    
+    @Relationship(deleteRule: .cascade, inverse: \DailyTask.definition)
+    var dailyTasks: [DailyTask] = []
     
     init(id: UUID = UUID(), taskName: String, createdDate: Date = Date()) {
         self.id = id
