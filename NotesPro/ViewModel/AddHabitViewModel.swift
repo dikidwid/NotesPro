@@ -4,70 +4,82 @@
 //
 //  Created by Arya Adyatma on 15/07/24.
 //
-
 import SwiftUI
 import SwiftData
 
 class AddHabitViewModel: ObservableObject {
     @Published var habitName: String = ""
     @Published var habitDescription: String = ""
-    @Published var definedTasks: [DailyTaskDefinition] = []
-    @Published var reward: Reward?
+    @Published var isValidHabit: Bool = false
     
-    private var habit: Habit
     private var modelContext: ModelContext
     
-    init(habit: Habit, modelContext: ModelContext) {
-        self.habit = habit
+    init(modelContext: ModelContext) {
         self.modelContext = modelContext
-        self.habitName = habit.title
-        self.habitDescription = habit.desc
-        self.definedTasks = habit.definedTasks.sorted(by: { $0.createdDate < $1.createdDate })
-        self.reward = habit.reward
     }
     
-    func saveHabit() {
-        habit.title = habitName
-        habit.desc = habitDescription
-        try? modelContext.save()
+    func updateModelContext(_ newContext: ModelContext) {
+        self.modelContext = newContext
     }
     
-    func addTask() -> DailyTaskDefinition {
-        let newTask = DailyTaskDefinition(taskName: "")
-        habit.definedTasks.append(newTask)
-        definedTasks.append(newTask)
-        try? modelContext.save()
-        return newTask
-    }
-    
-    func deleteTask(_ task: DailyTaskDefinition) {
-        if let index = habit.definedTasks.firstIndex(where: { $0.id == task.id }) {
-            habit.definedTasks.remove(at: index)
-            definedTasks.removeAll(where: { $0.id == task.id })
-            modelContext.delete(task)
-            try? modelContext.save()
+    func saveHabit(habit: Habit) {
+        habit.title = habitName.trimmingCharacters(in: .whitespacesAndNewlines)
+        habit.desc = habitDescription.trimmingCharacters(in: .whitespacesAndNewlines)
+        
+        do {
+            try modelContext.save()
+        } catch {
+            print("Error saving habit: \(error.localizedDescription)")
         }
     }
     
-    func deleteEmptyTasks() {
-        habit.definedTasks.removeAll(where: { $0.taskName.isEmpty })
-        definedTasks.removeAll(where: { $0.taskName.isEmpty })
-        try? modelContext.save()
+    @discardableResult
+    func addTask(to habit: Habit) -> DailyTaskDefinition {
+        let newTask = DailyTaskDefinition(taskName: "")
+        habit.definedTasks.append(newTask)
+        updateValidHabitStatus(habit)
+        return newTask
     }
     
-    func addReward() {
-        let newReward = Reward(rewardName: "New Reward")
-        habit.reward = newReward
-        reward = newReward
-        try? modelContext.save()
+    func deleteTask(_ task: DailyTaskDefinition, from habit: Habit) {
+        habit.definedTasks.removeAll(where: { $0.id == task.id })
+        modelContext.delete(task)
+        updateValidHabitStatus(habit)
     }
     
-    func deleteReward() {
+    func deleteEmptyTasks(from habit: Habit) {
+        let emptyTasks = habit.definedTasks.filter { $0.taskName.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty }
+        for task in emptyTasks {
+            modelContext.delete(task)
+        }
+        habit.definedTasks.removeAll(where: { $0.taskName.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty })
+        updateValidHabitStatus(habit)
+    }
+    
+    func addReward(to habit: Habit) {
+        if habit.reward == nil {
+            let newReward = Reward(rewardName: "")
+            habit.reward = newReward
+        }
+    }
+    
+    func deleteReward(from habit: Habit) {
         if let reward = habit.reward {
             modelContext.delete(reward)
             habit.reward = nil
-            self.reward = nil
-            try? modelContext.save()
+        }
+    }
+    
+    func updateHabitName(_ name: String) {
+        habitName = name.trimmingCharacters(in: .whitespacesAndNewlines)
+        updateValidHabitStatus()
+    }
+    
+    private func updateValidHabitStatus(_ habit: Habit? = nil) {
+        if let habit = habit {
+            isValidHabit = !habitName.isEmpty && !habit.definedTasks.isEmpty
+        } else {
+            isValidHabit = !habitName.isEmpty
         }
     }
 }

@@ -1,18 +1,21 @@
-// File: /Users/aryadytm/Documents/CS/NotesPro/NotesPro/Screen/AddHabitView.swift
-
+//
+//  AddHabitView.swift
+//  NotesPro
+//
+//  Created by Jason Susanto on 12/07/24.
+//
 import SwiftUI
 import SwiftData
 
 struct AddHabitView: View {
     @Environment(\.dismiss) private var dismiss
-    @StateObject private var viewModel: AddHabitViewModel
+    @Environment(\.modelContext) private var modelContext
+    @EnvironmentObject private var viewModel: AddHabitViewModel
+    
+    @Bindable var habit: Habit
     
     @State private var showDetailTaskSheet = false
-    @State private var newTask: DailyTaskDefinition?
-    
-    init(habit: Habit, modelContext: ModelContext) {
-        _viewModel = StateObject(wrappedValue: AddHabitViewModel(habit: habit, modelContext: modelContext))
-    }
+    @State private var selectedTask: DailyTaskDefinition?
     
     var body: some View {
         NavigationStack {
@@ -20,9 +23,9 @@ struct AddHabitView: View {
                 Divider()
                 
                 Form {
-                    HabitNameSection(habitName: $viewModel.habitName, habitDescription: $viewModel.habitDescription)
-                    TasksSection(definedTasks: $viewModel.definedTasks, addTask: addTask, deleteTask: viewModel.deleteTask)
-                    RewardsSection(reward: $viewModel.reward, addReward: viewModel.addReward, deleteReward: viewModel.deleteReward)
+                    HabitNameSection(habitName: $viewModel.habitName, updateHabitName: viewModel.updateHabitName)
+                    TasksSection(tasks: habit.definedTasks, viewModel: viewModel, habit: habit, showDetailTaskSheet: $showDetailTaskSheet, selectedTask: $selectedTask)
+                    RewardsSection(reward: habit.reward, viewModel: viewModel, habit: habit)
                     IntelligenceSection()
                 }
             }
@@ -30,137 +33,162 @@ struct AddHabitView: View {
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
-                    Button("Cancel") {
-                        dismiss()
-                    }
-                    .foregroundColor(.orange)
+                    Text("Cancel")
+                        .foregroundColor(.accentColor)
+                        .onTapGesture {
+                            dismiss()
+                        }
                 }
                 ToolbarItem(placement: .topBarTrailing) {
-                    Button("Add") {
-                        viewModel.saveHabit()
-                        dismiss()
-                    }
-                    .foregroundColor(.orange)
+                    Text("Save")
+                        .foregroundColor(viewModel.isValidHabit ? .accentColor : .gray)
+                        .onTapGesture {
+                            if viewModel.isValidHabit {
+                                viewModel.saveHabit(habit: habit)
+                                dismiss()
+                            }
+                        }
                 }
             }
         }
         .padding(.top, 10)
-        .sheet(isPresented: $showDetailTaskSheet) {
-            if let task = newTask {
-//                DetailTaskView(task: task, isNewTask: true)
-//                    .onDisappear {
-//                        viewModel.deleteEmptyTasks()
-//                    }
-//                    .presentationDragIndicator(.visible)
-            }
+        .onAppear {
+            viewModel.updateModelContext(modelContext)
+            viewModel.habitName = habit.title
+            viewModel.habitDescription = habit.desc
         }
-    }
-    
-    private func addTask() {
-        newTask = viewModel.addTask()
-        showDetailTaskSheet = true
+        .sheet(item: $selectedTask) { task in
+            DetailTaskView(task: task, isNewTask: true)
+                .onDisappear {
+                    viewModel.deleteEmptyTasks(from: habit)
+                }
+        }
     }
 }
 
 struct HabitNameSection: View {
     @Binding var habitName: String
-    @Binding var habitDescription: String
+    var updateHabitName: (String) -> Void
     
     var body: some View {
         Section(header: Text("Habit")) {
             TextField("Enter Habit Name", text: $habitName)
-            TextField("Enter Habit Description", text: $habitDescription)
+                .onChange(of: habitName) { _, newValue in
+                    updateHabitName(newValue)
+                }
         }
     }
 }
 
 struct TasksSection: View {
-    @Binding var definedTasks: [DailyTaskDefinition]
-    let addTask: () -> Void
-    let deleteTask: (DailyTaskDefinition) -> Void
+    let tasks: [DailyTaskDefinition]
+    var viewModel: AddHabitViewModel
+    var habit: Habit
+    @Binding var showDetailTaskSheet: Bool
+    @Binding var selectedTask: DailyTaskDefinition?
     
     var body: some View {
         Section(header: Text("Tasks")) {
-            ForEach(definedTasks, id: \.self) { task in
-                if !task.taskName.isEmpty {
-                    TaskRow(task: task, deleteTask: deleteTask)
-                }
+            ForEach(tasks) { task in
+                TaskRow(task: task, viewModel: viewModel, habit: habit, showDetailTaskSheet: $showDetailTaskSheet, selectedTask: $selectedTask)
             }
             
-            Button(action: addTask) {
-                HStack {
-                    Image(systemName: "plus.circle.fill")
-                        .foregroundColor(.green)
-                        .font(.title3)
-                        .padding(.trailing, 12)
-                    Text("Add Task")
-                        .foregroundColor(.appBlack)
-                }
+            HStack {
+                Image(systemName: "plus.circle.fill")
+                    .foregroundColor(.green)
+                    .font(.title3)
+                Text("Add Task")
+                    .foregroundColor(.primary)
+            }
+            .onTapGesture {
+                selectedTask = viewModel.addTask(to: habit)
+                showDetailTaskSheet = true
             }
         }
     }
 }
 
 struct TaskRow: View {
-    let task: DailyTaskDefinition
-    let deleteTask: (DailyTaskDefinition) -> Void
+    var task: DailyTaskDefinition
+    var viewModel: AddHabitViewModel
+    var habit: Habit
+    @Binding var showDetailTaskSheet: Bool
+    @Binding var selectedTask: DailyTaskDefinition?
     
     var body: some View {
         HStack {
-            Button(action: { deleteTask(task) }) {
-                Image(systemName: "minus.circle.fill")
-                    .foregroundColor(.red)
-                    .font(.title3)
-            }
-            .padding(.trailing, 12)
+            Image(systemName: "minus.circle.fill")
+                .foregroundColor(.red)
+                .font(.title3)
+                .onTapGesture {
+                    viewModel.deleteTask(task, from: habit)
+                }
             
-//            NavigationLink(destination: DetailTaskView(task: task, isNewTask: false)) {
-//                VStack(alignment: .leading) {
-//                    Text(task.taskName)
-//                    if let reminder = task.reminder, reminder.isEnabled {
-//                        Text("\(reminder.repeatDays.description) at \(formatTime(reminder.clock))")
-//                            .font(.footnote)
-//                            .opacity(0.6)
-//                    }
-//                }
-//            }
-//            .contentShape(Rectangle())
+            VStack(alignment: .leading) {
+                Text(task.taskName)
+                if task.reminder.isEnabled {
+                    Text(task.reminder.getDescription())
+                        .font(.footnote)
+                        .opacity(0.6)
+                }
+            }
+            .onTapGesture {
+                selectedTask = task
+                showDetailTaskSheet = true
+            }
         }
-    }
-    
-    private func formatTime(_ date: Date) -> String {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "h:mm a"
-        return formatter.string(from: date)
+        .foregroundColor(.primary)
     }
 }
 
 struct RewardsSection: View {
-    @Binding var reward: Reward?
-    let addReward: () -> Void
-    let deleteReward: () -> Void
+    var reward: Reward?
+    var viewModel: AddHabitViewModel
+    var habit: Habit
+    @State private var isEditing: Bool = false
+    @State private var rewardName: String = ""
     
     var body: some View {
         Section(header: Text("Rewards")) {
             if let reward = reward {
                 HStack {
-                    Button(action: deleteReward) {
-                        Image(systemName: "minus.circle.fill")
-                            .foregroundColor(.red)
-                            .font(.title3)
+                    Image(systemName: "minus.circle.fill")
+                        .foregroundColor(.red)
+                        .font(.title3)
+                        .onTapGesture {
+                            viewModel.deleteReward(from: habit)
+                            isEditing = false
+                        }
+                    
+                    if isEditing {
+                        TextField("Enter reward name", text: $rewardName)
+                            .onSubmit {
+                                reward.rewardName = rewardName
+                                isEditing = false
+                            }
+                    } else {
+                        Text(reward.rewardName)
+                            .onTapGesture {
+                                rewardName = reward.rewardName
+                                isEditing = true
+                            }
                     }
-                    .padding(.trailing, 12)
-                    Text(reward.rewardName)
                 }
-            }
-            
-            Button(action: addReward) {
+            } else {
                 HStack {
                     Image(systemName: "plus.circle.fill")
-                        .foregroundColor(.green)
                         .font(.title3)
-                        .padding(.trailing, 12)
+                        .foregroundColor(.green)
+                    
                     Text("Add Reward")
+                        .foregroundColor(.primary)
+                }
+                .onTapGesture {
+                    viewModel.addReward(to: habit)
+                    if let newReward = habit.reward {
+                        rewardName = newReward.rewardName
+                        isEditing = true
+                    }
                 }
             }
         }
@@ -169,16 +197,12 @@ struct RewardsSection: View {
 
 struct IntelligenceSection: View {
     var body: some View {
-        Section(header: Text("or use Apple Intelligence habit Generator")) {
-            Button(action: {
-                print("Generate habits with AI")
-            }) {
-                HStack(spacing: 0) {
-                    Text("Generate Habits with AI ")
-                    Image(systemName: "sparkles")
+        Section(header: Text("or use AI habit Generator")) {
+            Text("Generate Habits with AI")
+                .foregroundColor(.accentColor)
+                .onTapGesture {
+                    print("Generate habits with AI")
                 }
-                .foregroundColor(.orange)
-            }
         }
     }
 }
@@ -186,21 +210,26 @@ struct IntelligenceSection: View {
 #Preview {
     do {
         let config = ModelConfiguration(isStoredInMemoryOnly: true)
-        let container = try ModelContainer(for: Habit.self, DailyTaskDefinition.self, configurations: config)
+        let container = try ModelContainer(for: Habit.self, DailyTaskDefinition.self, DailyTaskReminder.self, DailyTaskReminderRepeatDays.self, Reward.self, configurations: config)
         
-        let habit = Habit(title: "Sleeping", description: "Tidur 2 jam")
-        let tasks: [DailyTaskDefinition] = [
-            DailyTaskDefinition(taskName: "Example task 1"),
-            DailyTaskDefinition(taskName: "Example task 2")
-        ]
+        let sampleHabit = Habit(title: "Read Books", description: "Read for personal growth")
         
-        tasks.first?.reminder = DailyTaskReminder(isEnabled: true, clock: .now)
+        let task1 = DailyTaskDefinition(taskName: "Read 30 minutes")
+        task1.reminder = DailyTaskReminder(isEnabled: true, clock: Date(), repeatDays: DailyTaskReminderRepeatDays(monday: true, wednesday: true, friday: true))
         
-        habit.definedTasks = tasks
-        container.mainContext.insert(habit)
+        let task2 = DailyTaskDefinition(taskName: "Write summary")
         
-        return AddHabitView(habit: habit, modelContext: container.mainContext)
+        sampleHabit.definedTasks = [task1, task2]
+        sampleHabit.reward = Reward(rewardName: "Buy a new book")
+        
+        container.mainContext.insert(sampleHabit)
+        
+        let viewModel = AddHabitViewModel(modelContext: container.mainContext)
+        
+        return AddHabitView(habit: sampleHabit)
             .modelContainer(container)
+            .environmentObject(viewModel)
+        
     } catch {
         return Text("Failed to create preview: \(error.localizedDescription)")
     }
