@@ -15,7 +15,7 @@ struct MainView: View {
                     Label("Notes", systemImage: "book.pages")
                 }
             
-            GoalsView()
+            HabitsView()
                 .tabItem {
                     Label("Goals", systemImage: "checkmark.square")
                 }
