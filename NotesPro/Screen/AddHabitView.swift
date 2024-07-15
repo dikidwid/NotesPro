@@ -1,106 +1,93 @@
-//
-//  AddHabitView.swift
-//  NotesPro
-//
-//  Created by Jason Susanto on 12/07/24.
-//
+// File: /Users/aryadytm/Documents/CS/NotesPro/NotesPro/Screen/AddHabitView.swift
 
 import SwiftUI
 import SwiftData
 
 struct AddHabitView: View {
-    
-    @Environment(\.modelContext) private var modelContext
     @Environment(\.dismiss) private var dismiss
-    @EnvironmentObject private var viewModel: HabitsViewModel
+    @StateObject private var viewModel: AddHabitViewModel
     
-    @Binding var tasks: [DailyTaskDefinition]
-    @Bindable var habit: Habit
+    @State private var showDetailTaskSheet = false
+    @State private var newTask: DailyTaskDefinition?
     
-    @State private var habitName: String
-    
-    init(habit: Habit) {
-        self.habit = habit
-        _tasks = .constant(habit.tasks.sorted(by: { $0.createdDate < $1.createdDate }))
-        _habitName = State(initialValue: habit.title)
-     }
+    init(habit: Habit, modelContext: ModelContext) {
+        _viewModel = StateObject(wrappedValue: AddHabitViewModel(habit: habit, modelContext: modelContext))
+    }
     
     var body: some View {
-        NavigationStack{
-            VStack(spacing:0) {
+        NavigationStack {
+            VStack(spacing: 0) {
                 Divider()
                 
                 Form {
-                    HabitNameSection(habitName: $habitName)
-                    TasksSection(tasks: $tasks, habit: habit)
-                    RewardsSection()
+                    HabitNameSection(habitName: $viewModel.habitName, habitDescription: $viewModel.habitDescription)
+                    TasksSection(definedTasks: $viewModel.definedTasks, addTask: addTask, deleteTask: viewModel.deleteTask)
+                    RewardsSection(reward: $viewModel.reward, addReward: viewModel.addReward, deleteReward: viewModel.deleteReward)
                     IntelligenceSection()
                 }
             }
-            .navigationTitle(habit.title == "" ? "New Habit" : "Edit Habit")
+            .navigationTitle(viewModel.habitName.isEmpty ? "New Habit" : "Edit Habit")
             .navigationBarTitleDisplayMode(.inline)
-            .toolbar(content: {
+            .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
-                    Button(action: {
+                    Button("Cancel") {
                         dismiss()
-                    }, label: {
-                        Text("Cancel")
-                    })
+                    }
                     .foregroundColor(.orange)
                 }
-            })
-            .toolbar(content: {
                 ToolbarItem(placement: .topBarTrailing) {
-                    Button(action: {
-                        habit.title = habitName
-                        viewModel.saveHabit(modelContext: modelContext)
+                    Button("Add") {
+                        viewModel.saveHabit()
                         dismiss()
-                    }, label: {
-                        Text("Add")
-                    })
+                    }
                     .foregroundColor(.orange)
                 }
-            })
+            }
         }
         .padding(.top, 10)
+        .sheet(isPresented: $showDetailTaskSheet) {
+            if let task = newTask {
+//                DetailTaskView(task: task, isNewTask: true)
+//                    .onDisappear {
+//                        viewModel.deleteEmptyTasks()
+//                    }
+//                    .presentationDragIndicator(.visible)
+            }
+        }
+    }
+    
+    private func addTask() {
+        newTask = viewModel.addTask()
+        showDetailTaskSheet = true
     }
 }
 
 struct HabitNameSection: View {
     @Binding var habitName: String
+    @Binding var habitDescription: String
     
     var body: some View {
-        Section {
+        Section(header: Text("Habit")) {
             TextField("Enter Habit Name", text: $habitName)
-        } header: {
-            Text("Habit")
+            TextField("Enter Habit Description", text: $habitDescription)
         }
     }
 }
 
 struct TasksSection: View {
-    @Binding var tasks: [DailyTaskDefinition]
-    @Environment(\.modelContext) private var modelContext
-    @EnvironmentObject private var viewModel: HabitsViewModel
+    @Binding var definedTasks: [DailyTaskDefinition]
+    let addTask: () -> Void
+    let deleteTask: (DailyTaskDefinition) -> Void
     
-    @State private var newTask: DailyTaskDefinition?
-    @State private var showDetailTaskSheet = false
-    
-    var habit: Habit
-
     var body: some View {
-        Section {
-            ForEach(tasks, id: \.self) { task in
-                if task.taskName != "" {
-                    TaskRow(task: task, habit: habit)
+        Section(header: Text("Tasks")) {
+            ForEach(definedTasks, id: \.self) { task in
+                if !task.taskName.isEmpty {
+                    TaskRow(task: task, deleteTask: deleteTask)
                 }
             }
             
-            Button(action: {
-                newTask = viewModel.addTask(to: habit.id, modelContext: modelContext)
-                showDetailTaskSheet = true
-
-            }) {
+            Button(action: addTask) {
                 HStack {
                     Image(systemName: "plus.circle.fill")
                         .foregroundColor(.green)
@@ -110,50 +97,34 @@ struct TasksSection: View {
                         .foregroundColor(.appBlack)
                 }
             }
-        } header: {
-            Text("Tasks")
-        }
-        .sheet(isPresented: $showDetailTaskSheet) {
-            if let task = newTask {
-                DetailTaskView(task: task, isNewTask: true).environmentObject(viewModel)
-                    .onDisappear(perform: {
-                        viewModel.deleteEmptyTasks(from: habit, modelContext: modelContext)
-                    })
-                    .presentationDragIndicator(.visible) 
-            }
         }
     }
 }
 
 struct TaskRow: View {
-    var task: DailyTaskDefinition
-    var habit: Habit
-    @Environment(\.modelContext) private var modelContext
-    @EnvironmentObject private var viewModel: HabitsViewModel
-
+    let task: DailyTaskDefinition
+    let deleteTask: (DailyTaskDefinition) -> Void
+    
     var body: some View {
         HStack {
-            Image(systemName: "minus.circle.fill")
-                .foregroundColor(.red)
-                .font(.title3)
-                .padding(.trailing, 12)
-                .onTapGesture {
-                    viewModel.deleteTask(task: task, from: habit, modelContext: modelContext)
-                }
-            
-            NavigationLink(
-                destination: DetailTaskView(task: task, isNewTask: false)
-            ) {
-                VStack(alignment: .leading) {
-                    Text(task.taskName)
-                    if task.isReminder {
-                        Text("\(NSLocalizedString(task.repeatSchedule, comment: "")) on \(formatTime(task.reminderTime))")
-                            .font(.footnote)
-                            .opacity(0.6)
-                    }
-                }
+            Button(action: { deleteTask(task) }) {
+                Image(systemName: "minus.circle.fill")
+                    .foregroundColor(.red)
+                    .font(.title3)
             }
-            .contentShape(Rectangle())
+            .padding(.trailing, 12)
+            
+//            NavigationLink(destination: DetailTaskView(task: task, isNewTask: false)) {
+//                VStack(alignment: .leading) {
+//                    Text(task.taskName)
+//                    if let reminder = task.reminder, reminder.isEnabled {
+//                        Text("\(reminder.repeatDays.description) at \(formatTime(reminder.clock))")
+//                            .font(.footnote)
+//                            .opacity(0.6)
+//                    }
+//                }
+//            }
+//            .contentShape(Rectangle())
         }
     }
     
@@ -164,57 +135,50 @@ struct TaskRow: View {
     }
 }
 
-
-
 struct RewardsSection: View {
+    @Binding var reward: Reward?
+    let addReward: () -> Void
+    let deleteReward: () -> Void
+    
     var body: some View {
-        Section {
-            HStack {
-                Button(action: {
-                    print("Delete reward")
-                }) {
-                    Image(systemName: "minus.circle.fill")
-                        .foregroundColor(.red)
-                        .font(.title3)
+        Section(header: Text("Rewards")) {
+            if let reward = reward {
+                HStack {
+                    Button(action: deleteReward) {
+                        Image(systemName: "minus.circle.fill")
+                            .foregroundColor(.red)
+                            .font(.title3)
+                    }
+                    .padding(.trailing, 12)
+                    Text(reward.rewardName)
                 }
-                .padding(.trailing, 12)
-                Text("Enjoy a cup of tea after reading")
             }
             
-            HStack {
-                Button(action: {
-                    print("Delete reward")
-                }) {
+            Button(action: addReward) {
+                HStack {
                     Image(systemName: "plus.circle.fill")
                         .foregroundColor(.green)
                         .font(.title3)
+                        .padding(.trailing, 12)
+                    Text("Add Reward")
                 }
-                .padding(.trailing, 12)
-                Text("Add Reward")
             }
-        } header: {
-            Text("Rewards")
         }
     }
 }
 
 struct IntelligenceSection: View {
     var body: some View {
-        Section {
-            HStack {
-                Button(action: {
-                    print("Generate habits with AI")
-                }) {
-                    HStack(spacing: 0) {
-                        Text("Generate Habits with AI ")
-                        Image(systemName: "sparkles")
-                    }
-                    .foregroundColor(.orange)
+        Section(header: Text("or use Apple Intelligence habit Generator")) {
+            Button(action: {
+                print("Generate habits with AI")
+            }) {
+                HStack(spacing: 0) {
+                    Text("Generate Habits with AI ")
+                    Image(systemName: "sparkles")
                 }
-                .padding(.trailing, 12)
+                .foregroundColor(.orange)
             }
-        } header: {
-            Text("or use Apple Intelligence habit Generator")
         }
     }
 }
@@ -225,24 +189,18 @@ struct IntelligenceSection: View {
         let container = try ModelContainer(for: Habit.self, DailyTaskDefinition.self, configurations: config)
         
         let habit = Habit(title: "Sleeping", description: "Tidur 2 jam")
-        let task: [DailyTaskDefinition] = [
+        let tasks: [DailyTaskDefinition] = [
             DailyTaskDefinition(taskName: "Example task 1"),
             DailyTaskDefinition(taskName: "Example task 2")
         ]
         
-        task.first?.isReminder = true
-        task.first?.reminderTime = .now
-        task.first?.repeatSchedule = "Everday"
+        tasks.first?.reminder = DailyTaskReminder(isEnabled: true, clock: .now)
         
-        habit.tasks = task
+        habit.definedTasks = tasks
         container.mainContext.insert(habit)
         
-        
-        return AddHabitView(habit: habit)
+        return AddHabitView(habit: habit, modelContext: container.mainContext)
             .modelContainer(container)
-            .environmentObject(HabitsViewModel())
-
-        
     } catch {
         return Text("Failed to create preview: \(error.localizedDescription)")
     }

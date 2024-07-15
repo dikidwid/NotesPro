@@ -61,7 +61,7 @@ struct HabitsView: View {
             })
             .sheet(isPresented: $isAddHabitSheetPresented, content: {
                 if let habit = selectedHabit {
-                    AddHabitView(habit: habit)
+                    AddHabitView(habit: habit, modelContext: modelContext)
                         .presentationDragIndicator(.visible)
                         .environmentObject(viewModel)
                         .onDisappear {

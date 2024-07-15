@@ -7,10 +7,6 @@ final class DailyTaskDefinition: Identifiable {
     let id: UUID
     var taskName: String
     var createdDate: Date
-    var isReminder: Bool
-    
-    var repeatSchedule: String
-    var reminderTime: Date
     
     @Relationship var habit: Habit?
     @Relationship var reminder: DailyTaskReminder?

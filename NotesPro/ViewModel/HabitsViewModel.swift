@@ -17,9 +17,9 @@ enum RepeatOption: String, CaseIterable, Identifiable {
     case friday = "Every Friday"
     case saturday = "Every Saturday"
     case sunday = "Every Sunday"
-
+    
     var id: String { self.rawValue }
-
+    
     var localized: String {
         return NSLocalizedString(self.rawValue, comment: "")
     }
@@ -54,7 +54,7 @@ class HabitsViewModel: ObservableObject{
         do {
             if let habit = try modelContext.fetch(descriptor).first {
                 newTask = DailyTaskDefinition(taskName: "")
-                habit.tasks.append(newTask!)
+                habit.definedTasks.append(newTask!)
                 try modelContext.save()
             } else {
                 print("Habit with ID \(habitId) not found.")
@@ -66,8 +66,8 @@ class HabitsViewModel: ObservableObject{
     }
     
     func deleteTask(task: DailyTaskDefinition, from habit: Habit, modelContext: ModelContext) {
-        if let index = habit.tasks.firstIndex(where: { $0.id == task.id }) {
-            habit.tasks.remove(at: index)
+        if let index = habit.definedTasks.firstIndex(where: { $0.id == task.id }) {
+            habit.definedTasks.remove(at: index)
             modelContext.delete(task)
             
             do {
@@ -81,7 +81,21 @@ class HabitsViewModel: ObservableObject{
     }
     
     func deleteEmptyTasks(from habit: Habit, modelContext: ModelContext) {
-        habit.tasks.removeAll(where: { $0.taskName.isEmpty })
+        habit.definedTasks.removeAll(where: { $0.taskName.isEmpty })
         saveHabit(modelContext: modelContext)
+    }
+    
+    func addReward(to habit: Habit, modelContext: ModelContext) {
+        let newReward = Reward(rewardName: "New Reward")
+        habit.reward = newReward
+        try? modelContext.save()
+    }
+    
+    func deleteReward(from habit: Habit, modelContext: ModelContext) {
+        if let reward = habit.reward {
+            modelContext.delete(reward)
+            habit.reward = nil
+            try? modelContext.save()
+        }
     }
 }
