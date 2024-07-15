@@ -16,8 +16,6 @@ final class Reward {
     var createdDate: Date
     var checkedDate: Date?
 
-    @Relationship var note: Note?
-
     init(rewardName: String) {
         self.id = UUID()
         self.rewardName = rewardName
