@@ -9,7 +9,7 @@ final class DailyTaskDefinition: Identifiable {
     var createdDate: Date
     
     @Relationship var habit: Habit?
-    @Relationship var reminder: DailyTaskReminder?
+    @Relationship var reminder: DailyTaskReminder
     
     @Relationship(deleteRule: .cascade, inverse: \DailyTask.definition)
     var dailyTasks: [DailyTask] = []
@@ -18,6 +18,7 @@ final class DailyTaskDefinition: Identifiable {
         self.id = id
         self.taskName = taskName
         self.createdDate = createdDate
+        self.reminder = DailyTaskReminder()
     }
 }
 
@@ -34,12 +35,43 @@ final class DailyTaskReminder: Identifiable {
         self.clock = clock
         self.repeatDays = repeatDays
     }
+    
+    func getDescription() -> String {
+        
+        if !isEnabled {
+            return ""
+        }
+        
+        let days = [
+            (day: "Sun", isSelected: repeatDays.sunday),
+            (day: "Mon", isSelected: repeatDays.monday),
+            (day: "Tue", isSelected: repeatDays.tuesday),
+            (day: "Wed", isSelected: repeatDays.wednesday),
+            (day: "Thu", isSelected: repeatDays.thursday),
+            (day: "Fri", isSelected: repeatDays.friday),
+            (day: "Sat", isSelected: repeatDays.saturday)
+        ]
+        
+        let selectedDays = days.filter { $0.isSelected }.map { $0.day }
+        
+        let timeFormatter = DateFormatter()
+        timeFormatter.dateFormat = "h:mm a"
+        let timeString = timeFormatter.string(from: clock)
+        
+        if selectedDays.count == 7 {
+            return "Everyday at \(timeString)"
+        } else if selectedDays.count == 1 {
+            return "Every \(selectedDays[0]) at \(timeString)"
+        } else {
+            return selectedDays.joined(separator: ", ") + " at \(timeString)"
+        }
+    }
 }
 
 @Model
 final class DailyTaskReminderRepeatDays: Identifiable {
     var id: UUID
-
+    
     var sunday: Bool = false
     var monday: Bool = false
     var tuesday: Bool = false
