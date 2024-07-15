@@ -32,19 +32,4 @@ class NotesViewModel: ObservableObject {
         task.isChecked.toggle()
         task.checkedDate = task.isChecked ? Date() : nil
     }
-    
-    func addTask(to note: Note, taskName: String, modelContext: ModelContext) {
-        let newTask = DailyTask(taskName: taskName)
-        note.tasks.append(newTask)
-        try? modelContext.save()
-    }
-    
-    func deleteTasks(at offsets: IndexSet, from note: Note, modelContext: ModelContext) {
-        for index in offsets {
-            let task = note.tasks[index]
-            note.tasks.remove(at: index)
-            modelContext.delete(task)
-        }
-        try? modelContext.save()
-    }
 }
