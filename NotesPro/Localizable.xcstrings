@@ -1,7 +1,20 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    " so that I can" : {
+
+    },
+    "," : {
+
+    },
+    ", and I" : {
+
+    },
+    "." : {
+
+    },
     "%@ on %@" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -107,6 +120,15 @@
         }
       }
     },
+    "AI Recommendations:" : {
+
+    },
+    "as my reward." : {
+
+    },
+    "at " : {
+
+    },
     "Back" : {
       "localizations" : {
         "id" : {
@@ -137,6 +159,9 @@
         }
       }
     },
+    "Currently, I" : {
+
+    },
     "Done" : {
       "localizations" : {
         "id" : {
@@ -158,6 +183,7 @@
       }
     },
     "Edit Task" : {
+      "extractionState" : "stale",
       "localizations" : {
         "id" : {
           "stringUnit" : {
@@ -168,6 +194,7 @@
       }
     },
     "Enjoy a cup of tea after reading" : {
+      "extractionState" : "stale",
       "localizations" : {
         "id" : {
           "stringUnit" : {
@@ -186,6 +213,9 @@
           }
         }
       }
+    },
+    "Enter reward name" : {
+
     },
     "Enter Task Name" : {
       "localizations" : {
@@ -284,7 +314,17 @@
         }
       }
     },
+    "Friday" : {
+
+    },
+    "Generate AI Recommendations" : {
+
+    },
+    "Generate Habits with AI" : {
+
+    },
     "Generate Habits with AI " : {
+      "extractionState" : "stale",
       "localizations" : {
         "id" : {
           "stringUnit" : {
@@ -314,6 +354,9 @@
         }
       }
     },
+    "habit you want to build" : {
+
+    },
     "Habits" : {
       "localizations" : {
         "id" : {
@@ -323,6 +366,15 @@
           }
         }
       }
+    },
+    "I want to " : {
+
+    },
+    "I'll do it every " : {
+
+    },
+    "Monday" : {
+
     },
     "New Habit" : {
       "localizations" : {
@@ -335,6 +387,7 @@
       }
     },
     "New Task" : {
+      "extractionState" : "stale",
       "localizations" : {
         "id" : {
           "stringUnit" : {
@@ -354,7 +407,11 @@
         }
       }
     },
+    "or use AI habit Generator" : {
+
+    },
     "or use Apple Intelligence habit Generator" : {
+      "extractionState" : "stale",
       "localizations" : {
         "id" : {
           "stringUnit" : {
@@ -375,6 +432,7 @@
       }
     },
     "Reminders" : {
+      "extractionState" : "stale",
       "localizations" : {
         "id" : {
           "stringUnit" : {
@@ -383,6 +441,9 @@
           }
         }
       }
+    },
+    "REMINDERS" : {
+
     },
     "Repeat" : {
       "localizations" : {
@@ -403,6 +464,12 @@
           }
         }
       }
+    },
+    "Saturday" : {
+
+    },
+    "Save" : {
+
     },
     "Search" : {
       "localizations" : {
@@ -434,6 +501,18 @@
         }
       }
     },
+    "small reward I wanted after done my habits" : {
+
+    },
+    "something that you do repeatedly" : {
+
+    },
+    "somethings that you want" : {
+
+    },
+    "Sunday" : {
+
+    },
     "TASK" : {
       "localizations" : {
         "id" : {
@@ -444,6 +523,9 @@
         }
       }
     },
+    "Task Details" : {
+
+    },
     "Tasks" : {
       "localizations" : {
         "id" : {
@@ -453,6 +535,9 @@
           }
         }
       }
+    },
+    "Thursday" : {
+
     },
     "Time" : {
       "localizations" : {
@@ -475,6 +560,7 @@
       }
     },
     "TOEFL Test Habit" : {
+      "extractionState" : "stale",
       "localizations" : {
         "id" : {
           "stringUnit" : {
@@ -483,6 +569,18 @@
           }
         }
       }
+    },
+    "Tuesday" : {
+
+    },
+    "Wednesday" : {
+
+    },
+    "when you want to do it" : {
+
+    },
+    "where you want to do it" : {
+
     }
   },
   "version" : "1.0"
