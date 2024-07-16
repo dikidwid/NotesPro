@@ -51,7 +51,7 @@ struct HabitsView: View {
                         Image(systemName: "plus.app")
                             .foregroundColor(.orange)
                     }
-
+                    
                 }
             })
             .onChange(of: selectedHabit, { oldValue, newValue in
@@ -64,6 +64,7 @@ struct HabitsView: View {
                     AddHabitView(habit: habit)
                         .presentationDragIndicator(.visible)
                         .environmentObject(viewModel)
+                        .environmentObject(AddHabitViewModel(modelContext: modelContext))
                         .onDisappear {
                             selectedHabit = nil
                         }
@@ -83,10 +84,15 @@ struct HabitsView: View {
         
         container.mainContext.insert(habit)
         container.mainContext.insert(habit2)
-
+        
+        let habitsViewModel = HabitsViewModel()
+        let addHabitViewModel = AddHabitViewModel(modelContext: container.mainContext)
+        
         return HabitsView()
             .modelContainer(container)
-
+            .environmentObject(habitsViewModel)
+            .environmentObject(addHabitViewModel)
+        
     } catch {
         return Text("Failed to create preview: \(error.localizedDescription)")
     }
