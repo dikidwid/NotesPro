@@ -27,10 +27,11 @@
 		CDAF88122C411B3C005EA0B1 /* AddHabitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDAF88112C411B3C005EA0B1 /* AddHabitView.swift */; };
 		CDAF88162C41AA08005EA0B1 /* DetailTaskView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDAF88152C41AA08005EA0B1 /* DetailTaskView.swift */; };
 		CDAF88182C42EB06005EA0B1 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = CDAF88172C42EB06005EA0B1 /* Localizable.xcstrings */; };
+		CDAF88512C46972C005EA0B1 /* ReminderService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDAF88502C46972C005EA0B1 /* ReminderService.swift */; };
+		E61A4FC02C46C26B0049F0E6 /* GlobalSwiftDataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E61A4FBF2C46C2660049F0E6 /* GlobalSwiftDataService.swift */; };
 		E66CAE6A2C462D4900CBAD48 /* AIOnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E66CAE692C462D4900CBAD48 /* AIOnboardingView.swift */; };
 		E66CAE6C2C46316000CBAD48 /* AIGeneratingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E66CAE6B2C46315C00CBAD48 /* AIGeneratingView.swift */; };
 		E66CAE6E2C46345E00CBAD48 /* AIRecommendationVIew.swift in Sources */ = {isa = PBXBuildFile; fileRef = E66CAE6D2C46345900CBAD48 /* AIRecommendationVIew.swift */; };
-		CDAF88512C46972C005EA0B1 /* ReminderService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDAF88502C46972C005EA0B1 /* ReminderService.swift */; };
 		E671A9F62C4113830008E410 /* DailyHabitEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = E671A9F52C41137E0008E410 /* DailyHabitEntry.swift */; };
 		E671A9F82C4119610008E410 /* AIPromptSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E671A9F72C4119520008E410 /* AIPromptSheetView.swift */; };
 		E678581E2C46B0F200C09E38 /* Note.swift in Sources */ = {isa = PBXBuildFile; fileRef = E678581D2C46B0F100C09E38 /* Note.swift */; };
@@ -60,10 +61,11 @@
 		CDAF88112C411B3C005EA0B1 /* AddHabitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddHabitView.swift; sourceTree = "<group>"; };
 		CDAF88152C41AA08005EA0B1 /* DetailTaskView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailTaskView.swift; sourceTree = "<group>"; };
 		CDAF88172C42EB06005EA0B1 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
+		CDAF88502C46972C005EA0B1 /* ReminderService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderService.swift; sourceTree = "<group>"; };
+		E61A4FBF2C46C2660049F0E6 /* GlobalSwiftDataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalSwiftDataService.swift; sourceTree = "<group>"; };
 		E66CAE692C462D4900CBAD48 /* AIOnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AIOnboardingView.swift; sourceTree = "<group>"; };
 		E66CAE6B2C46315C00CBAD48 /* AIGeneratingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AIGeneratingView.swift; sourceTree = "<group>"; };
 		E66CAE6D2C46345900CBAD48 /* AIRecommendationVIew.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AIRecommendationVIew.swift; sourceTree = "<group>"; };
-		CDAF88502C46972C005EA0B1 /* ReminderService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderService.swift; sourceTree = "<group>"; };
 		E671A9EB2C3EBE470008E410 /* SwiftData.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = SwiftData.md; sourceTree = "<group>"; };
 		E671A9F52C41137E0008E410 /* DailyHabitEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyHabitEntry.swift; sourceTree = "<group>"; };
 		E671A9F72C4119520008E410 /* AIPromptSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AIPromptSheetView.swift; sourceTree = "<group>"; };
@@ -134,6 +136,7 @@
 		3A7DBC472C3E48D300FF9CEB /* Service */ = {
 			isa = PBXGroup;
 			children = (
+				E61A4FBF2C46C2660049F0E6 /* GlobalSwiftDataService.swift */,
 				3A7DBC462C3E48D300FF9CEB /* AIService.swift */,
 				CDAF88502C46972C005EA0B1 /* ReminderService.swift */,
 			);
@@ -317,6 +320,7 @@
 				3A7DBC6B2C3E48F700FF9CEB /* NotesView.swift in Sources */,
 				E69767EF2C4614740020316E /* AIChatView.swift in Sources */,
 				3A7DBC372C3E48A200FF9CEB /* NotesProApp.swift in Sources */,
+				E61A4FC02C46C26B0049F0E6 /* GlobalSwiftDataService.swift in Sources */,
 				E671A9F62C4113830008E410 /* DailyHabitEntry.swift in Sources */,
 				3A7DBC682C3E48F700FF9CEB /* HabitsView.swift in Sources */,
 				E66CAE6A2C462D4900CBAD48 /* AIOnboardingView.swift in Sources */,

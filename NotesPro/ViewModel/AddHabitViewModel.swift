@@ -14,6 +14,9 @@ class AddHabitViewModel: ObservableObject {
     @Published var definedTasks: [DailyTaskDefinition] = []
     @Published var isAIChatSheetPresented = false
 
+    private let reminderService = ReminderService.shared
+    private let modelContext = GlobalSwiftDataService.shared.modelContext
+    
     func updateHabitName(_ name: String) {
         habitName = name.trimmingCharacters(in: .whitespacesAndNewlines)
         updateValidHabitStatus()
@@ -48,7 +51,7 @@ class AddHabitViewModel: ObservableObject {
     private func saveChanges(modelContext: ModelContext) {
         do {
             try modelContext.save()
-            scheduleRemindersForHabit(habit)
+            //scheduleRemindersForHabit(habit) <--- TODO: Tolong di fix
         } catch {
             print("Error saving habit: \(error.localizedDescription)")
         }

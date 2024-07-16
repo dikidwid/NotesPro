@@ -128,6 +128,11 @@ struct TaskRow: View {
                 selectedTask = task
                 showDetailTaskSheet = true
             }
+            
+            Spacer()
+            
+            Image(systemName: "chevron.right")
+                .foregroundColor(.secondary)
         }
         .foregroundColor(.primary)
     }
