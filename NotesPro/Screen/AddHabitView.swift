@@ -160,6 +160,12 @@ struct IntelligenceSection: View {
         
         let task2 = DailyTaskDefinition(taskName: "Write summary")
         
+        let newClock = Calendar.current.date(byAdding: .minute, value: 1, to: Date()) ?? Date()
+        
+        task1.reminder = DailyTaskReminder(
+            isEnabled: true, clock: newClock, repeatDays: DailyTaskReminderRepeatDays()
+        )
+        
         sampleHabit.definedTasks = [task1, task2]
         
         container.mainContext.insert(sampleHabit)
