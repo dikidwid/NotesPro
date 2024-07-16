@@ -17,8 +17,15 @@ struct NotesProApp: App {
 }
 
 struct ContentView: View {
+    @ObservedObject var addHabitViewModel = AddHabitViewModel()
+    @ObservedObject var notesViewModel = NotesViewModel()
+    @ObservedObject var habitsViewModel = HabitsViewModel()
+    
     var body: some View {
         MainView()
+            .environmentObject(addHabitViewModel)
+            .environmentObject(notesViewModel)
+            .environmentObject(habitsViewModel)
             .modelContainer(for: swiftDataModels)
     }
 }

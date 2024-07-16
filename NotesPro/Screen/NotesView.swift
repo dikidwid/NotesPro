@@ -14,11 +14,28 @@ struct NotesView: View {
                     .padding()
                 
                 List {
-                    NoteSection(title: "Today", subtitle: "Tue 9 Jul", notes: todayNotes)
+                    if !todayNotes.isEmpty
+                    {
+                        NoteSection(title: "Today", subtitle: "Tue 9 Jul", notes: todayNotes)
+                    }
+
+                    if !previousWeekNotes.isEmpty
+                    {
+                        NoteSection(title: "Previous 7 Days", subtitle: "", notes: previousWeekNotes)
+                    }
+
+                    if !previousMonthNotes.isEmpty
+                    {
+                        NoteSection(title: "Previous 30 Days", subtitle: "", notes: previousMonthNotes)
+                    }
                     
-                    NoteSection(title: "Previous 7 Days", subtitle: "", notes: previousWeekNotes)
-                    
-                    NoteSection(title: "Previous 30 Days", subtitle: "", notes: previousMonthNotes)
+                    if todayNotes.isEmpty && previousWeekNotes.isEmpty && previousMonthNotes.isEmpty {
+                        ContentUnavailableView {
+                            Label("No Notes", systemImage: "note.text")
+                        } description: {
+                            Text("New notes you create will appear here.")
+                        }
+                    }
                 }
                 .listStyle(InsetGroupedListStyle())
             }
@@ -30,7 +47,7 @@ struct NotesView: View {
                         viewModel.newNoteId = newNote.id
                     }) {
                         Image(systemName: "square.and.pencil")
-                            .foregroundColor(.yellow)
+                            .foregroundColor(.accentColor)
                     }
                 }
             }

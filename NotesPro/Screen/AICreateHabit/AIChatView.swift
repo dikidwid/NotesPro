@@ -26,6 +26,9 @@ struct Message: Identifiable, Equatable {
 
 
 struct AIChatView: View {
+    @EnvironmentObject private var addHabitViewModel: AddHabitViewModel
+    @Environment(\.dismiss) private var dismiss
+
     @State private var messageText = ""
     @State private var chatMessages: [Message] = []
     @State private var currentQuestionIndex = 0
@@ -34,6 +37,8 @@ struct AIChatView: View {
     @State private var isInputEnabled: Bool = true
     @State private var recommendations: [Recommendation] = []
     @State private var lastItemId: UUID?
+    @State private var selectedRecommendation: Recommendation?
+    @State private var navigateToAddHabit: Bool = false
     
     @ObservedObject var aiService: AIService = AIService(
         identifier: FakeAPIKey.GPT4o.rawValue, useStreaming: false, isConversation: false)
@@ -48,74 +53,98 @@ struct AIChatView: View {
     ]
     
     var body: some View {
-        ZStack {
-            Color(UIColor.secondarySystemBackground).edgesIgnoringSafeArea(.all)
-            
-            VStack {
-                ScrollViewReader { proxy in
-                    ScrollView {
-                        VStack(alignment: .leading, spacing: 10) {
-                            HStack{
-                                Spacer()
-                            }
-                            ForEach($chatMessages) { $message in
-                                if message.isUser {
-                                    UserBubble(text: message.text)
-                                        .id(message.id)
-                                } else {
-                                    BotBubble(message: $message)
-                                        .id(message.id)
+        NavigationStack {
+            ZStack {
+                Color(UIColor.secondarySystemBackground).edgesIgnoringSafeArea(.all)
+                
+                VStack {
+                    ScrollViewReader { proxy in
+                        ScrollView {
+                            VStack(alignment: .leading, spacing: 10) {
+                                HStack{
+                                    Spacer()
                                 }
-                            }
-                            
-                            if !recommendations.isEmpty {
-                                ForEach(recommendations) { recommendation in
-                                    RecommendationCard(recommendation: recommendation)
-                                        .padding(.top, 5)
+                                ForEach($chatMessages) { $message in
+                                    if message.isUser {
+                                        UserBubble(text: message.text)
+                                            .id(message.id)
+                                    } else {
+                                        BotBubble(message: $message)
+                                            .id(message.id)
+                                    }
                                 }
                                 
-                                Button(action: resetChat) {
-                                    Text("Reset")
-                                        .foregroundColor(.white)
-                                        .padding()
-                                        .background(Color.accentColor)
-                                        .cornerRadius(10)
+                                if !recommendations.isEmpty {
+                                    ForEach(recommendations) { recommendation in
+                                        RecommendationCard(recommendation: recommendation)
+                                            .padding(.top, 5)
+                                            .onTapGesture {
+                                                print("I'm tapped")
+                                                addHabitViewModel.populateFromRecommendation(recommendation)
+                                                addHabitViewModel.hideAIChatSheet()
+                                                dismiss()
+                                            }
+                                    }
+                                    
+                                    Button(action: resetChat) {
+                                        Text("Reset")
+                                            .foregroundColor(.white)
+                                            .padding()
+                                            .background(Color.accentColor)
+                                            .cornerRadius(10)
+                                    }
+                                    .padding(.top)
                                 }
-                                .padding(.top)
+                            }
+                            .padding()
+                        }
+                        .onChange(of: chatMessages) { _ in
+                            if let lastMessage = chatMessages.last {
+                                withAnimation {
+                                    proxy.scrollTo(lastMessage.id, anchor: .bottom)
+                                }
                             }
                         }
-                        .padding()
-                    }
-                    .onChange(of: chatMessages) { _ in
-                        if let lastMessage = chatMessages.last {
-                            withAnimation {
-                                proxy.scrollTo(lastMessage.id, anchor: .bottom)
+                        .onChange(of: lastItemId) { id in
+                            if let id = id {
+                                withAnimation {
+                                    proxy.scrollTo(id, anchor: .bottom)
+                                }
                             }
                         }
                     }
-                }
-                
-                Spacer()
-                
-                HStack {
-                    TextField("Type a message...", text: $messageText)
-                        .padding(10)
-                        .background(Color(UIColor.tertiarySystemBackground))
-                        .cornerRadius(20)
-                        .disabled(!isInputEnabled)
                     
-                    Button(action: sendMessage) {
-                        Image(systemName: "paperplane.fill")
-                            .foregroundColor(isInputEnabled ? .accentColor : .gray)
+                    Spacer()
+                    
+                    HStack {
+                        TextField("Type a message...", text: $messageText)
+                            .padding(10)
+                            .background(Color(UIColor.tertiarySystemBackground))
+                            .cornerRadius(20)
+                            .disabled(!isInputEnabled)
+                        
+                        Button(action: sendMessage) {
+                            Image(systemName: "paperplane.fill")
+                                .foregroundColor(isInputEnabled ? .accentColor : .gray)
+                        }
+                        .disabled(!isInputEnabled)
                     }
-                    .disabled(!isInputEnabled)
+                    .padding(.horizontal)
                 }
-                .padding(.horizontal)
+            }
+            .navigationBarTitle("AI Habit Generator", displayMode: .inline)
+            .navigationBarItems(leading: Button("Cancel") {
+                resetChat()
+                dismiss()
+            })
+            .onAppear {
+                addInitialMessages()
+            }
+            .navigationDestination(isPresented: $navigateToAddHabit) {
+                AddHabitView()
             }
         }
-        .onAppear {
-            addInitialMessages()
-        }
+
     }
     
 
@@ -197,13 +226,13 @@ struct AIChatView: View {
         Provide 3 task recommendations that align with these principles and help establish the desired habit.
         Each recommendation should only have 2-3 tasks.
         Each task max 5 words.
-        The title should be recommendation 1 to 3.
+        The title should be habit name.
         
         Example response format:
         {
             "recommendations": [
                 {
-                    "title": "Recommendation 1",
+                    "title": "Reading and Writing Habit",
                     "tasks": [
                         "Search for new book",
                         "Read book for 5 minutes",
@@ -211,19 +240,18 @@ struct AIChatView: View {
                     ]
                 },
                 {
-                    "title": "Recommendation 2",
+                    "title": Reading Science Article",
                     "tasks": [
                         "Search for new articles",
                         "Read articles for 10 minutes"
                     ]
                 },
                 {
-                    "title": "Recommendation 3",
+                    "title": "Communication Habit",
                     "tasks": [
                         "Buy new book",
                         "Read book for 15 minutes",
                         "Discuss with a friend",
-                        "Write a review"
                     ]
                 }
             ]
@@ -231,7 +259,8 @@ struct AIChatView: View {
         
         Don't wrap your response with backticks.
         
-        Now generate habits based on this interview with user:
+        Now generate tasks for building habit based on this interview with user:
+        
         \(getInterviewQuestionAndAnswers())
         """
         
@@ -266,6 +295,9 @@ struct AIChatView: View {
         do {
             let json = try JSONDecoder().decode(RecommendationsResponse.self, from: data)
             recommendations = json.recommendations.map { Recommendation(title: $0.title, items: $0.tasks) }
+            if let lastRecommendation = recommendations.last {
+                lastItemId = lastRecommendation.id
+            }
         } catch {
             print("Failed to parse JSON: \(error)")
         }
@@ -276,6 +308,13 @@ struct AIChatView: View {
         currentQuestionIndex = 0
         isInputEnabled = true
         recommendations.removeAll()
+        lastItemId = nil
+        aiResponse = ""
+        isLoading = false
+        messageText = ""
+        
+        aiService.cancel()
+        
         addInitialMessages()
     }
 }
@@ -365,7 +404,7 @@ struct TypewriterText: View {
     @State private var animationCancellable: AnyCancellable?
     @State private var isPaused = false
     
-    init(_ text: String, interval: TimeInterval = 0.05, onComplete: (() -> Void)? = nil) {
+    init(_ text: String, interval: TimeInterval = 0.02, onComplete: (() -> Void)? = nil) {
         self.text = text
         self.interval = interval
         self.onComplete = onComplete
@@ -425,14 +464,11 @@ struct TypewriterText: View {
 
 
 
-#Preview {
+#Preview("AI Chat View") {
     AIChatView()
+        .environmentObject(AddHabitViewModel())
 }
 
-struct TypewriterText_Previews: PreviewProvider {
-    @State static var displayedText = ""
-    
-    static var previews: some View {
-        TypewriterText("Hello, World!")
-    }
+#Preview("Typewriter Text") {
+    TypewriterText("Hello, World!")
 }

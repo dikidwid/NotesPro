@@ -17,7 +17,7 @@ struct MainView: View {
             
             HabitsView()
                 .tabItem {
-                    Label("Goals", systemImage: "checkmark.square")
+                    Label("Habits", systemImage: "checkmark.square")
                 }
             
             SettingsView()

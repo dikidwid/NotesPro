@@ -43,6 +43,11 @@ class AIService: ObservableObject {
     private var conversationId = ""
     private var currentTask: AnyCancellable?
     
+    func cancel() {
+        cancellables.forEach { $0.cancel() }
+        cancellables.removeAll()
+    }
+    
     func sendMessage(query: String, uiImage: UIImage?) -> AnyPublisher<String, Error> {
         aiResponse = ""
         aiStatus = .preparingQuery
