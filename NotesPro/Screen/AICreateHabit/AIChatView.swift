@@ -40,6 +40,8 @@ struct AIChatView: View {
     @State private var selectedRecommendation: Recommendation?
     @State private var navigateToAddHabit: Bool = false
     
+    @FocusState private var isFocused: Bool
+
     @ObservedObject var aiService: AIService = AIService(
         identifier: FakeAPIKey.GPT4o.rawValue, useStreaming: false, isConversation: false)
     
@@ -118,6 +120,7 @@ struct AIChatView: View {
                     
                     HStack {
                         TextField("Type a message...", text: $messageText)
+                            .focused($isFocused)
                             .padding(10)
                             .background(Color(UIColor.tertiarySystemBackground))
                             .cornerRadius(20)
@@ -143,6 +146,16 @@ struct AIChatView: View {
             .navigationDestination(isPresented: $navigateToAddHabit) {
                 AddHabitView()
             }
+            .toolbar {
+                ToolbarItem(placement: .keyboard) {
+                    HStack {
+                        Spacer()
+                        Button("Done") {
+                            isFocused = false
+                        }
+                    }
+                }
+            }
         }
 
     }
@@ -161,6 +174,8 @@ struct AIChatView: View {
     }
     
     func sendMessage() {
+        isFocused = false
+        
         guard !messageText.isEmpty else { return }
         
         // Add user message
