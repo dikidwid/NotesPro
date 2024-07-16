@@ -13,6 +13,7 @@ class AddHabitViewModel: ObservableObject {
     @Published var isValidHabit: Bool = false
     
     private var modelContext: ModelContext
+    private let reminderService = ReminderService.shared
     
     init(modelContext: ModelContext) {
         self.modelContext = modelContext
@@ -28,6 +29,7 @@ class AddHabitViewModel: ObservableObject {
         
         do {
             try modelContext.save()
+            scheduleRemindersForHabit(habit)
         } catch {
             print("Error saving habit: \(error.localizedDescription)")
         }
@@ -80,6 +82,28 @@ class AddHabitViewModel: ObservableObject {
             isValidHabit = !habitName.isEmpty && !habit.definedTasks.isEmpty
         } else {
             isValidHabit = !habitName.isEmpty
+        }
+    }
+    
+    // New Mthod untuk handle reminder
+    func updateTaskReminder(_ task: DailyTaskDefinition, isEnabled: Bool, clock: Date, repeatDays: DailyTaskReminderRepeatDays) {
+        task.reminder.isEnabled = isEnabled
+        task.reminder.clock = clock
+        task.reminder.repeatDays = repeatDays
+    }
+    
+    private func scheduleRemindersForHabit(_ habit: Habit) {
+        reminderService.scheduleReminders(for: habit)
+    }
+
+    func updateHabit(_ habit: Habit) {
+        do {
+            try modelContext.save()
+            // Perbarui reminder setelah mengubah habit
+            reminderService.cancelReminders(for: habit)
+            scheduleRemindersForHabit(habit)
+        } catch {
+            print("Error updating habit: \(error.localizedDescription)")
         }
     }
 }

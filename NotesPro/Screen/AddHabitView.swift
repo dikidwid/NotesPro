@@ -59,6 +59,7 @@ struct AddHabitView: View {
         }
         .sheet(item: $selectedTask) { task in
             DetailTaskView(task: task, isNewTask: true)
+                .environmentObject(viewModel)
                 .onDisappear {
                     viewModel.deleteEmptyTasks(from: habit)
                 }
@@ -218,6 +219,12 @@ struct IntelligenceSection: View {
         task1.reminder = DailyTaskReminder(isEnabled: true, clock: Date(), repeatDays: DailyTaskReminderRepeatDays(monday: true, wednesday: true, friday: true))
         
         let task2 = DailyTaskDefinition(taskName: "Write summary")
+        
+        let newClock = Calendar.current.date(byAdding: .minute, value: 1, to: Date()) ?? Date()
+        
+        task1.reminder = DailyTaskReminder(
+            isEnabled: true, clock: newClock, repeatDays: DailyTaskReminderRepeatDays()
+        )
         
         sampleHabit.definedTasks = [task1, task2]
         sampleHabit.reward = Reward(rewardName: "Buy a new book")

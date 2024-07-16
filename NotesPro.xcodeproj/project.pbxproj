@@ -29,6 +29,7 @@
 		CDAF88142C4186DC005EA0B1 /* Reward.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDAF88132C4186DC005EA0B1 /* Reward.swift */; };
 		CDAF88162C41AA08005EA0B1 /* DetailTaskView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDAF88152C41AA08005EA0B1 /* DetailTaskView.swift */; };
 		CDAF88182C42EB06005EA0B1 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = CDAF88172C42EB06005EA0B1 /* Localizable.xcstrings */; };
+		CDAF88512C46972C005EA0B1 /* ReminderService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDAF88502C46972C005EA0B1 /* ReminderService.swift */; };
 		E671A9F62C4113830008E410 /* DailyHabitEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = E671A9F52C41137E0008E410 /* DailyHabitEntry.swift */; };
 		E671A9F82C4119610008E410 /* AIPromptSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E671A9F72C4119520008E410 /* AIPromptSheetView.swift */; };
 		E69767ED2C4506F30020316E /* AddHabitViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E69767EC2C4506EF0020316E /* AddHabitViewModel.swift */; };
@@ -58,6 +59,7 @@
 		CDAF88132C4186DC005EA0B1 /* Reward.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reward.swift; sourceTree = "<group>"; };
 		CDAF88152C41AA08005EA0B1 /* DetailTaskView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailTaskView.swift; sourceTree = "<group>"; };
 		CDAF88172C42EB06005EA0B1 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
+		CDAF88502C46972C005EA0B1 /* ReminderService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderService.swift; sourceTree = "<group>"; };
 		E671A9EB2C3EBE470008E410 /* SwiftData.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = SwiftData.md; sourceTree = "<group>"; };
 		E671A9F52C41137E0008E410 /* DailyHabitEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyHabitEntry.swift; sourceTree = "<group>"; };
 		E671A9F72C4119520008E410 /* AIPromptSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AIPromptSheetView.swift; sourceTree = "<group>"; };
@@ -127,6 +129,7 @@
 			isa = PBXGroup;
 			children = (
 				3A7DBC462C3E48D300FF9CEB /* AIService.swift */,
+				CDAF88502C46972C005EA0B1 /* ReminderService.swift */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -299,6 +302,7 @@
 				3A7DBC682C3E48F700FF9CEB /* HabitsView.swift in Sources */,
 				3A7DBC682C3E48F700FF9CEB /* HabitsView.swift in Sources */,
 				3A7DBC692C3E48F700FF9CEB /* MainView.swift in Sources */,
+				CDAF88512C46972C005EA0B1 /* ReminderService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
