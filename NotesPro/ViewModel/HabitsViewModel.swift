@@ -27,6 +27,23 @@ enum RepeatOption: String, CaseIterable, Identifiable {
 
 class HabitsViewModel: ObservableObject{
     @Published var newHabitId: UUID?
+    @Published var selectedHabit: Habit?
+    @Published var isAddHabitSheetPresented = false
+    
+    func selectHabit(_ habit: Habit?) {
+        selectedHabit = habit
+        isAddHabitSheetPresented = habit != nil
+    }
+    
+    func addNewHabit() {
+        selectedHabit = nil
+        isAddHabitSheetPresented = true
+    }
+    
+    func deleteHabit(_ habit: Habit, modelContext: ModelContext) {
+        modelContext.delete(habit)
+        saveHabit(modelContext: modelContext)
+    }
     
     func addHabit(modelContext: ModelContext) -> Habit {
         let newHabit = Habit(title: "", description: "")
@@ -83,19 +100,5 @@ class HabitsViewModel: ObservableObject{
     func deleteEmptyTasks(from habit: Habit, modelContext: ModelContext) {
         habit.definedTasks.removeAll(where: { $0.taskName.isEmpty })
         saveHabit(modelContext: modelContext)
-    }
-    
-    func addReward(to habit: Habit, modelContext: ModelContext) {
-        let newReward = Reward(rewardName: "New Reward")
-        habit.reward = newReward
-        try? modelContext.save()
-    }
-    
-    func deleteReward(from habit: Habit, modelContext: ModelContext) {
-        if let reward = habit.reward {
-            modelContext.delete(reward)
-            habit.reward = nil
-            try? modelContext.save()
-        }
     }
 }

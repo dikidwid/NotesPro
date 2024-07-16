@@ -11,78 +11,104 @@ class AddHabitViewModel: ObservableObject {
     @Published var habitName: String = ""
     @Published var habitDescription: String = ""
     @Published var isValidHabit: Bool = false
-    
-    private var modelContext: ModelContext
+    @Published var definedTasks: [DailyTaskDefinition] = []
+    @Published var isAIChatSheetPresented = false
+
     private let reminderService = ReminderService.shared
-    
-    init(modelContext: ModelContext) {
-        self.modelContext = modelContext
-    }
-    
-    func updateModelContext(_ newContext: ModelContext) {
-        self.modelContext = newContext
-    }
-    
-    func saveHabit(habit: Habit) {
-        habit.title = habitName.trimmingCharacters(in: .whitespacesAndNewlines)
-        habit.desc = habitDescription.trimmingCharacters(in: .whitespacesAndNewlines)
-        
-        do {
-            try modelContext.save()
-            scheduleRemindersForHabit(habit)
-        } catch {
-            print("Error saving habit: \(error.localizedDescription)")
-        }
-    }
-    
-    @discardableResult
-    func addTask(to habit: Habit) -> DailyTaskDefinition {
-        let newTask = DailyTaskDefinition(taskName: "")
-        habit.definedTasks.append(newTask)
-        updateValidHabitStatus(habit)
-        return newTask
-    }
-    
-    func deleteTask(_ task: DailyTaskDefinition, from habit: Habit) {
-        habit.definedTasks.removeAll(where: { $0.id == task.id })
-        modelContext.delete(task)
-        updateValidHabitStatus(habit)
-    }
-    
-    func deleteEmptyTasks(from habit: Habit) {
-        let emptyTasks = habit.definedTasks.filter { $0.taskName.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty }
-        for task in emptyTasks {
-            modelContext.delete(task)
-        }
-        habit.definedTasks.removeAll(where: { $0.taskName.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty })
-        updateValidHabitStatus(habit)
-    }
-    
-    func addReward(to habit: Habit) {
-        if habit.reward == nil {
-            let newReward = Reward(rewardName: "")
-            habit.reward = newReward
-        }
-    }
-    
-    func deleteReward(from habit: Habit) {
-        if let reward = habit.reward {
-            modelContext.delete(reward)
-            habit.reward = nil
-        }
-    }
+    private let modelContext = GlobalSwiftDataService.shared.modelContext
     
     func updateHabitName(_ name: String) {
         habitName = name.trimmingCharacters(in: .whitespacesAndNewlines)
         updateValidHabitStatus()
     }
     
-    private func updateValidHabitStatus(_ habit: Habit? = nil) {
-        if let habit = habit {
-            isValidHabit = !habitName.isEmpty && !habit.definedTasks.isEmpty
+    func updateHabitDescription(_ description: String) {
+        habitDescription = description.trimmingCharacters(in: .whitespacesAndNewlines)
+    }
+    
+    func saveHabit(modelContext: ModelContext, existingHabit: Habit?) {
+        if let habit = existingHabit {
+            updateHabit(habit, modelContext: modelContext)
         } else {
-            isValidHabit = !habitName.isEmpty
+            saveNewHabit(modelContext: modelContext)
         }
+    }
+    
+    private func saveNewHabit(modelContext: ModelContext) {
+        let newHabit = Habit(title: habitName, description: habitDescription)
+        newHabit.definedTasks = definedTasks
+        modelContext.insert(newHabit)
+        saveChanges(modelContext: modelContext)
+    }
+    
+    private func updateHabit(_ habit: Habit, modelContext: ModelContext) {
+        habit.title = habitName
+        habit.desc = habitDescription
+        habit.definedTasks = definedTasks
+        saveChanges(modelContext: modelContext)
+    }
+    
+    private func saveChanges(modelContext: ModelContext) {
+        do {
+            try modelContext.save()
+            //scheduleRemindersForHabit(habit) <--- TODO: Tolong di fix
+        } catch {
+            print("Error saving habit: \(error.localizedDescription)")
+        }
+    }
+    
+    @discardableResult
+    func addTask() -> DailyTaskDefinition {
+        let newTask = DailyTaskDefinition(taskName: "")
+        definedTasks.append(newTask)
+        updateValidHabitStatus()
+        return newTask
+    }
+    
+    func deleteTask(_ task: DailyTaskDefinition) {
+        definedTasks.removeAll(where: { $0.id == task.id })
+        updateValidHabitStatus()
+    }
+    
+    func deleteEmptyTasks() {
+        definedTasks.removeAll(where: { $0.taskName.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty })
+        updateValidHabitStatus()
+    }
+    
+    private func updateValidHabitStatus() {
+        isValidHabit = !habitName.isEmpty && !definedTasks.isEmpty
+    }
+    
+    func populateToEmpty() {
+        habitName = ""
+        definedTasks = []
+    }
+    
+    func populateFromRecommendation(_ recommendation: Recommendation) {
+        habitName = recommendation.title
+        definedTasks = recommendation.items.map { DailyTaskDefinition(taskName: $0) }
+        updateValidHabitStatus()
+    }
+    
+    func populateFromHabit(_ habit: Habit?) {
+        if let habit = habit {
+            habitName = habit.title
+            habitDescription = habit.desc
+            definedTasks = habit.definedTasks
+        } else {
+            habitName = ""
+            habitDescription = ""
+            definedTasks = []
+        }
+        updateValidHabitStatus()
+    }
+    
+    func showAIChatSheet() {
+        isAIChatSheetPresented = true
+    }
+    
+    func hideAIChatSheet() {
+        isAIChatSheetPresented = false
     }
     
     // New Mthod untuk handle reminder

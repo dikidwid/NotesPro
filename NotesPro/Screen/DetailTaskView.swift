@@ -49,7 +49,7 @@ struct DetailTaskView: View {
                 
                 ToolbarItem(placement: .topBarTrailing) {
                     if isNewTask {
-                        Button("Add") {
+                        Button("Save") {
                             try? modelContext.save()
                             dismiss()
                         }
