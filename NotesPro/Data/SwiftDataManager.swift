@@ -121,4 +121,42 @@ class SwiftDataManager: HabitDataSource {
         }
         try? modelContext.save()
     }
+    
+    func updateStreaks(for date: Date) {
+        let habits = try? modelContext.fetch(FetchDescriptor<Habit>())
+        guard let habits = habits else { return }
+        
+        for habit in habits {
+            let entry = getOrCreateEntry(for: habit, on: date)
+            let isCompleted = !entry.tasks.contains { !$0.isChecked }
+            
+            if isCompleted {
+                if let lastCompleted = habit.lastCompletedDate {
+                    let daysBetween = daysBetween(lastCompleted, and: date)
+                    
+                    if daysBetween == 1 {
+                        habit.currentStreak += 1
+                    } else if daysBetween > 1 {
+                        habit.currentStreak = 1
+                    }
+                } else {
+                    habit.currentStreak = 1
+                }
+                
+                habit.bestStreak = max(habit.bestStreak, habit.currentStreak)
+                habit.lastCompletedDate = date
+            }
+        }
+        
+        try? modelContext.save()
+    }
+    
+    private func daysBetween(_ date1: Date, and date2: Date) -> Int {
+        let calendar = Calendar.current
+        let date1 = calendar.startOfDay(for: date1)
+        let date2 = calendar.startOfDay(for: date2)
+        return calendar.dateComponents([.day], from: date1, to: date2).day ?? 0
+    }
+    
+
 }

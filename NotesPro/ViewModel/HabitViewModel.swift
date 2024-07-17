@@ -23,6 +23,15 @@ final class HabitViewModel: ObservableObject {
         self.habitDataSource = habitDataSource
     }
     
+    func updateStreaks(for date: Date) {
+        if let swiftDataManager = habitDataSource as? SwiftDataManager {
+            swiftDataManager.updateStreaks(for: date)
+            Task {
+                await refreshHabits()
+            }
+        }
+    }
+    
     func getOrCreateEntry(for habit: Habit, on date: Date) -> DailyHabitEntry {
         if let swiftDataManager = habitDataSource as? SwiftDataManager {
             return swiftDataManager.getOrCreateEntry(for: habit, on: date)

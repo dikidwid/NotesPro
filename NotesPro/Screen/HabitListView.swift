@@ -52,6 +52,7 @@ struct HabitListView: View {
             Task {
                 await habitViewModel.checkAndCreateEntriesForDate(newValue)
                 await habitViewModel.getDailyHabitEntries(from: newValue)
+                habitViewModel.updateStreaks(for: .now)
             }
         }
         .navigationBarBackgroundColor(Color(.systemBackground))
@@ -102,6 +103,7 @@ struct HabitListView: View {
                     await habitViewModel.getHabits()
                     await habitViewModel.checkAndCreateEntriesForDate(calendarViewModel.currentDate)
                     await habitViewModel.getDailyHabitEntries(from: calendarViewModel.currentDate)
+                    habitViewModel.updateStreaks(for: .now)
                 }
             }
         }
@@ -136,8 +138,7 @@ struct HabitRowView: View {
                 Spacer()
                 
                 HStack {
-                    Label("2", systemImage: "flame.fill")
-                    
+                    Label("\(habit.currentStreak)", systemImage: "flame.fill")
                     Image(systemName: "chevron.right")
                 }
                 .foregroundStyle(.secondary)

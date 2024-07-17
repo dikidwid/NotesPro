@@ -30,8 +30,10 @@ struct HabitDetailView: View {
     var body: some View {
         ScrollView {
             VStack {
-                StreakCardView(bestTreak: 40, currentStreak: 3)
-                    .padding(.top)
+                StreakCardView(bestStreak: habit.bestStreak, currentStreak: habit.currentStreak)
+                    .onChange(of: calendarViewModel.currentDate) { oldValue, newValue in
+                        habitViewModel.updateStreaks(for: .now)
+                    }
                 
                 CalendarView(viewModel: calendarViewModel)
                     .padding(.top)
@@ -155,7 +157,7 @@ struct HabitDetailView: View {
 }
 
 struct StreakCardView: View {
-    let bestTreak: Int
+    let bestStreak: Int
     let currentStreak: Int
     
     var body: some View {
@@ -173,7 +175,7 @@ struct StreakCardView: View {
                             
                             Spacer()
                             
-                            Text("\(bestTreak)")
+                            Text("\(bestStreak)")
                                 .font(.system(.title, weight: .bold))
                         }
                         
