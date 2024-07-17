@@ -14,6 +14,22 @@ final class CalendarViewModel: ObservableObject {
     @Published var selectedDate: Date = .now
     @Published var completedDays: Set<Date> = []
     
+    @Published var allHabitsCompletedDays: Set<Date> = []
+    @Published var individualHabitCompletedDays: Set<Date> = []
+    
+    func updateAllHabitsCompletedDays(_ days: Set<Date>) {
+        self.allHabitsCompletedDays = days
+    }
+    
+    func updateIndividualHabitCompletedDays(_ days: Set<Date>) {
+        self.individualHabitCompletedDays = days
+    }
+    
+    func isCompletedDay(_ date: Date, forAllHabits: Bool) -> Bool {
+        let completedDays = forAllHabits ? allHabitsCompletedDays : individualHabitCompletedDays
+        return completedDays.contains(Calendar.current.startOfDay(for: date))
+    }
+    
     func updateCompletedDays(_ days: Set<Date>) {
         self.completedDays = days
     }

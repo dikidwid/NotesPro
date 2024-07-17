@@ -18,8 +18,38 @@ final class HabitViewModel: ObservableObject {
     @Published var responseError: ResponseError?
         
     @Published var completedDays: Set<Date> = []
+    @Published var allHabitsCompletedDays: Set<Date> = []
+    @Published var individualHabitCompletedDays: Set<Date> = []
     
     let habitDataSource: HabitDataSource
+
+    func updateAllHabitsCompletedDays() {
+        var newCompletedDays = Set<Date>()
+        let calendar = Calendar.current
+        
+        for date in habits.flatMap({ $0.dailyHabitEntries.map({ $0.day }) }) {
+            let startOfDay = calendar.startOfDay(for: date)
+            if isAllHabitsCompletedForDay(startOfDay) {
+                newCompletedDays.insert(startOfDay)
+            }
+        }
+        
+        self.allHabitsCompletedDays = newCompletedDays
+    }
+    
+    func updateIndividualHabitCompletedDays(for habit: Habit) {
+        var newCompletedDays = Set<Date>()
+        let calendar = Calendar.current
+        
+        for entry in habit.dailyHabitEntries {
+            let startOfDay = calendar.startOfDay(for: entry.day)
+            if entry.tasks.allSatisfy({ $0.isChecked }) {
+                newCompletedDays.insert(startOfDay)
+            }
+        }
+        
+        self.individualHabitCompletedDays = newCompletedDays
+    }
 
     func updateCompletedDays() {
         var newCompletedDays = Set<Date>()
@@ -43,13 +73,6 @@ final class HabitViewModel: ObservableObject {
             guard let entry = habit.hasEntry(for: startOfDay) else { return false }
             return entry.tasks.allSatisfy { $0.isChecked }
         }
-    }
-    
-    func toggleTask(_ task: DailyTask) {
-        task.isChecked.toggle()
-        task.checkedDate = task.isChecked ? Date() : nil
-        updateCompletedDays()
-        updateStreaks(for: Date())
     }
     
     
@@ -184,5 +207,14 @@ final class HabitViewModel: ObservableObject {
         }
     }
     
+    func toggleTask(_ task: DailyTask) {
+        task.isChecked.toggle()
+        task.checkedDate = task.isChecked ? Date() : nil
+        updateAllHabitsCompletedDays()
+        if let habit = task.dailyHabitEntry?.habit {
+            updateIndividualHabitCompletedDays(for: habit)
+        }
+        updateStreaks(for: Date())
+    }
     
 }

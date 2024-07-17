@@ -19,7 +19,7 @@ struct HabitListView: View {
     var body: some View {
         ScrollView {
             VStack(spacing: 20) {
-                CalendarView(viewModel: calendarViewModel)
+                CalendarView(viewModel: calendarViewModel, forAllHabits: true)
                     .background(.background)
                 
                 if habits.isEmpty {
@@ -98,8 +98,8 @@ struct HabitListView: View {
                 await habitViewModel.checkAndCreateEntriesForDate(newValue)
                 await habitViewModel.getDailyHabitEntries(from: newValue)
                 habitViewModel.updateStreaks(for: .now)
-                habitViewModel.updateCompletedDays()
-                calendarViewModel.updateCompletedDays(habitViewModel.completedDays)
+                habitViewModel.updateAllHabitsCompletedDays()
+                calendarViewModel.updateAllHabitsCompletedDays(habitViewModel.allHabitsCompletedDays)
             }
         }
         .task {
@@ -109,8 +109,8 @@ struct HabitListView: View {
                     await habitViewModel.checkAndCreateEntriesForDate(calendarViewModel.currentDate)
                     await habitViewModel.getDailyHabitEntries(from: calendarViewModel.currentDate)
                     habitViewModel.updateStreaks(for: .now)
-                    habitViewModel.updateCompletedDays()
-                    calendarViewModel.updateCompletedDays(habitViewModel.completedDays)
+                    habitViewModel.updateAllHabitsCompletedDays()
+                    calendarViewModel.updateAllHabitsCompletedDays(habitViewModel.allHabitsCompletedDays)
                 }
             }
         }
