@@ -13,9 +13,8 @@ class AddHabitViewModel: ObservableObject {
     @Published var isValidHabit: Bool = false
     @Published var definedTasks: [DailyTaskDefinition] = []
     @Published var isAIChatSheetPresented = false
-
+    
     private let reminderService = ReminderService.shared
-    private let modelContext = GlobalSwiftDataService.shared.modelContext
     
     func updateHabitName(_ name: String) {
         habitName = name.trimmingCharacters(in: .whitespacesAndNewlines)
@@ -51,13 +50,12 @@ class AddHabitViewModel: ObservableObject {
     private func saveChanges(modelContext: ModelContext) {
         do {
             try modelContext.save()
-            //scheduleRemindersForHabit(habit) <--- TODO: Tolong di fix
+            // TODO: Implement scheduleRemindersForHabit(habit)
         } catch {
             print("Error saving habit: \(error.localizedDescription)")
         }
     }
     
-    @discardableResult
     func addTask() -> DailyTaskDefinition {
         let newTask = DailyTaskDefinition(taskName: "")
         definedTasks.append(newTask)
@@ -111,20 +109,19 @@ class AddHabitViewModel: ObservableObject {
         isAIChatSheetPresented = false
     }
     
-    // New Mthod untuk handle reminder
-    func updateTaskReminder(_ task: DailyTaskDefinition, isEnabled: Bool, clock: Date, repeatDays: DailyTaskReminderRepeatDays) {
-        task.reminder.isEnabled = isEnabled
-        task.reminder.clock = clock
-        task.reminder.repeatDays = repeatDays
+    // Updated method to handle reminder
+    func updateTaskReminder(_ task: DailyTaskDefinition, isEnabled: Bool, clock: Date) {
+        task.isReminderEnabled = isEnabled
+        task.reminderClock = clock
     }
     
     private func scheduleRemindersForHabit(_ habit: Habit) {
         reminderService.scheduleReminders(for: habit)
     }
-
+    
     func updateHabit(_ habit: Habit) {
         do {
-            try modelContext.save()
+            // TODO: Implement modelContext.save()
             // Perbarui reminder setelah mengubah habit
             reminderService.cancelReminders(for: habit)
             scheduleRemindersForHabit(habit)

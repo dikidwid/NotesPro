@@ -92,6 +92,7 @@ struct TasksSection: View {
                     .font(.title3)
                 Text("Add Task")
                     .foregroundColor(.primary)
+                Spacer()
             }
             .onTapGesture {
                 selectedTask = viewModel.addTask()
@@ -116,13 +117,17 @@ struct TaskRow: View {
                     viewModel.deleteTask(task)
                 }
             
-            VStack(alignment: .leading) {
-                Text(task.taskName)
-                if task.reminder.isEnabled {
-                    Text(task.reminder.getDescription())
-                        .font(.footnote)
-                        .opacity(0.6)
+            HStack {
+                VStack(alignment: .leading) {
+                    Text(task.taskName)
+                    if task.isReminderEnabled {
+                        Text(task.getReminderDescription())
+                            .font(.footnote)
+                            .opacity(0.6)
+                    }
                 }
+
+                Spacer()
             }
             .onTapGesture {
                 selectedTask = task
@@ -133,6 +138,10 @@ struct TaskRow: View {
             
             Image(systemName: "chevron.right")
                 .foregroundColor(.secondary)
+                .onTapGesture {
+                    selectedTask = task
+                    showDetailTaskSheet = true
+                }
         }
         .foregroundColor(.primary)
     }
@@ -156,20 +165,12 @@ struct IntelligenceSection: View {
 #Preview {
     do {
         let config = ModelConfiguration(isStoredInMemoryOnly: true)
-        let container = try ModelContainer(for: Habit.self, DailyTaskDefinition.self, DailyTaskReminder.self, DailyTaskReminderRepeatDays.self, configurations: config)
+        let container = try ModelContainer(for: Habit.self, DailyTaskDefinition.self, configurations: config)
         
         let sampleHabit = Habit(title: "Read Books", description: "Read for personal growth")
         
         let task1 = DailyTaskDefinition(taskName: "Read 30 minutes")
-        task1.reminder = DailyTaskReminder(isEnabled: true, clock: Date(), repeatDays: DailyTaskReminderRepeatDays(monday: true, wednesday: true, friday: true))
-        
         let task2 = DailyTaskDefinition(taskName: "Write summary")
-        
-        let newClock = Calendar.current.date(byAdding: .minute, value: 1, to: Date()) ?? Date()
-        
-        task1.reminder = DailyTaskReminder(
-            isEnabled: true, clock: newClock, repeatDays: DailyTaskReminderRepeatDays()
-        )
         
         sampleHabit.definedTasks = [task1, task2]
         
