@@ -10,7 +10,9 @@ import SwiftUI
 struct CheckboxTaskView: View {
     let isShowReminderTime: Bool
     @Bindable var task: DailyTask
-    @ObservedObject var viewModel: NotesViewModel
+    
+//    @EnvironmentObject var viewModel: NotesViewModel
+    @EnvironmentObject var viewModel: HabitViewModel
     
     var body: some View {
         HStack(spacing: 16) {

@@ -67,7 +67,7 @@
     "%lld tasks to do" : {
 
     },
-    "2" : {
+    "✨ Generate Habits with AI" : {
 
     },
     "08.00" : {
@@ -81,6 +81,7 @@
       }
     },
     "15" : {
+      "extractionState" : "stale",
       "localizations" : {
         "id" : {
           "stringUnit" : {
@@ -91,6 +92,7 @@
       }
     },
     "16" : {
+      "extractionState" : "stale",
       "localizations" : {
         "id" : {
           "stringUnit" : {
@@ -101,6 +103,7 @@
       }
     },
     "17" : {
+      "extractionState" : "stale",
       "localizations" : {
         "id" : {
           "stringUnit" : {
@@ -111,6 +114,7 @@
       }
     },
     "18" : {
+      "extractionState" : "stale",
       "localizations" : {
         "id" : {
           "stringUnit" : {
@@ -121,6 +125,7 @@
       }
     },
     "19" : {
+      "extractionState" : "stale",
       "localizations" : {
         "id" : {
           "stringUnit" : {
@@ -185,6 +190,9 @@
 
     },
     "AI will only give you some suggestions. The decision is still yours to make!" : {
+
+    },
+    "Are you sure you want to delete this habit? This action cannot be undone." : {
 
     },
     "as my reward." : {
@@ -253,6 +261,12 @@
         }
       }
     },
+    "Delete" : {
+
+    },
+    "Delete Habit" : {
+
+    },
     "Done" : {
       "localizations" : {
         "id" : {
@@ -262,6 +276,9 @@
           }
         }
       }
+    },
+    "Edit" : {
+
     },
     "Edit Habit" : {
       "localizations" : {
@@ -393,6 +410,7 @@
       }
     },
     "Failed to create preview: %@" : {
+      "extractionState" : "stale",
       "localizations" : {
         "id" : {
           "stringUnit" : {
@@ -423,6 +441,7 @@
       }
     },
     "Generate Habits with AI" : {
+      "extractionState" : "stale",
       "localizations" : {
         "id" : {
           "stringUnit" : {
@@ -842,6 +861,12 @@
           }
         }
       }
+    },
+    "You didn't defined the habit yet." : {
+
+    },
+    "You don't have any specific task for this habit" : {
+
     }
   },
   "version" : "1.0"
