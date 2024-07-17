@@ -8,6 +8,7 @@
 import SwiftData
 import SwiftUI
 
+@MainActor
 class SwiftDataManager: HabitDataSource {
     let modelContainer: ModelContainer
     private let modelContext: ModelContext
@@ -42,11 +43,14 @@ class SwiftDataManager: HabitDataSource {
     }
     
     func fetchDailyHabitEntries(from date: Date) async -> Result<[DailyHabitEntry], ResponseError> {
-        do {
-            let dailyHabitEntries = try modelContext.fetch(FetchDescriptor<DailyHabitEntry>(predicate: #Predicate<DailyHabitEntry> { $0.day == date }, sortBy: [SortDescriptor(\.day)]))
-            return .success(dailyHabitEntries)
-        } catch {
-            return .failure(.localStorageError(cause: "Error fetching daily habit entries on SwiftDataManager"))
+        await MainActor.run {
+            do {
+                let entries = try modelContext.fetch(FetchDescriptor<DailyHabitEntry>(predicate: #Predicate<DailyHabitEntry> { $0.day == date }, sortBy: [SortDescriptor(\.day)]))
+                return .success(entries)
+            } catch {
+                print("Error fetching daily habit entries: \(error.localizedDescription)")
+                return .failure(.localStorageError(cause: "Error fetching daily habit entries: \(error.localizedDescription)"))
+            }
         }
     }
     

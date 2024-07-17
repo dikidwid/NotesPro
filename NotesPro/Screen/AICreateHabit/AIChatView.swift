@@ -295,6 +295,10 @@ struct AIChatView: View {
                 case .failure(let error):
                     print("Error: \(error.localizedDescription)")
                     isLoading = false
+                    
+                    let botResponse = Message(text: "Error: Can't connect to AI backend (Rate limited). Please try again.", isUser: false)
+                    chatMessages.append(botResponse)
+                    
                 }
             } receiveValue: { response in
                 print("[AI RESPONSE]\n\(response)")
@@ -317,6 +321,8 @@ struct AIChatView: View {
                 lastItemId = lastRecommendation.id
             }
         } catch {
+            let botResponse = Message(text: "Error: Can't connect to AI backend (Rate limited). Please try again.", isUser: false)
+            chatMessages.append(botResponse)
             print("Failed to parse JSON: \(error)")
         }
     }
