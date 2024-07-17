@@ -18,7 +18,7 @@ class SwiftDataManager: HabitDataSource {
     @MainActor
     private init() {
         // Change isStoredInMemoryOnly to false if you would like to see the data persistance after kill/exit the app
-        let config = ModelConfiguration(isStoredInMemoryOnly: true)
+        let config = ModelConfiguration(isStoredInMemoryOnly: false)
         let container = try! ModelContainer(for: Habit.self,
                                             configurations: config)
         
