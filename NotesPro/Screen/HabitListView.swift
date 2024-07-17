@@ -84,7 +84,6 @@ struct HabitListView: View {
         .toolbar {
             ToolbarItem(placement: .bottomBar) {
                 HStack {
-                    // Just for balancing purpose that's why its color is .clear
                     Image(systemName: "calendar")
                         .foregroundStyle(.clear)
                     
@@ -116,7 +115,7 @@ struct HabitListView: View {
             }
         }
     }
-    }
+}
 
 struct HabitRowView: View {
     let habit: Habit
@@ -132,15 +131,10 @@ struct HabitRowView: View {
                     Text(habit.title)
                         .font(.system(.headline))
                     
-//                    if !habit.isTaskEmpty(for: calendarViewModel.currentDate) {
-                        Text("\(habit.totalUndoneTask(for: calendarViewModel.currentDate)) tasks to do")
-                            .font(.system(.subheadline))
-                            .foregroundStyle(.secondary)
-//                    } else {
-//                        Text("No tasks have been defined")
-//                            .font(.system(.subheadline))
-//                            .foregroundStyle(.secondary)
-//                    }
+                    Text("\(habit.totalUndoneTask(for: calendarViewModel.currentDate)) tasks to do")
+                        .font(.system(.subheadline))
+                        .foregroundStyle(.secondary)
+
                 }
                 
                 Spacer()
@@ -152,21 +146,13 @@ struct HabitRowView: View {
                 .foregroundStyle(.secondary)
             }
             
-//            // List of task
-//            if !habit.isTaskEmpty(for: calendarViewModel.currentDate) {
-                Divider()
-                    .padding(.all, 5)
-//
-//                if habit.isAllTaskDone(for: calendarViewModel.currentDate) {
-//                    Button("Add Note", systemImage: "note.text") {
-//                        habitViewModel.selectedHabit = habit
-//                    }
-//                } else {
-                    VStack(alignment: .leading, spacing: 10) {
-                        ForEach(habit.tasks(for: calendarViewModel.currentDate)) { task in
-                            CheckboxTaskView(isShowReminderTime: false, task: task, viewModel: noteViewModel)
-//                        }
-//                    }
+            Divider()
+                .padding(.all, 5)
+
+            VStack(alignment: .leading, spacing: 10) {
+                ForEach(habit.tasks(for: calendarViewModel.currentDate)) { task in
+                    CheckboxTaskView(isShowReminderTime: false, task: task, viewModel: noteViewModel)
+
                 }
             }
         }
