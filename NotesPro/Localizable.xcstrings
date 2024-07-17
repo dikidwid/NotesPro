@@ -234,7 +234,7 @@
         "id" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Pembuat Habit AI"
+            "value" : "Pembuat Habit berbasis AI"
           }
         }
       }
@@ -244,7 +244,7 @@
         "id" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rekomendasi AI:"
+            "value" : "Rekomendasi dari AI:"
           }
         }
       }
@@ -255,20 +255,27 @@
         "id" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "AI akan membantu Anda membuat beberapa\ntugas dari prompt Anda"
+            "value" : "AI akan membantu kamu membuat beberapa\ntugas dari prompt kamu"
           }
         }
       }
     },
     "AI will help you generated a few\ntasks from your prompt" : {
-
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "AI akan membantu kamu menghasilkan beberapa tugas dari prompt kamu."
+          }
+        }
+      }
     },
     "AI will only give you some suggestions. The decision is still yours to make!" : {
       "localizations" : {
         "id" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "AI hanya akan memberi Anda beberapa saran. Keputusan tetap ada pada Anda!"
+            "value" : "AI hanya akan memberikan beberapa saran. Keputusan tetap ada pada kamu!"
           }
         }
       }
@@ -278,7 +285,7 @@
         "id" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Apakah Anda yakin ingin menghapus Habit ini? Tindakan ini tidak dapat dibatalkan."
+            "value" : "Apakah kamu yakin ingin menghapus Habit ini? Tindakan ini tidak dapat dibatalkan."
           }
         }
       }
@@ -445,7 +452,6 @@
       }
     },
     "Failed to create preview: %@" : {
-      "extractionState" : "stale",
       "localizations" : {
         "id" : {
           "stringUnit" : {
@@ -509,14 +515,21 @@
       }
     },
     "Habit" : {
-
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Habit"
+          }
+        }
+      }
     },
     "habit you want to build" : {
       "localizations" : {
         "id" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Habit yang ingin Anda bangun"
+            "value" : "Habit yang ingin kamu bangun"
           }
         }
       }
@@ -536,7 +549,7 @@
         "id" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Hei,\nSaya siap\nmembantu Anda di sini!"
+            "value" : "Hei,\nSaya siap\nmembantu kamu di sini!"
           }
         }
       }
@@ -596,7 +609,7 @@
         "id" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Catatan baru yang Anda buat akan muncul di sini."
+            "value" : "Catatan baru yang kamu buat akan muncul di sini."
           }
         }
       }
@@ -746,7 +759,7 @@
         "id" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "sesuatu yang Anda lakukan berulang kali"
+            "value" : "hal yang kamu lakukan secara berulang-ulang"
           }
         }
       }
@@ -756,7 +769,7 @@
         "id" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "sesuatu yang Anda inginkan"
+            "value" : "hal yang kamu inginkan"
           }
         }
       }
@@ -806,7 +819,7 @@
         "id" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "AI Sedang Membuat Habit Anda..."
+            "value" : "AI sedang membuat Habit kamu..."
           }
         }
       }
@@ -876,7 +889,7 @@
         "id" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "kapan Anda ingin melakukannya"
+            "value" : "kapan kamu ingin melakukannya"
           }
         }
       }
@@ -897,20 +910,27 @@
         "id" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Anda belum mendefinisikan Habit tersebut."
+            "value" : "Kamu belum mendefinisikan Habit tersebut."
           }
         }
       }
     },
     "You didn't defined the habit yet." : {
-
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kamu belum mendefinisikan habit ini."
+          }
+        }
+      }
     },
     "You don't have any specific task for this habit" : {
       "localizations" : {
         "id" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Anda tidak memiliki tugas khusus untuk Habit ini"
+            "value" : "Kamu tidak memiliki tugas khusus untuk Habit ini"
           }
         }
       }
