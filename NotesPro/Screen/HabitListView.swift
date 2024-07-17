@@ -26,7 +26,7 @@ struct HabitListView: View {
                     Spacer().frame(height: 100)
                     
                     ContentUnavailableView {
-                        Label("No Habit Found", systemImage: "note.text")
+                        Label("No Habit Tracked", systemImage: "note.text")
                     } description: {
                         Text("You didn't defined the habit yet.")
                     } actions: {

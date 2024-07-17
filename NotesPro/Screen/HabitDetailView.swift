@@ -69,17 +69,53 @@ struct HabitDetailView: View {
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
                     Menu {
-                        Button("Edit") {
+                        Button("Edit Habit", systemImage: "pencil") {
                             addHabitViewModel.populateFromHabit(habit)
                             isEditSheetPresented = true
                         }
-                        Button("Delete", role: .destructive) {
+                        
+                        Button("Delete Habit", systemImage: "trash", role: .destructive) {
                             showDeleteAlert = true
                         }
                     } label: {
                         Image(systemName: "ellipsis.circle")
                     }
                 }
+                
+                ToolbarItem(placement: .bottomBar) {
+                    HStack {
+                        Button {
+                            
+                        } label: {
+                            Image(systemName: "checklist")
+                        }
+                        
+                        Spacer()
+                        
+                        Button {
+                            
+                        } label: {
+                            Image(systemName: "camera")
+                        }
+                        
+                        Spacer()
+                        
+                        Button {
+                            
+                        } label: {
+                            Image(systemName: "pencil.tip.crop.circle")
+                        }
+                        
+                        Spacer()
+                        
+                        Button {
+                            
+                        } label: {
+                            Image(systemName: "pencil.line")
+                        }
+                    }
+                }
+
             }
         }
         .onDisappear {

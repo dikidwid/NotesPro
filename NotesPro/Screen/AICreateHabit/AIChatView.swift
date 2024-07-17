@@ -89,13 +89,13 @@ struct AIChatView: View {
                                     }
                                     
                                     Button(action: resetChat) {
-                                        Text("Reset")
-                                            .foregroundColor(.white)
-                                            .padding()
-                                            .background(Color.accentColor)
-                                            .cornerRadius(10)
+                                        Label("Reset", systemImage: "gobackward")
+                                            .foregroundStyle(.black)
                                     }
+                                    .buttonStyle(.borderedProminent)
+                                    .tint(Color.accentColor)
                                     .padding(.top)
+                                    .frame(maxWidth: .infinity)
                                 }
                             }
                             .padding()
@@ -122,6 +122,7 @@ struct AIChatView: View {
                         TextField("Type a message...", text: $messageText, axis: .vertical)
                             .focused($isFocused)
                             .padding(10)
+                            .padding(.horizontal, 10)
                             .background(Color(UIColor.tertiarySystemBackground))
                             .cornerRadius(20)
                             .disabled(!isInputEnabled)
@@ -411,7 +412,7 @@ struct RecommendationCard: View {
                     .padding(.leading)
             }
         }
-        .background(Color(UIColor.secondarySystemGroupedBackground))
+        .background(Color(.gray).opacity(0.1))
         .cornerRadius(10)
     }
 }
