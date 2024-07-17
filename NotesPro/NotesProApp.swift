@@ -27,6 +27,7 @@ struct ContentView: View {
         .environmentObject(AddHabitViewModel())
         .environmentObject(NotesViewModel())
         .modelContainer(SwiftDataManager.shared.modelContainer)
+        
 //        MainView()
 //            .environmentObject(addHabitViewModel)
 //            .environmentObject(notesViewModel)

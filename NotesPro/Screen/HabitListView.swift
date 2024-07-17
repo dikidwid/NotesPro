@@ -89,6 +89,9 @@ struct HabitListView: View {
                 }
             }
         }
+        .onChange(of: habitViewModel.lastUpdateTimestamp) { _, _ in
+            calendarViewModel.updateAllHabitsCompletedDays(habitViewModel.allHabitsCompletedDays)
+        }
         .onChange(of: habitViewModel.selectedHabit) { oldValue, newValue in
             habitViewModel.updateCompletedDays()
             calendarViewModel.updateCompletedDays(habitViewModel.completedDays)

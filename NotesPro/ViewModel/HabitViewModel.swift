@@ -20,7 +20,8 @@ final class HabitViewModel: ObservableObject {
     @Published var completedDays: Set<Date> = []
     @Published var allHabitsCompletedDays: Set<Date> = []
     @Published var individualHabitCompletedDays: Set<Date> = []
-    
+    @Published var lastUpdateTimestamp: Date = Date()
+
     let habitDataSource: HabitDataSource
 
     func updateAllHabitsCompletedDays() {
@@ -106,7 +107,13 @@ final class HabitViewModel: ObservableObject {
     private func updateAllData() async {
         await getHabits()
         updateStreaks(for: Date())
+        updateAllHabitsCompletedDays()
+        if let selectedHabit = selectedHabit {
+            updateIndividualHabitCompletedDays(for: selectedHabit)
+        }
+        lastUpdateTimestamp = Date()
     }
+
     
     func updateStreaks(for date: Date) {
         if let swiftDataManager = habitDataSource as? SwiftDataManager {
