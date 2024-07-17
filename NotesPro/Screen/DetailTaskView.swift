@@ -66,42 +66,73 @@ struct RepeatDaysMenu: View {
     @Bindable var task: DailyTaskDefinition
     @State private var showMenu = false
     
+    private let localizedDays: [(day: String, isSelected: KeyPath<DailyTaskDefinition, Bool>)] = [
+        (day: NSLocalizedString("Sun", comment: "Sunday"), isSelected: \DailyTaskDefinition.sundayReminder),
+        (day: NSLocalizedString("Mon", comment: "Monday"), isSelected: \DailyTaskDefinition.mondayReminder),
+        (day: NSLocalizedString("Tue", comment: "Tuesday"), isSelected: \DailyTaskDefinition.tuesdayReminder),
+        (day: NSLocalizedString("Wed", comment: "Wednesday"), isSelected: \DailyTaskDefinition.wednesdayReminder),
+        (day: NSLocalizedString("Thu", comment: "Thursday"), isSelected: \DailyTaskDefinition.thursdayReminder),
+        (day: NSLocalizedString("Fri", comment: "Friday"), isSelected: \DailyTaskDefinition.fridayReminder),
+        (day: NSLocalizedString("Sat", comment: "Saturday"), isSelected: \DailyTaskDefinition.saturdayReminder)
+    ]
+    
     var body: some View {
         Menu {
             Button(action: {
-                task.sundayReminder = true
-                task.mondayReminder = true
-                task.tuesdayReminder = true
-                task.wednesdayReminder = true
-                task.thursdayReminder = true
-                task.fridayReminder = true
-                task.saturdayReminder = true
+                updateToEveryday()
             }) {
-                Label("Everyday", systemImage: isEveryday() ? "checkmark" : "")
+                Label(NSLocalizedString("Everyday", comment: "Everyday"), systemImage: isEveryday() ? "checkmark" : "")
             }
             
             Divider()
             
-            Button(action: { task.sundayReminder.toggle() }) {
+            Button(action: {
+                task.sundayReminder.toggle()
+                if !anyDaySelected() { updateToEveryday() }
+            }) {
                 Label("Sunday", systemImage: task.sundayReminder ? "checkmark" : "")
             }
-            Button(action: { task.mondayReminder.toggle() }) {
+            
+            Button(action: {
+                task.mondayReminder.toggle()
+                if !anyDaySelected() { updateToEveryday() }
+            }) {
                 Label("Monday", systemImage: task.mondayReminder ? "checkmark" : "")
             }
-            Button(action: { task.tuesdayReminder.toggle() }) {
-                Label("Tuesday", systemImage: task.tuesdayReminder ? "checkmark" : "")
+            
+            Button(action: {
+                task.tuesdayReminder.toggle()
+                if !anyDaySelected() { updateToEveryday() }
+            }) {
+                Label("Sunday", systemImage: task.tuesdayReminder ? "checkmark" : "")
             }
-            Button(action: { task.wednesdayReminder.toggle() }) {
-                Label("Wednesday", systemImage: task.wednesdayReminder ? "checkmark" : "")
+            
+            Button(action: {
+                task.wednesdayReminder.toggle()
+                if !anyDaySelected() { updateToEveryday() }
+            }) {
+                Label("Monday", systemImage: task.wednesdayReminder ? "checkmark" : "")
             }
-            Button(action: { task.thursdayReminder.toggle() }) {
-                Label("Thursday", systemImage: task.thursdayReminder ? "checkmark" : "")
+            
+            Button(action: {
+                task.thursdayReminder.toggle()
+                if !anyDaySelected() { updateToEveryday() }
+            }) {
+                Label("Monday", systemImage: task.thursdayReminder ? "checkmark" : "")
             }
-            Button(action: { task.fridayReminder.toggle() }) {
-                Label("Friday", systemImage: task.fridayReminder ? "checkmark" : "")
+            
+            Button(action: {
+                task.fridayReminder.toggle()
+                if !anyDaySelected() { updateToEveryday() }
+            }) {
+                Label("Sunday", systemImage: task.fridayReminder ? "checkmark" : "")
             }
-            Button(action: { task.saturdayReminder.toggle() }) {
-                Label("Saturday", systemImage: task.saturdayReminder ? "checkmark" : "")
+            
+            Button(action: {
+                task.saturdayReminder.toggle()
+                if !anyDaySelected() { updateToEveryday() }
+            }) {
+                Label("Monday", systemImage: task.saturdayReminder ? "checkmark" : "")
             }
         } label: {
             HStack {
@@ -118,28 +149,31 @@ struct RepeatDaysMenu: View {
         return task.sundayReminder && task.mondayReminder && task.tuesdayReminder && task.wednesdayReminder && task.thursdayReminder && task.fridayReminder && task.saturdayReminder
     }
     
+    private func anyDaySelected() -> Bool {
+        return localizedDays.contains { task[keyPath: $0.isSelected] }
+    }
+    
+    private func updateToEveryday() {
+        task.sundayReminder = true
+        task.mondayReminder = true
+        task.tuesdayReminder = true
+        task.wednesdayReminder = true
+        task.thursdayReminder = true
+        task.fridayReminder = true
+        task.saturdayReminder = true
+    }
+    
     private func getRepeatDescription() -> String {
+        if !anyDaySelected() {
+            updateToEveryday()
+        }
+        
         if isEveryday() {
-            return "Everyday"
+            return NSLocalizedString("Everyday", comment: "Everyday")
         }
         
-        let days = [
-            (day: "Sun", isSelected: task.sundayReminder),
-            (day: "Mon", isSelected: task.mondayReminder),
-            (day: "Tue", isSelected: task.tuesdayReminder),
-            (day: "Wed", isSelected: task.wednesdayReminder),
-            (day: "Thu", isSelected: task.thursdayReminder),
-            (day: "Fri", isSelected: task.fridayReminder),
-            (day: "Sat", isSelected: task.saturdayReminder)
-        ]
-        
-        let selectedDays = days.filter { $0.isSelected }.map { $0.day }
-        
-        if selectedDays.isEmpty {
-            return "Never"
-        } else {
-            return selectedDays.joined(separator: ", ")
-        }
+        let selectedDays = localizedDays.filter { task[keyPath: $0.isSelected] }.map { $0.day }
+        return selectedDays.joined(separator: ", ")
     }
 }
 

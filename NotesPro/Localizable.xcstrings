@@ -41,6 +41,23 @@
         }
       }
     },
+    "%@ at %@" : {
+      "comment" : "Reminder description for multiple days",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ at %2$@"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ pada %@"
+          }
+        }
+      }
+    },
     "%lld" : {
       "localizations" : {
         "id" : {
@@ -441,12 +458,41 @@
         }
       }
     },
+    "Every %@ at %@" : {
+      "comment" : "Reminder description for single day",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Every %1$@ at %2$@"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Setiap %@ pada %@"
+          }
+        }
+      }
+    },
     "Everyday" : {
+      "comment" : "Everyday",
       "localizations" : {
         "id" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Setiap Hari"
+          }
+        }
+      }
+    },
+    "Everyday at %@" : {
+      "comment" : "Reminder description for everyday",
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Setiap hari pada %@"
           }
         }
       }
@@ -461,7 +507,19 @@
         }
       }
     },
+    "Fri" : {
+      "comment" : "Friday",
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jum"
+          }
+        }
+      }
+    },
     "Friday" : {
+      "extractionState" : "stale",
       "localizations" : {
         "id" : {
           "stringUnit" : {
@@ -584,6 +642,17 @@
         }
       }
     },
+    "Mon" : {
+      "comment" : "Monday",
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sen"
+          }
+        }
+      }
+    },
     "Monday" : {
       "localizations" : {
         "id" : {
@@ -694,7 +763,19 @@
         }
       }
     },
+    "Sat" : {
+      "comment" : "Saturday",
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sab"
+          }
+        }
+      }
+    },
     "Saturday" : {
+      "extractionState" : "stale",
       "localizations" : {
         "id" : {
           "stringUnit" : {
@@ -774,6 +855,17 @@
         }
       }
     },
+    "Sun" : {
+      "comment" : "Sunday",
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Min"
+          }
+        }
+      }
+    },
     "Sunday" : {
       "localizations" : {
         "id" : {
@@ -824,7 +916,19 @@
         }
       }
     },
+    "Thu" : {
+      "comment" : "Thursday",
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kam"
+          }
+        }
+      }
+    },
     "Thursday" : {
+      "extractionState" : "stale",
       "localizations" : {
         "id" : {
           "stringUnit" : {
@@ -854,7 +958,19 @@
         }
       }
     },
+    "Tue" : {
+      "comment" : "Tuesday",
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sel"
+          }
+        }
+      }
+    },
     "Tuesday" : {
+      "extractionState" : "stale",
       "localizations" : {
         "id" : {
           "stringUnit" : {
@@ -874,7 +990,19 @@
         }
       }
     },
+    "Wed" : {
+      "comment" : "Wednesday",
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rab"
+          }
+        }
+      }
+    },
     "Wednesday" : {
+      "extractionState" : "stale",
       "localizations" : {
         "id" : {
           "stringUnit" : {

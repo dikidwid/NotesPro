@@ -53,13 +53,13 @@ extension DailyTaskDefinition {
         }
         
         let days = [
-            (day: "Sun", isSelected: sundayReminder),
-            (day: "Mon", isSelected: mondayReminder),
-            (day: "Tue", isSelected: tuesdayReminder),
-            (day: "Wed", isSelected: wednesdayReminder),
-            (day: "Thu", isSelected: thursdayReminder),
-            (day: "Fri", isSelected: fridayReminder),
-            (day: "Sat", isSelected: saturdayReminder)
+            (day: NSLocalizedString("Sun", comment: "Sunday"), isSelected: sundayReminder),
+            (day: NSLocalizedString("Mon", comment: "Monday"), isSelected: mondayReminder),
+            (day: NSLocalizedString("Tue", comment: "Tuesday"), isSelected: tuesdayReminder),
+            (day: NSLocalizedString("Wed", comment: "Wednesday"), isSelected: wednesdayReminder),
+            (day: NSLocalizedString("Thu", comment: "Thursday"), isSelected: thursdayReminder),
+            (day: NSLocalizedString("Fri", comment: "Friday"), isSelected: fridayReminder),
+            (day: NSLocalizedString("Sat", comment: "Saturday"), isSelected: saturdayReminder)
         ]
         
         let selectedDays = days.filter { $0.isSelected }.map { $0.day }
@@ -69,12 +69,12 @@ extension DailyTaskDefinition {
         let timeString = timeFormatter.string(from: reminderClock)
         
         if selectedDays.count == 7 {
-            return "Everyday at \(timeString)"
+            return String(format: NSLocalizedString("Everyday at %@", comment: "Reminder description for everyday"), timeString)
         } else if selectedDays.count == 1 {
-            return "Every \(selectedDays[0]) at \(timeString)"
+            return String(format: NSLocalizedString("Every %@ at %@", comment: "Reminder description for single day"), selectedDays[0], timeString)
         } else {
-            return selectedDays.joined(separator: ", ") + " at \(timeString)"
+            let daysString = selectedDays.joined(separator: ", ")
+            return String(format: NSLocalizedString("%@ at %@", comment: "Reminder description for multiple days"), daysString, timeString)
         }
     }
-
 }
