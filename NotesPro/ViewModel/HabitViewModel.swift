@@ -23,7 +23,21 @@ final class HabitViewModel: ObservableObject {
     @Published var lastUpdateTimestamp: Date = Date()
 
     let habitDataSource: HabitDataSource
-
+    
+    private var updateTimer: Timer?
+    
+    init(habitDataSource: HabitDataSource) {
+        self.habitDataSource = habitDataSource
+//        startContinuousUpdates()
+    }
+    
+    
+    deinit {
+        Task {
+            await stopContinuousUpdates()
+        }
+    }
+    
     func updateAllHabitsCompletedDays() {
         var newCompletedDays = Set<Date>()
         let calendar = Calendar.current
@@ -73,20 +87,6 @@ final class HabitViewModel: ObservableObject {
         return habits.allSatisfy { habit in
             guard let entry = habit.hasEntry(for: startOfDay) else { return false }
             return entry.tasks.allSatisfy { $0.isChecked }
-        }
-    }
-    
-    
-    private var updateTimer: Timer?
-    
-    init(habitDataSource: HabitDataSource) {
-        self.habitDataSource = habitDataSource
-        startContinuousUpdates()
-    }
-    
-    deinit {
-        Task {
-            await stopContinuousUpdates()
         }
     }
     
@@ -222,6 +222,8 @@ final class HabitViewModel: ObservableObject {
             updateIndividualHabitCompletedDays(for: habit)
         }
         updateStreaks(for: Date())
+        lastUpdateTimestamp = Date()
+        print("Changed!")
     }
     
 }

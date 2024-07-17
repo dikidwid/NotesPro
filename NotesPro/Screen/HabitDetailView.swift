@@ -31,17 +31,8 @@ struct HabitDetailView: View {
         ScrollView {
             VStack {
                 StreakCardView(bestStreak: habit.bestStreak, currentStreak: habit.currentStreak)
-                    .onChange(of: calendarViewModel.currentDate) { oldValue, newValue in
-                        habitViewModel.updateStreaks(for: .now)
-                    }
                 
                 CalendarView(viewModel: calendarViewModel, forAllHabits: false)
-                    .onChange(of: calendarViewModel.currentDate) { oldValue, newValue in
-                        habitViewModel.updateStreaks(for: .now)
-                        habitViewModel.updateCompletedDays()
-                        habitViewModel.updateIndividualHabitCompletedDays(for: habit)
-                        calendarViewModel.updateIndividualHabitCompletedDays(habitViewModel.individualHabitCompletedDays)
-                    }
                 
                 Divider()
                 
@@ -53,7 +44,7 @@ struct HabitDetailView: View {
                 } else {
                     VStack(alignment: .leading, spacing: 10) {
                         ForEach(habit.tasks(for: calendarViewModel.currentDate)) { task in
-                            CheckboxTaskView(isShowReminderTime: false, task: task, viewModel: noteViewModel)
+                            CheckboxTaskView(isShowReminderTime: false, task: task)
                         }
                     }
                     .frame(maxWidth: .infinity, alignment: .leading)
@@ -90,49 +81,6 @@ struct HabitDetailView: View {
                     }
                 }
             }
-//            .toolbar {
-//                ToolbarItem(placement: .topBarTrailing) {
-//                    Button {
-//                        
-//                    } label: {
-//                        Image(systemName: "ellipsis.circle")
-//                    }
-//                }
-//                
-//                ToolbarItem(placement: .bottomBar) {
-//                    HStack {
-//                        Button {
-//                            
-//                        } label: {
-//                            Image(systemName: "checklist")
-//                        }
-//                        
-//                        Spacer()
-//                        
-//                        Button {
-//                            
-//                        } label: {
-//                            Image(systemName: "camera")
-//                        }
-//                        
-//                        Spacer()
-//                        
-//                        Button {
-//                            
-//                        } label: {
-//                            Image(systemName: "pencil.tip.crop.circle")
-//                        }
-//                        
-//                        Spacer()
-//                        
-//                        Button {
-//                            
-//                        } label: {
-//                            Image(systemName: "pencil.line")
-//                        }
-//                    }
-//                }
-//            }
         }
         .onDisappear {
             if habitViewModel.selectedHabit?.id != habit.id {
@@ -151,6 +99,12 @@ struct HabitDetailView: View {
             }
         } message: {
             Text("Are you sure you want to delete this habit? This action cannot be undone.")
+        }
+        .onChange(of: habitViewModel.lastUpdateTimestamp) { oldValue, newValue in
+            habitViewModel.updateStreaks(for: .now)
+            habitViewModel.updateCompletedDays()
+            habitViewModel.updateIndividualHabitCompletedDays(for: habit)
+            calendarViewModel.updateIndividualHabitCompletedDays(habitViewModel.individualHabitCompletedDays)
         }
         .onAppear {
             habitViewModel.updateIndividualHabitCompletedDays(for: habit)

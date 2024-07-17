@@ -90,33 +90,35 @@ struct HabitListView: View {
             }
         }
         .onChange(of: habitViewModel.lastUpdateTimestamp) { _, _ in
+            print("Changed!")
             calendarViewModel.updateAllHabitsCompletedDays(habitViewModel.allHabitsCompletedDays)
+            habitViewModel.updateStreaks(for: .now)
         }
 //        .onChange(of: habitViewModel.selectedHabit) { oldValue, newValue in
 //            habitViewModel.updateCompletedDays()
 //            calendarViewModel.updateCompletedDays(habitViewModel.completedDays)
 //        }
-//        .onChange(of: calendarViewModel.selectedDate) { oldValue, newValue in
-//            Task {
-//                await habitViewModel.checkAndCreateEntriesForDate(newValue)
+        .onChange(of: calendarViewModel.selectedDate) { oldValue, newValue in
+            Task {
+                await habitViewModel.checkAndCreateEntriesForDate(newValue)
 //                await habitViewModel.getDailyHabitEntries(from: newValue)
 //                habitViewModel.updateStreaks(for: .now)
 //                habitViewModel.updateAllHabitsCompletedDays()
 //                calendarViewModel.updateAllHabitsCompletedDays(habitViewModel.allHabitsCompletedDays)
-//            }
-//        }
-//        .task {
-//            DispatchQueue.main.async {
-//                Task {
-//                    await habitViewModel.getHabits()
-//                    await habitViewModel.checkAndCreateEntriesForDate(calendarViewModel.currentDate)
-//                    await habitViewModel.getDailyHabitEntries(from: calendarViewModel.currentDate)
-//                    habitViewModel.updateStreaks(for: .now)
-//                    habitViewModel.updateAllHabitsCompletedDays()
-//                    calendarViewModel.updateAllHabitsCompletedDays(habitViewModel.allHabitsCompletedDays)
-//                }
-//            }
-//        }
+            }
+        }
+        .onAppear {
+            DispatchQueue.main.async {
+                Task {
+                    await habitViewModel.getHabits()
+                    await habitViewModel.checkAndCreateEntriesForDate(calendarViewModel.currentDate)
+                    await habitViewModel.getDailyHabitEntries(from: calendarViewModel.currentDate)
+                    habitViewModel.updateStreaks(for: .now)
+                    habitViewModel.updateAllHabitsCompletedDays()
+                    calendarViewModel.updateAllHabitsCompletedDays(habitViewModel.allHabitsCompletedDays)
+                }
+            }
+        }
     }
 }
 
@@ -154,8 +156,7 @@ struct HabitRowView: View {
 
             VStack(alignment: .leading, spacing: 10) {
                 ForEach(habit.tasks(for: calendarViewModel.currentDate)) { task in
-                    CheckboxTaskView(isShowReminderTime: false, task: task, viewModel: noteViewModel)
-
+                    CheckboxTaskView(isShowReminderTime: false, task: task)
                 }
             }
         }
