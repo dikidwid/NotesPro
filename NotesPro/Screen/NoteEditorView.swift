@@ -76,31 +76,31 @@ struct NoteEditorView: View {
     }
 }
 
-struct CheckboxTaskView: View {
-    @Bindable var task: DailyTask
-    @ObservedObject var viewModel: NotesViewModel
-    
-    var body: some View {
-        HStack {
-            Image(systemName: task.isChecked ? "checkmark.circle.fill" : "circle")
-                .onTapGesture {
-                    viewModel.toggleTask(task)
-                }
-            VStack(alignment: .leading, spacing: 4) {
-                Text(task.taskName)
-                    .font(.body)
-                Text("08.00")
-                    .font(.caption)
-                    .foregroundColor(.secondary)
-            }
-            Spacer()
-        }
-        .padding(.vertical, 8)
-        .padding(.horizontal)
-        .background(Color(.systemBackground))
-        Divider()
-    }
-}
+//struct CheckboxTaskView: View {
+//    @Bindable var task: DailyTask
+//    @ObservedObject var viewModel: NotesViewModel
+//    
+//    var body: some View {
+//        HStack {
+//            Image(systemName: task.isChecked ? "checkmark.circle.fill" : "circle")
+//                .onTapGesture {
+//                    viewModel.toggleTask(task)
+//                }
+//            VStack(alignment: .leading, spacing: 4) {
+//                Text(task.taskName)
+//                    .font(.body)
+//                Text("08.00")
+//                    .font(.caption)
+//                    .foregroundColor(.secondary)
+//            }
+//            Spacer()
+//        }
+//        .padding(.vertical, 8)
+//        .padding(.horizontal)
+//        .background(Color(.systemBackground))
+//        Divider()
+//    }
+//}
 
 #Preview("Basic Note") {
     do {

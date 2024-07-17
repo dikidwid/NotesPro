@@ -23,6 +23,18 @@
 		3A7DBC6A2C3E48F700FF9CEB /* NoteEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A7DBC642C3E48F700FF9CEB /* NoteEditorView.swift */; };
 		3A7DBC6B2C3E48F700FF9CEB /* NotesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A7DBC652C3E48F700FF9CEB /* NotesView.swift */; };
 		3A7DBC6C2C3E48F700FF9CEB /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A7DBC662C3E48F700FF9CEB /* SettingsView.swift */; };
+		3AA0D1402C47672F0091D84B /* HabitDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AA0D13F2C47672F0091D84B /* HabitDetailView.swift */; };
+		3AA0D1422C47673B0091D84B /* HabitListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AA0D1412C47673B0091D84B /* HabitListView.swift */; };
+		3AA0D1452C4768040091D84B /* CheckboxTaskView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AA0D1432C4768030091D84B /* CheckboxTaskView.swift */; };
+		3AA0D1462C4768040091D84B /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AA0D1442C4768030091D84B /* CalendarView.swift */; };
+		3AA0D1492C47680F0091D84B /* CalendarViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AA0D1472C47680F0091D84B /* CalendarViewModel.swift */; };
+		3AA0D14A2C47680F0091D84B /* HabitViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AA0D1482C47680F0091D84B /* HabitViewModel.swift */; };
+		3AA0D14D2C4768510091D84B /* SwiftDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AA0D14C2C4768510091D84B /* SwiftDataManager.swift */; };
+		3AA0D14F2C47686D0091D84B /* DayOfWeek.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AA0D14E2C47686D0091D84B /* DayOfWeek.swift */; };
+		3AA0D1512C4768870091D84B /* View+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AA0D1502C4768870091D84B /* View+Extension.swift */; };
+		3AA0D1542C4768B30091D84B /* HabitDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AA0D1532C4768B30091D84B /* HabitDataSource.swift */; };
+		3AA0D1572C4768D30091D84B /* ResponseError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AA0D1562C4768D30091D84B /* ResponseError.swift */; };
+		3AA0D15A2C4769020091D84B /* Habit+Dummy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AA0D1592C4769020091D84B /* Habit+Dummy.swift */; };
 		CDAF88102C41149D005EA0B1 /* HabitsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDAF880F2C41149D005EA0B1 /* HabitsViewModel.swift */; };
 		CDAF88122C411B3C005EA0B1 /* AddHabitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDAF88112C411B3C005EA0B1 /* AddHabitView.swift */; };
 		CDAF88162C41AA08005EA0B1 /* DetailTaskView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDAF88152C41AA08005EA0B1 /* DetailTaskView.swift */; };
@@ -57,6 +69,18 @@
 		3A7DBC642C3E48F700FF9CEB /* NoteEditorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoteEditorView.swift; sourceTree = "<group>"; };
 		3A7DBC652C3E48F700FF9CEB /* NotesView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotesView.swift; sourceTree = "<group>"; };
 		3A7DBC662C3E48F700FF9CEB /* SettingsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		3AA0D13F2C47672F0091D84B /* HabitDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitDetailView.swift; sourceTree = "<group>"; };
+		3AA0D1412C47673B0091D84B /* HabitListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitListView.swift; sourceTree = "<group>"; };
+		3AA0D1432C4768030091D84B /* CheckboxTaskView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CheckboxTaskView.swift; sourceTree = "<group>"; };
+		3AA0D1442C4768030091D84B /* CalendarView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
+		3AA0D1472C47680F0091D84B /* CalendarViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarViewModel.swift; sourceTree = "<group>"; };
+		3AA0D1482C47680F0091D84B /* HabitViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HabitViewModel.swift; sourceTree = "<group>"; };
+		3AA0D14C2C4768510091D84B /* SwiftDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftDataManager.swift; sourceTree = "<group>"; };
+		3AA0D14E2C47686D0091D84B /* DayOfWeek.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DayOfWeek.swift; sourceTree = "<group>"; };
+		3AA0D1502C4768870091D84B /* View+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "View+Extension.swift"; sourceTree = "<group>"; };
+		3AA0D1532C4768B30091D84B /* HabitDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HabitDataSource.swift; sourceTree = "<group>"; };
+		3AA0D1562C4768D30091D84B /* ResponseError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResponseError.swift; sourceTree = "<group>"; };
+		3AA0D1592C4769020091D84B /* Habit+Dummy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Habit+Dummy.swift"; sourceTree = "<group>"; };
 		CDAF880F2C41149D005EA0B1 /* HabitsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitsViewModel.swift; sourceTree = "<group>"; };
 		CDAF88112C411B3C005EA0B1 /* AddHabitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddHabitView.swift; sourceTree = "<group>"; };
 		CDAF88152C41AA08005EA0B1 /* DetailTaskView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailTaskView.swift; sourceTree = "<group>"; };
@@ -104,7 +128,9 @@
 		3A7DBC352C3E48A200FF9CEB /* NotesPro */ = {
 			isa = PBXGroup;
 			children = (
+				3AA0D1522C4768990091D84B /* Protocols */,
 				3A7DBC4C2C3E48D300FF9CEB /* Common */,
+				3AA0D14B2C4768360091D84B /* Data */,
 				3A7DBC562C3E48E300FF9CEB /* Model */,
 				3A7DBC5F2C3E48EC00FF9CEB /* View */,
 				3A7DBC5D2C3E48EC00FF9CEB /* ViewModel */,
@@ -128,6 +154,7 @@
 		3A7DBC452C3E48D300FF9CEB /* Extension */ = {
 			isa = PBXGroup;
 			children = (
+				3AA0D1502C4768870091D84B /* View+Extension.swift */,
 				3A7DBC442C3E48D300FF9CEB /* String+Extension.swift */,
 			);
 			path = Extension;
@@ -154,6 +181,8 @@
 		3A7DBC4C2C3E48D300FF9CEB /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				3AA0D1582C4768F50091D84B /* DummyData */,
+				3AA0D1552C4768BE0091D84B /* Error */,
 				3A7DBC452C3E48D300FF9CEB /* Extension */,
 				3A7DBC472C3E48D300FF9CEB /* Service */,
 				3A7DBC492C3E48D300FF9CEB /* Utilities */,
@@ -165,6 +194,7 @@
 		3A7DBC562C3E48E300FF9CEB /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				3AA0D14E2C47686D0091D84B /* DayOfWeek.swift */,
 				E678581D2C46B0F100C09E38 /* Note.swift */,
 				E671A9F52C41137E0008E410 /* DailyHabitEntry.swift */,
 				3A7DBC512C3E48E300FF9CEB /* DailyTask.swift */,
@@ -178,6 +208,8 @@
 			isa = PBXGroup;
 			children = (
 				E69767EC2C4506EF0020316E /* AddHabitViewModel.swift */,
+				3AA0D1472C47680F0091D84B /* CalendarViewModel.swift */,
+				3AA0D1482C47680F0091D84B /* HabitViewModel.swift */,
 				3A7DBC5C2C3E48EC00FF9CEB /* NotesViewModel.swift */,
 				CDAF880F2C41149D005EA0B1 /* HabitsViewModel.swift */,
 			);
@@ -187,6 +219,8 @@
 		3A7DBC5F2C3E48EC00FF9CEB /* View */ = {
 			isa = PBXGroup;
 			children = (
+				3AA0D1442C4768030091D84B /* CalendarView.swift */,
+				3AA0D1432C4768030091D84B /* CheckboxTaskView.swift */,
 				3A7DBC5E2C3E48EC00FF9CEB /* Row.swift */,
 			);
 			path = View;
@@ -203,8 +237,42 @@
 				CDAF88112C411B3C005EA0B1 /* AddHabitView.swift */,
 				CDAF88152C41AA08005EA0B1 /* DetailTaskView.swift */,
 				3A7DBC662C3E48F700FF9CEB /* SettingsView.swift */,
+				3AA0D13F2C47672F0091D84B /* HabitDetailView.swift */,
+				3AA0D1412C47673B0091D84B /* HabitListView.swift */,
 			);
 			path = Screen;
+			sourceTree = "<group>";
+		};
+		3AA0D14B2C4768360091D84B /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				3AA0D14C2C4768510091D84B /* SwiftDataManager.swift */,
+			);
+			path = Data;
+			sourceTree = "<group>";
+		};
+		3AA0D1522C4768990091D84B /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				3AA0D1532C4768B30091D84B /* HabitDataSource.swift */,
+			);
+			path = Protocols;
+			sourceTree = "<group>";
+		};
+		3AA0D1552C4768BE0091D84B /* Error */ = {
+			isa = PBXGroup;
+			children = (
+				3AA0D1562C4768D30091D84B /* ResponseError.swift */,
+			);
+			path = Error;
+			sourceTree = "<group>";
+		};
+		3AA0D1582C4768F50091D84B /* DummyData */ = {
+			isa = PBXGroup;
+			children = (
+				3AA0D1592C4769020091D84B /* Habit+Dummy.swift */,
+			);
+			path = DummyData;
 			sourceTree = "<group>";
 		};
 		E66CAE662C461AEC00CBAD48 /* AICreateHabit */ = {
@@ -299,18 +367,25 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3AA0D1402C47672F0091D84B /* HabitDetailView.swift in Sources */,
+				3AA0D14D2C4768510091D84B /* SwiftDataManager.swift in Sources */,
 				3A7DBC4F2C3E48D300FF9CEB /* Constants.swift in Sources */,
+				3AA0D15A2C4769020091D84B /* Habit+Dummy.swift in Sources */,
+				3AA0D1462C4768040091D84B /* CalendarView.swift in Sources */,
 				3A7DBC4E2C3E48D300FF9CEB /* AIService.swift in Sources */,
 				3A7DBC6C2C3E48F700FF9CEB /* SettingsView.swift in Sources */,
 				3A7DBC612C3E48EC00FF9CEB /* Row.swift in Sources */,
 				3A7DBC582C3E48E300FF9CEB /* DailyTaskDefinition.swift in Sources */,
 				E678581E2C46B0F200C09E38 /* Note.swift in Sources */,
 				CDAF88122C411B3C005EA0B1 /* AddHabitView.swift in Sources */,
+				3AA0D1492C47680F0091D84B /* CalendarViewModel.swift in Sources */,
 				3A7DBC4D2C3E48D300FF9CEB /* String+Extension.swift in Sources */,
 				3A7DBC572C3E48E300FF9CEB /* DailyTask.swift in Sources */,
 				E66CAE6C2C46316000CBAD48 /* AIGeneratingView.swift in Sources */,
 				CDAF88162C41AA08005EA0B1 /* DetailTaskView.swift in Sources */,
 				3A7DBC6A2C3E48F700FF9CEB /* NoteEditorView.swift in Sources */,
+				3AA0D1512C4768870091D84B /* View+Extension.swift in Sources */,
+				3AA0D1452C4768040091D84B /* CheckboxTaskView.swift in Sources */,
 				E66CAE6E2C46345E00CBAD48 /* AIRecommendationVIew.swift in Sources */,
 				3A7DBC5A2C3E48E300FF9CEB /* Habit.swift in Sources */,
 				E69767ED2C4506F30020316E /* AddHabitViewModel.swift in Sources */,
@@ -318,13 +393,18 @@
 				CDAF88102C41149D005EA0B1 /* HabitsViewModel.swift in Sources */,
 				3A7DBC602C3E48EC00FF9CEB /* NotesViewModel.swift in Sources */,
 				3A7DBC6B2C3E48F700FF9CEB /* NotesView.swift in Sources */,
+				3AA0D14A2C47680F0091D84B /* HabitViewModel.swift in Sources */,
 				E69767EF2C4614740020316E /* AIChatView.swift in Sources */,
+				3AA0D1422C47673B0091D84B /* HabitListView.swift in Sources */,
 				3A7DBC372C3E48A200FF9CEB /* NotesProApp.swift in Sources */,
 				E61A4FC02C46C26B0049F0E6 /* GlobalSwiftDataService.swift in Sources */,
 				E671A9F62C4113830008E410 /* DailyHabitEntry.swift in Sources */,
+				3AA0D1542C4768B30091D84B /* HabitDataSource.swift in Sources */,
 				3A7DBC682C3E48F700FF9CEB /* HabitsView.swift in Sources */,
+				3AA0D1572C4768D30091D84B /* ResponseError.swift in Sources */,
 				E66CAE6A2C462D4900CBAD48 /* AIOnboardingView.swift in Sources */,
 				3A7DBC682C3E48F700FF9CEB /* HabitsView.swift in Sources */,
+				3AA0D14F2C47686D0091D84B /* DayOfWeek.swift in Sources */,
 				3A7DBC692C3E48F700FF9CEB /* MainView.swift in Sources */,
 				CDAF88512C46972C005EA0B1 /* ReminderService.swift in Sources */,
 			);
@@ -460,7 +540,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"NotesPro/Preview Content\"";
-				DEVELOPMENT_TEAM = 87N548UZ24;
+				DEVELOPMENT_TEAM = QJ4D5LRK3T;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -490,7 +570,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"NotesPro/Preview Content\"";
-				DEVELOPMENT_TEAM = 87N548UZ24;
+				DEVELOPMENT_TEAM = QJ4D5LRK3T;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;

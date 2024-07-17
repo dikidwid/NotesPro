@@ -30,6 +30,18 @@
         }
       }
     },
+    "%lld" : {
+
+    },
+    "%lld habits" : {
+
+    },
+    "%lld tasks to do" : {
+
+    },
+    "2" : {
+
+    },
     "08.00" : {
       "localizations" : {
         "id" : {
@@ -91,6 +103,7 @@
       }
     },
     "Add" : {
+      "extractionState" : "stale",
       "localizations" : {
         "id" : {
           "stringUnit" : {
@@ -100,7 +113,14 @@
         }
       }
     },
+    "Add New Habit" : {
+
+    },
+    "Add Note" : {
+
+    },
     "Add Reward" : {
+      "extractionState" : "stale",
       "localizations" : {
         "id" : {
           "stringUnit" : {
@@ -120,7 +140,16 @@
         }
       }
     },
+    "AI Habit Generator" : {
+
+    },
     "AI Recommendations:" : {
+
+    },
+    "AI will help you generated a few\ntasks from your prompt" : {
+
+    },
+    "AI will only give you some suggestions. The decision is still yours to make!" : {
 
     },
     "as my reward." : {
@@ -138,6 +167,9 @@
           }
         }
       }
+    },
+    "Best Streak" : {
+
     },
     "Cancel" : {
       "localizations" : {
@@ -158,6 +190,9 @@
           }
         }
       }
+    },
+    "Current Streak" : {
+
     },
     "Currently, I" : {
 
@@ -213,9 +248,6 @@
           }
         }
       }
-    },
-    "Enter reward name" : {
-
     },
     "Enter Task Name" : {
       "localizations" : {
@@ -335,6 +367,7 @@
       }
     },
     "Goals" : {
+      "extractionState" : "stale",
       "localizations" : {
         "id" : {
           "stringUnit" : {
@@ -367,10 +400,16 @@
         }
       }
     },
+    "Hey,\nI'm ready to\nhelp you here!" : {
+
+    },
     "I want to " : {
 
     },
     "I'll do it every " : {
+
+    },
+    "I'm Ready" : {
 
     },
     "Monday" : {
@@ -386,6 +425,9 @@
         }
       }
     },
+    "New notes you create will appear here." : {
+
+    },
     "New Task" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -396,6 +438,12 @@
           }
         }
       }
+    },
+    "No Habit Found" : {
+
+    },
+    "No Notes" : {
+
     },
     "Notes" : {
       "localizations" : {
@@ -455,7 +503,11 @@
         }
       }
     },
+    "Reset" : {
+
+    },
     "Rewards" : {
+      "extractionState" : "stale",
       "localizations" : {
         "id" : {
           "stringUnit" : {
@@ -536,6 +588,9 @@
         }
       }
     },
+    "The AI is Generating Your Habits..." : {
+
+    },
     "Thursday" : {
 
     },
@@ -573,6 +628,9 @@
     "Tuesday" : {
 
     },
+    "Type a message..." : {
+
+    },
     "Wednesday" : {
 
     },
@@ -580,6 +638,12 @@
 
     },
     "where you want to do it" : {
+
+    },
+    "You didn't defined the habit yet." : {
+
+    },
+    "You don't have any specific task for this habit" : {
 
     }
   },

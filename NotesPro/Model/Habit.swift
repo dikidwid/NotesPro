@@ -31,3 +31,25 @@ final class Habit: Identifiable {
         self.createdDate = Date()
     }
 }
+
+extension Habit {
+    func entry(for date: Date) -> DailyHabitEntry? {
+        self.dailyHabitEntries.first { Calendar.current.isDate($0.day, inSameDayAs: date) }
+    }
+
+    func tasks(for date: Date) -> [DailyTask] {
+        entry(for: date)?.tasks.sorted(by: { $0.taskName < $1.taskName }) ?? []
+    }
+    
+    func isAllTaskDone(for date: Date) -> Bool {
+        entry(for: date)?.tasks.filter { $0.isChecked == false }.count == 0
+    }
+    
+    func isTaskEmpty(for date: Date) -> Bool {
+        tasks(for: date).isEmpty
+    }
+
+    func totalUndoneTask(for date: Date) -> Int {
+        tasks(for: date).filter { !$0.isChecked }.count
+    }
+}

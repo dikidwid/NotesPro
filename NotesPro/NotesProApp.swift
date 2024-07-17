@@ -22,11 +22,14 @@ struct ContentView: View {
     @ObservedObject var habitsViewModel = HabitsViewModel()
     
     var body: some View {
-        MainView()
-            .environmentObject(addHabitViewModel)
-            .environmentObject(notesViewModel)
-            .environmentObject(habitsViewModel)
-            .modelContainer(for: swiftDataModels)
+        NavigationStack {
+            HabitListView(habitViewModel: HabitViewModel(habitDataSource: SwiftDataManager.shared), noteViewModel: NotesViewModel())
+        }
+//        MainView()
+//            .environmentObject(addHabitViewModel)
+//            .environmentObject(notesViewModel)
+//            .environmentObject(habitsViewModel)
+//            .modelContainer(for: swiftDataModels)
     }
 }
 
