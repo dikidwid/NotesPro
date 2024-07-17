@@ -156,7 +156,7 @@ struct IntelligenceSection: View {
 
     var body: some View {
         Section(header: Text("or use AI habit Generator")) {
-            Button("Generate Habits with AI") {
+            Button("✨ Generate Habits with AI") {
                 viewModel.showAIOnboardingSheet()
             }
             .foregroundColor(.accentColor)

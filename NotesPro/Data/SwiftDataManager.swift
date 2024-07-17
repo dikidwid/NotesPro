@@ -127,28 +127,41 @@ class SwiftDataManager: HabitDataSource {
         guard let habits = habits else { return }
         
         for habit in habits {
-            let entry = getOrCreateEntry(for: habit, on: date)
-            let isCompleted = !entry.tasks.contains { !$0.isChecked }
-            
-            if isCompleted {
-                if let lastCompleted = habit.lastCompletedDate {
-                    let daysBetween = daysBetween(lastCompleted, and: date)
-                    
-                    if daysBetween == 1 {
-                        habit.currentStreak += 1
-                    } else if daysBetween > 1 {
-                        habit.currentStreak = 1
-                    }
-                } else {
-                    habit.currentStreak = 1
-                }
-                
-                habit.bestStreak = max(habit.bestStreak, habit.currentStreak)
-                habit.lastCompletedDate = date
-            }
+            updateStreakForHabit(habit, onDate: date)
         }
         
         try? modelContext.save()
+    }
+    
+    private func updateStreakForHabit(_ habit: Habit, onDate date: Date) {
+        let calendar = Calendar.current
+        let today = calendar.startOfDay(for: date)
+        
+        // Find the last consecutive completed date
+        var currentDate = today
+        var consecutiveCompletedDays = 0
+        
+        while true {
+            let entry = getOrCreateEntry(for: habit, on: currentDate)
+            let isCompleted = !entry.tasks.contains { !$0.isChecked }
+            
+            if isCompleted {
+                consecutiveCompletedDays += 1
+                currentDate = calendar.date(byAdding: .day, value: -1, to: currentDate)!
+            } else {
+                break
+            }
+        }
+        
+        // Update the streak
+        habit.currentStreak = consecutiveCompletedDays
+        habit.bestStreak = max(habit.bestStreak, habit.currentStreak)
+        
+        // Update last completed date if the habit was completed today
+        let todayEntry = getOrCreateEntry(for: habit, on: today)
+        if !todayEntry.tasks.contains(where: { !$0.isChecked }) {
+            habit.lastCompletedDate = today
+        }
     }
     
     private func daysBetween(_ date1: Date, and date2: Date) -> Int {
