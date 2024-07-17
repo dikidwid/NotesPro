@@ -8,13 +8,14 @@
 import SwiftUI
 
 struct AIOnboardingView: View {
-    @Environment(\.dismiss) var dismiss
+    @Environment(\.dismiss) private var dismiss
+    @Environment(\.colorScheme) private var colorScheme
     @EnvironmentObject var addHabitViewModel: AddHabitViewModel
     
     var body: some View {
         NavigationStack {
             ZStack {
-                Color(.systemGroupedBackground)
+                Color(colorScheme == .dark ? .black : Color(.systemGroupedBackground))
                     .ignoresSafeArea(edges: .top)
                 
                 Image(.aiOnboardingBG)
@@ -73,4 +74,5 @@ struct AIOnboardingView: View {
 
 #Preview {
     AIOnboardingView()
+        .environmentObject(AddHabitViewModel())
 }

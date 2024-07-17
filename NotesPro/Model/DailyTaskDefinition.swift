@@ -44,6 +44,9 @@ final class DailyTaskDefinition: Identifiable {
         self.saturdayReminder = false
     }
     
+}
+
+extension DailyTaskDefinition {
     func getReminderDescription() -> String {
         if !isReminderEnabled {
             return ""
@@ -73,4 +76,5 @@ final class DailyTaskDefinition: Identifiable {
             return selectedDays.joined(separator: ", ") + " at \(timeString)"
         }
     }
+
 }

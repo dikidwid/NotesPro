@@ -81,7 +81,7 @@ final class HabitViewModel: ObservableObject {
     
     init(habitDataSource: HabitDataSource) {
         self.habitDataSource = habitDataSource
-        startContinuousUpdates()
+//        startContinuousUpdates()
     }
     
     deinit {
@@ -92,8 +92,9 @@ final class HabitViewModel: ObservableObject {
     
     private func startContinuousUpdates() {
         updateTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [weak self] _ in
-            Task { @MainActor in
-                await self?.updateAllData()
+            Task { @MainActor [weak self] in
+                guard let self = self else { return }
+                await self.updateAllData()
             }
         }
     }
