@@ -25,6 +25,15 @@ final class HabitViewModel: ObservableObject {
         self.habitDataSource = habitDataSource
     }
     
+    func getOrCreateEntry(for habit: Habit, on date: Date) -> DailyHabitEntry {
+        if let swiftDataManager = habitDataSource as? SwiftDataManager {
+            return swiftDataManager.getOrCreateEntry(for: habit, on: date)
+        } else {
+            // Fallback for other data sources, if necessary
+            return DailyHabitEntry(day: date)
+        }
+    }
+    
     func getHabits() async {
         let habitsResult = await habitDataSource.fetchHabits()
         switch habitsResult {

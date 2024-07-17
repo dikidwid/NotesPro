@@ -52,9 +52,12 @@ struct HabitListView: View {
         .background(Color(.systemGroupedBackground))
         .navigationTitle("Habit")
         .navigationDestination(item: $habitViewModel.selectedHabit) { habit in
-            HabitDetailView(habit: habit, 
-                            dailyHabitEntry: habit.hasEntry(for: calendarViewModel.currentDate) ?? DailyHabitEntry(day: .now),
-                            calendarViewModel: calendarViewModel, noteViewModel: noteViewModel)
+            HabitDetailView(
+                habit: habit,
+                dailyHabitEntry: habitViewModel.getOrCreateEntry(for: habit, on: calendarViewModel.currentDate),
+                calendarViewModel: calendarViewModel,
+                noteViewModel: noteViewModel
+            )
         }
         .sheet(isPresented: $habitViewModel.isAddHabitSheetPresented) {
             AddHabitView()
@@ -70,7 +73,7 @@ struct HabitListView: View {
                         .foregroundStyle(.clear)
                     
                     Spacer()
-
+                    
                     Text("\(habitViewModel.habits.count) habits")
                         .font(.system(.caption))
                     

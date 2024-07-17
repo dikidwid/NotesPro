@@ -236,9 +236,9 @@
 				3A7DBC622C3E48F700FF9CEB /* HabitsView.swift */,
 				CDAF88112C411B3C005EA0B1 /* AddHabitView.swift */,
 				CDAF88152C41AA08005EA0B1 /* DetailTaskView.swift */,
+				3AA0D1412C47673B0091D84B /* HabitListView.swift */,
 				3AA0D13F2C47672F0091D84B /* HabitDetailView.swift */,
 				3A7DBC662C3E48F700FF9CEB /* SettingsView.swift */,
-				3AA0D1412C47673B0091D84B /* HabitListView.swift */,
 			);
 			path = Screen;
 			sourceTree = "<group>";

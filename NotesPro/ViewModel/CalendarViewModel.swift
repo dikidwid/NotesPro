@@ -17,8 +17,14 @@ final class CalendarViewModel: ObservableObject {
         self.daysSlider = daysSlider
     }
     
+    func isFutureDate(_ date: Date) -> Bool {
+        return date > Date()
+    }
+    
     func circleTextColor(currentDate: Date) -> Color {
-        if isCurrentDateSame(with: currentDate) && isToday(compareWith: currentDate) {
+        if isFutureDate(currentDate) {
+            return Color.secondary.opacity(0.6)
+        } else if isCurrentDateSame(with: currentDate) && isToday(compareWith: currentDate) {
             return Color.accentColor
         } else {
             return Color.primary
@@ -26,7 +32,9 @@ final class CalendarViewModel: ObservableObject {
     }
     
     func dateTextColor(currentDate: Date) -> Color {
-        if isCurrentDateSame(with: currentDate) && isToday(compareWith: currentDate) {
+        if isFutureDate(currentDate) {
+            return Color.secondary.opacity(0.5)
+        } else if isCurrentDateSame(with: currentDate) && isToday(compareWith: currentDate) {
             return Color(.systemBackground)
         } else if isToday(compareWith: currentDate) {
             return Color.accentColor
@@ -93,4 +101,6 @@ final class CalendarViewModel: ObservableObject {
         return String(dayString.prefix(1))
         
     }
+    
+    
 }

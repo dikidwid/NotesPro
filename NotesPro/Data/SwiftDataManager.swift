@@ -50,17 +50,31 @@ class SwiftDataManager: HabitDataSource {
         }
     }
     
-    func addNewEntry(habit: Habit, date: Date) {
-            let dailyHabitEntry = DailyHabitEntry(day: date)
-            dailyHabitEntry.habit = habit
-            
-            var tasks: [DailyTask] = []
-            
-            for definedTask in habit.definedTasks {
-                tasks.append(DailyTask(taskName: definedTask.taskName))
-            }
-            
-            dailyHabitEntry.tasks = tasks
+    func getOrCreateEntry(for habit: Habit, on date: Date) -> DailyHabitEntry {
+        if let existingEntry = habit.hasEntry(for: date) {
+            return existingEntry
+        } else {
+            let newEntry = addNewEntry(habit: habit, date: date)
+            return newEntry
         }
+    }
     
+    @discardableResult
+    func addNewEntry(habit: Habit, date: Date) -> DailyHabitEntry {
+        let dailyHabitEntry = DailyHabitEntry(day: date)
+        dailyHabitEntry.habit = habit
+        
+        var tasks: [DailyTask] = []
+        
+        for definedTask in habit.definedTasks {
+            tasks.append(DailyTask(taskName: definedTask.taskName))
+        }
+        
+        dailyHabitEntry.tasks = tasks
+        
+        modelContext.insert(dailyHabitEntry)
+        try? modelContext.save()
+        
+        return dailyHabitEntry
+    }
 }

@@ -62,10 +62,11 @@ struct CalendarView: View {
                             .frame(width: 8, height: 8)
                     }
                     .onTapGesture {
-//                        withAnimation(.easeOut) {
+                        if !viewModel.isFutureDate(day.date) {
                             viewModel.currentDate = day.date
-//                        }
+                        }
                     }
+                    .opacity(viewModel.isFutureDate(day.date) ? 0.3 : 1.0)
                 }
             }
         }

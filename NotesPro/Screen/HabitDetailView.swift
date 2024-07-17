@@ -14,6 +14,13 @@ struct HabitDetailView: View {
     @ObservedObject var calendarViewModel: CalendarViewModel
     @ObservedObject var noteViewModel: NotesViewModel
     
+    init(habit: Habit, dailyHabitEntry: DailyHabitEntry, calendarViewModel: CalendarViewModel, noteViewModel: NotesViewModel) {
+        self.habit = habit
+        self.dailyHabitEntry = dailyHabitEntry
+        self.calendarViewModel = calendarViewModel
+        self.noteViewModel = noteViewModel
+    }
+    
     var body: some View {
         ScrollView {
             VStack {
