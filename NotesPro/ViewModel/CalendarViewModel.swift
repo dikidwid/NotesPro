@@ -12,7 +12,15 @@ final class CalendarViewModel: ObservableObject {
     @Published var currentWeekIndex: Int = 0
     @Published var currentDate: Date = .now
     @Published var selectedDate: Date = .now
+    @Published var completedDays: Set<Date> = []
     
+    func updateCompletedDays(_ days: Set<Date>) {
+        self.completedDays = days
+    }
+
+    func isCompletedDay(_ date: Date) -> Bool {
+        return completedDays.contains(Calendar.current.startOfDay(for: date))
+    }
 
     init() {
         self.daysSlider = fetchDayOfWeek(for: .now)

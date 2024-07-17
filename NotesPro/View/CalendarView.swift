@@ -59,6 +59,7 @@ struct CalendarView: View {
                             .frame(width: 46)
                         
                         Circle()
+                            .fill(viewModel.isCompletedDay(day.date) ? Color.accentColor : Color.primary.opacity(0.5))
                             .frame(width: 8, height: 8)
                     }
                     .onTapGesture {

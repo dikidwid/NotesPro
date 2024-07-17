@@ -16,8 +16,40 @@ final class HabitViewModel: ObservableObject {
     @Published var newHabitId: UUID?
     @Published var dailyHabitEntries: [DailyHabitEntry] = []
     @Published var responseError: ResponseError?
+        
+    @Published var completedDays: Set<Date> = []
     
     let habitDataSource: HabitDataSource
+
+    func updateCompletedDays() {
+        var newCompletedDays = Set<Date>()
+        let calendar = Calendar.current
+        
+        for habit in habits {
+            for entry in habit.dailyHabitEntries {
+                let startOfDay = calendar.startOfDay(for: entry.day)
+                if !entry.tasks.contains(where: { !$0.isChecked }) {
+                    newCompletedDays.insert(startOfDay)
+                } else {
+                    newCompletedDays.remove(startOfDay)
+                }
+            }
+        }
+        
+        self.completedDays = newCompletedDays
+    }
+    
+    func isAllHabitsCompletedForDay(_ date: Date) -> Bool {
+        let startOfDay = Calendar.current.startOfDay(for: date)
+        return completedDays.contains(startOfDay)
+    }
+    
+    func toggleTask(_ task: DailyTask) {
+        task.isChecked.toggle()
+        task.checkedDate = task.isChecked ? Date() : nil
+        updateCompletedDays()
+    }
+    
     
     init(habitDataSource: HabitDataSource) {
         self.habitDataSource = habitDataSource
@@ -28,10 +60,11 @@ final class HabitViewModel: ObservableObject {
             swiftDataManager.updateStreaks(for: date)
             Task {
                 await refreshHabits()
+                updateCompletedDays()
             }
         }
     }
-    
+ 
     func getOrCreateEntry(for habit: Habit, on date: Date) -> DailyHabitEntry {
         if let swiftDataManager = habitDataSource as? SwiftDataManager {
             return swiftDataManager.getOrCreateEntry(for: habit, on: date)
@@ -94,6 +127,7 @@ final class HabitViewModel: ObservableObject {
     
     func refreshHabits() async {
         await getHabits()
+        updateCompletedDays()
     }
     
     func updateDailyHabitEntry(for habit: Habit, on date: Date) {
@@ -119,4 +153,6 @@ final class HabitViewModel: ObservableObject {
             print("Error updating habit: \(error.localizedDescription)")
         }
     }
+    
+    
 }

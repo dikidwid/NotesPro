@@ -36,7 +36,11 @@ struct HabitDetailView: View {
                     }
                 
                 CalendarView(viewModel: calendarViewModel)
-                    .padding(.top)
+                    .onChange(of: calendarViewModel.currentDate) { oldValue, newValue in
+                        habitViewModel.updateStreaks(for: .now)
+                        habitViewModel.updateCompletedDays()
+                        calendarViewModel.updateCompletedDays(habitViewModel.completedDays)
+                    }
                 
                 Divider()
                 
@@ -146,6 +150,10 @@ struct HabitDetailView: View {
             }
         } message: {
             Text("Are you sure you want to delete this habit? This action cannot be undone.")
+        }
+        .onAppear {
+            habitViewModel.updateCompletedDays()
+            calendarViewModel.updateCompletedDays(habitViewModel.completedDays)
         }
     }
     
