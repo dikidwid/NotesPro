@@ -39,6 +39,7 @@ struct AIChatView: View {
     @State private var lastItemId: UUID?
     @State private var selectedRecommendation: Recommendation?
     @State private var navigateToAddHabit: Bool = false
+    @State private var keyboardHeight: CGFloat = 0
     
     @FocusState private var isFocused: Bool
 
@@ -114,6 +115,15 @@ struct AIChatView: View {
                                 }
                             }
                         }
+                        .onChange(of: keyboardHeight) { _ in
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                                if let lastMessage = chatMessages.last {
+                                    withAnimation {
+                                        proxy.scrollTo(lastMessage.id, anchor: .bottom)
+                                    }
+                                }
+                            }
+                        }
                     }
                     
                     Spacer()
@@ -136,6 +146,7 @@ struct AIChatView: View {
                         .disabled(!isInputEnabled)
                     }
                     .padding(.horizontal)
+                    .padding(.bottom, 2)
                 }
             }
             .navigationBarBackButtonHidden()
@@ -146,6 +157,15 @@ struct AIChatView: View {
             })
             .onAppear {
                 addInitialMessages()
+                NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillShowNotification, object: nil, queue: .main) { notification in
+                    if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
+                        let keyboardRectangle = keyboardFrame.cgRectValue
+                        keyboardHeight = keyboardRectangle.height
+                    }
+                }
+                NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillHideNotification, object: nil, queue: .main) { _ in
+                    keyboardHeight = 0
+                }
             }
             .navigationDestination(isPresented: $navigateToAddHabit) {
                 AddHabitView()
@@ -162,8 +182,6 @@ struct AIChatView: View {
             }
         }
     }
-    
-
     
     func addInitialMessages() {
         let welcomeMessage = Message(text: "Hi! How can I help you?", isUser: false)
