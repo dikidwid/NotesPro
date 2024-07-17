@@ -11,6 +11,9 @@ import SwiftData
 final class HabitViewModel: ObservableObject {
     @Published var habits: [Habit] = []
     @Published var selectedHabit: Habit?
+    @Published var isAddHabitSheetPresented = false
+    
+    @Published var newHabitId: UUID?
     
     @Published var dailyHabitEntries: [DailyHabitEntry] = []
     
@@ -40,5 +43,22 @@ final class HabitViewModel: ObservableObject {
         case .failure(let responseError):
             self.responseError = responseError
         }
+    }
+    
+    func addHabit(modelContext: ModelContext) -> Habit {
+        let newHabit = Habit(title: "", description: "")
+        modelContext.insert(newHabit)
+        try? modelContext.save()
+        newHabitId = newHabit.id
+        return newHabit
+    }
+    
+    func deleteHabit(_ habit: Habit, modelContext: ModelContext) {
+        modelContext.delete(habit)
+        saveHabit(modelContext: modelContext)
+    }
+    
+    func saveHabit(modelContext: ModelContext){
+        try? modelContext.save()
     }
 }

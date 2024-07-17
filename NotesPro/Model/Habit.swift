@@ -33,16 +33,16 @@ final class Habit: Identifiable {
 }
 
 extension Habit {
-    func entry(for date: Date) -> DailyHabitEntry? {
+    func hasEntry(for date: Date) -> DailyHabitEntry? {
         self.dailyHabitEntries.first { Calendar.current.isDate($0.day, inSameDayAs: date) }
     }
 
     func tasks(for date: Date) -> [DailyTask] {
-        entry(for: date)?.tasks.sorted(by: { $0.taskName < $1.taskName }) ?? []
+        hasEntry(for: date)?.tasks.sorted(by: { $0.taskName < $1.taskName }) ?? []
     }
     
     func isAllTaskDone(for date: Date) -> Bool {
-        entry(for: date)?.tasks.filter { $0.isChecked == false }.count == 0
+        hasEntry(for: date)?.tasks.filter { $0.isChecked == false }.count == 0
     }
     
     func isTaskEmpty(for date: Date) -> Bool {

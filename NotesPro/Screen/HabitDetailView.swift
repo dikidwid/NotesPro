@@ -9,11 +9,10 @@ import SwiftUI
 import SwiftData
 
 struct HabitDetailView: View {
-    let habit: Habit
+    @Bindable var habit: Habit
+    @Bindable var dailyHabitEntry: DailyHabitEntry
     @ObservedObject var calendarViewModel: CalendarViewModel
     @ObservedObject var noteViewModel: NotesViewModel
-    
-    @State private var note = ""
     
     var body: some View {
         ScrollView {
@@ -49,7 +48,7 @@ struct HabitDetailView: View {
                     .foregroundStyle(.secondary)
                     .padding(.vertical, 10)
                 
-                TextField("Add Note", text: $note, axis: .vertical)
+                TextField("Add Note", text: $dailyHabitEntry.userDescription, axis: .vertical)
                     .padding(.horizontal, 24)
                     .padding(.bottom)
                     .autocorrectionDisabled()

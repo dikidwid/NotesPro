@@ -7,16 +7,18 @@
 import SwiftUI
 import SwiftData
 
+@MainActor
 class AddHabitViewModel: ObservableObject {
     @Published var habitName: String = ""
     @Published var habitDescription: String = ""
     @Published var isValidHabit: Bool = false
     @Published var definedTasks: [DailyTaskDefinition] = []
+    @Published var isAIOnboardingPresented = false
     @Published var isAIChatSheetPresented = false
 
     private let reminderService = ReminderService.shared
-    private let modelContext = GlobalSwiftDataService.shared.modelContext
-    
+    private let modelContext = SwiftDataManager.shared.modelContainer.mainContext
+        
     func updateHabitName(_ name: String) {
         habitName = name.trimmingCharacters(in: .whitespacesAndNewlines)
         updateValidHabitStatus()
@@ -57,7 +59,6 @@ class AddHabitViewModel: ObservableObject {
         }
     }
     
-    @discardableResult
     func addTask() -> DailyTaskDefinition {
         let newTask = DailyTaskDefinition(taskName: "")
         definedTasks.append(newTask)
@@ -103,6 +104,10 @@ class AddHabitViewModel: ObservableObject {
         updateValidHabitStatus()
     }
     
+    func showAIOnboardingSheet() {
+        isAIOnboardingPresented = true
+    }
+    
     func showAIChatSheet() {
         isAIChatSheetPresented = true
     }
@@ -112,10 +117,9 @@ class AddHabitViewModel: ObservableObject {
     }
     
     // New Mthod untuk handle reminder
-    func updateTaskReminder(_ task: DailyTaskDefinition, isEnabled: Bool, clock: Date, repeatDays: DailyTaskReminderRepeatDays) {
-        task.reminder.isEnabled = isEnabled
-        task.reminder.clock = clock
-        task.reminder.repeatDays = repeatDays
+    func updateTaskReminder(_ task: DailyTaskDefinition, isEnabled: Bool, clock: Date) {
+            task.isReminderEnabled = isEnabled
+            task.reminderClock = clock
     }
     
     private func scheduleRemindersForHabit(_ habit: Habit) {

@@ -19,11 +19,13 @@ struct NotesProApp: App {
 struct ContentView: View {
     @ObservedObject var addHabitViewModel = AddHabitViewModel()
     @ObservedObject var notesViewModel = NotesViewModel()
-    @ObservedObject var habitsViewModel = HabitsViewModel()
+//    @ObservedObject var habitsViewModel = HabitsViewModel()
+    @ObservedObject var habitViewModel = HabitViewModel(habitDataSource: SwiftDataManager.shared)
     
     var body: some View {
         NavigationStack {
-            HabitListView(habitViewModel: HabitViewModel(habitDataSource: SwiftDataManager.shared), noteViewModel: NotesViewModel())
+            HabitListView(habitViewModel: habitViewModel, addHabitViewModel: addHabitViewModel, noteViewModel: notesViewModel)
+                .modelContainer(SwiftDataManager.shared.modelContainer)
         }
 //        MainView()
 //            .environmentObject(addHabitViewModel)
@@ -35,5 +37,5 @@ struct ContentView: View {
 
 
 #Preview {
-    ContentView()
+   return ContentView()
 }

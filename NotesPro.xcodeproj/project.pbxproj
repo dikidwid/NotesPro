@@ -209,8 +209,8 @@
 			children = (
 				E69767EC2C4506EF0020316E /* AddHabitViewModel.swift */,
 				3AA0D1472C47680F0091D84B /* CalendarViewModel.swift */,
-				3AA0D1482C47680F0091D84B /* HabitViewModel.swift */,
 				3A7DBC5C2C3E48EC00FF9CEB /* NotesViewModel.swift */,
+				3AA0D1482C47680F0091D84B /* HabitViewModel.swift */,
 				CDAF880F2C41149D005EA0B1 /* HabitsViewModel.swift */,
 			);
 			path = ViewModel;
@@ -236,8 +236,8 @@
 				3A7DBC622C3E48F700FF9CEB /* HabitsView.swift */,
 				CDAF88112C411B3C005EA0B1 /* AddHabitView.swift */,
 				CDAF88152C41AA08005EA0B1 /* DetailTaskView.swift */,
-				3A7DBC662C3E48F700FF9CEB /* SettingsView.swift */,
 				3AA0D13F2C47672F0091D84B /* HabitDetailView.swift */,
+				3A7DBC662C3E48F700FF9CEB /* SettingsView.swift */,
 				3AA0D1412C47673B0091D84B /* HabitListView.swift */,
 			);
 			path = Screen;
@@ -548,7 +548,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 17.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.5;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -578,7 +578,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 17.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.5;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

@@ -14,7 +14,7 @@ class ReminderService {
     
     func scheduleReminders(for habit: Habit) {
         for taskDefinition in habit.definedTasks {
-            if taskDefinition.reminder.isEnabled {
+            if taskDefinition.isReminderEnabled {
                 scheduleReminder(for: taskDefinition)
             }
         }
@@ -26,17 +26,16 @@ class ReminderService {
         content.body = "Time to do: \(taskDefinition.taskName)"
         content.sound = .default
         
-        let reminder = taskDefinition.reminder
-        let components = Calendar.current.dateComponents([.hour, .minute], from: reminder.clock)
+        let components = Calendar.current.dateComponents([.hour, .minute], from: taskDefinition.reminderClock)
         
         let days = [
-            reminder.repeatDays.sunday,
-            reminder.repeatDays.monday,
-            reminder.repeatDays.tuesday,
-            reminder.repeatDays.wednesday,
-            reminder.repeatDays.thursday,
-            reminder.repeatDays.friday,
-            reminder.repeatDays.saturday
+            taskDefinition.sundayReminder,
+            taskDefinition.mondayReminder,
+            taskDefinition.tuesdayReminder,
+            taskDefinition.wednesdayReminder,
+            taskDefinition.thursdayReminder,
+            taskDefinition.fridayReminder,
+            taskDefinition.saturdayReminder
         ]
         
         for (index, isSelected) in days.enumerated() {
@@ -60,11 +59,5 @@ class ReminderService {
         for taskDefinition in habit.definedTasks {
             UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: (0...6).map { "\(taskDefinition.id)-\($0)" })
         }
-    }
-}
-
-extension DailyTaskReminderRepeatDays {
-    func getDaysArray() -> [Bool] {
-        [sunday, monday, tuesday, wednesday, thursday, friday, saturday]
     }
 }

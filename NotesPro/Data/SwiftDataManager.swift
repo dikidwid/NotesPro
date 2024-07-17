@@ -9,7 +9,7 @@ import SwiftData
 import SwiftUI
 
 class SwiftDataManager: HabitDataSource {
-    private let modelContainer: ModelContainer
+    let modelContainer: ModelContainer
     private let modelContext: ModelContext
     
     @MainActor
@@ -49,5 +49,18 @@ class SwiftDataManager: HabitDataSource {
             return .failure(.localStorageError(cause: "Error fetching daily habit entries on SwiftDataManager"))
         }
     }
+    
+    func addNewEntry(habit: Habit, date: Date) {
+            let dailyHabitEntry = DailyHabitEntry(day: date)
+            dailyHabitEntry.habit = habit
+            
+            var tasks: [DailyTask] = []
+            
+            for definedTask in habit.definedTasks {
+                tasks.append(DailyTask(taskName: definedTask.taskName))
+            }
+            
+            dailyHabitEntry.tasks = tasks
+        }
     
 }
