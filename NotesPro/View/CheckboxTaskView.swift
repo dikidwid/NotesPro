@@ -31,18 +31,23 @@ struct CheckboxTaskView: View {
                     .font(.system(.body))
                     .foregroundStyle(task.isChecked ? Color.secondary : .primary)
                 
-                if isShowReminderTime {
+                if isShowReminderTime, let reminderTime = task.reminderTime {
                     HStack(spacing: 4) {
                         Image(systemName: "clock")
                         
-                        Text("08.00")
+                        Text(formatTime(reminderTime))
                     }
                     .font(.caption)
                     .foregroundColor(.secondary)
-                    
                 }
             }
             .strikethrough(task.isChecked)
         }
+    }
+    
+    private func formatTime(_ date: Date) -> String {
+        let formatter = DateFormatter()
+        formatter.timeStyle = .short
+        return formatter.string(from: date)
     }
 }

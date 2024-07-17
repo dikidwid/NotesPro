@@ -17,6 +17,7 @@ final class DailyTask: Identifiable {
     var isChecked: Bool
     var createdDate: Date
     var checkedDate: Date?
+    var reminderTime: Date?
     
     @Relationship var dailyHabitEntry: DailyHabitEntry?
     @Relationship var definition: DailyTaskDefinition?

@@ -141,6 +141,7 @@
       }
     },
     "08.00" : {
+      "extractionState" : "stale",
       "localizations" : {
         "id" : {
           "stringUnit" : {

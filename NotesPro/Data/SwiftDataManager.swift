@@ -80,7 +80,11 @@ class SwiftDataManager: HabitDataSource {
         var tasks: [DailyTask] = []
         
         for definedTask in habit.definedTasks {
-            tasks.append(DailyTask(taskName: definedTask.taskName))
+            let task = DailyTask(taskName: definedTask.taskName)
+            if definedTask.isReminderEnabled {
+                task.reminderTime = definedTask.reminderClock
+            }
+            tasks.append(task)
         }
         
         dailyHabitEntry.tasks = tasks

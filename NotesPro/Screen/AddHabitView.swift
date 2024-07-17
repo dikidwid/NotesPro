@@ -50,6 +50,8 @@ struct AddHabitView: View {
                         if addHabitViewModel.isValidHabit {
                             addHabitViewModel.saveHabit(modelContext: modelContext, existingHabit: habitsViewModel.selectedHabit)
                             dismiss()
+                        } else {
+                            
                         }
                     }
                     .foregroundColor(addHabitViewModel.isValidHabit ? .accentColor : .gray)

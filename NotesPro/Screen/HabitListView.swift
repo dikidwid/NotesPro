@@ -156,7 +156,7 @@ struct HabitRowView: View {
 
             VStack(alignment: .leading, spacing: 10) {
                 ForEach(habit.tasks(for: calendarViewModel.currentDate)) { task in
-                    CheckboxTaskView(isShowReminderTime: false, task: task)
+                    CheckboxTaskView(isShowReminderTime: true, task: task)
                 }
             }
         }
