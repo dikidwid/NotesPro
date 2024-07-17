@@ -119,7 +119,7 @@ struct AIChatView: View {
                     Spacer()
                     
                     HStack {
-                        TextField("Type a message...", text: $messageText)
+                        TextField("Type a message...", text: $messageText, axis: .vertical)
                             .focused($isFocused)
                             .padding(10)
                             .background(Color(UIColor.tertiarySystemBackground))
@@ -127,7 +127,9 @@ struct AIChatView: View {
                             .disabled(!isInputEnabled)
                         
                         Button(action: sendMessage) {
-                            Image(systemName: "paperplane.fill")
+                            Image(systemName: "arrow.up.circle.fill")
+                                .resizable()
+                                .frame(width: 32, height: 32)
                                 .foregroundColor(isInputEnabled ? .accentColor : .gray)
                         }
                         .disabled(!isInputEnabled)
@@ -157,11 +159,8 @@ struct AIChatView: View {
                 }
             }
         }
-
     }
-    
-
-    
+        
     func addInitialMessages() {
         let welcomeMessage = Message(text: "Hi! How can I help you?", isUser: false)
         let firstQuestion = Message(text: questions[0], isUser: false)
@@ -350,7 +349,7 @@ struct BotBubble: View {
         HStack {
             TypewriterText(message.text)
                 .padding()
-                .background(Color(.tertiarySystemBackground))
+                .background(Color(.gray).opacity(0.1))
                 .cornerRadius(15)
                 .frame(maxWidth: 280, alignment: .leading)
             Spacer()
@@ -366,8 +365,8 @@ struct UserBubble: View {
             Spacer()
             Text(text)
                 .padding()
-                .background(Color.accentColor)
-                .foregroundColor(Color(.systemBackground))
+                .background(.accent)
+                .foregroundColor(Color(.black))
                 .cornerRadius(15)
                 .frame(maxWidth: 280, alignment: .trailing)
         }
