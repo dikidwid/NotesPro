@@ -171,14 +171,39 @@ final class HabitViewModel: ObservableObject {
         return newHabit
     }
     
+    @MainActor
     func deleteHabit(_ habit: Habit, modelContext: ModelContext) {
-        SwiftDataManager.shared.modelContainer.mainContext.delete(habit)
-        saveHabit(modelContext: modelContext)
-        if selectedHabit?.id == habit.id {
-            selectedHabit = nil
-        }
-        Task {
-            await refreshHabits()
+        do {
+            // First, delete all related DailyHabitEntries
+            for entry in habit.dailyHabitEntries {
+                SwiftDataManager.shared.modelContainer.mainContext.delete(entry)
+            }
+            
+            // Then, delete all related DailyTaskDefinitions
+            for task in habit.definedTasks {
+                SwiftDataManager.shared.modelContainer.mainContext.delete(task)
+            }
+            
+            // Finally, delete the habit itself
+            SwiftDataManager.shared.modelContainer.mainContext.delete(habit)
+            
+            // Save the changes
+            
+//            try modelContext.save()
+            
+//            // Update UI on the main thread
+//            DispatchQueue.main.async {
+//                if self.selectedHabit?.id == habit.id {
+//                    self.selectedHabit = nil
+//                }
+//                Task {
+//                    await self.refreshHabits()
+//                }
+//            }
+            
+        } catch {
+            print("Error deleting habit: \(error.localizedDescription)")
+            // Handle the error (e.g., show an alert to the user)
         }
     }
     

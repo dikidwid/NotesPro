@@ -108,7 +108,7 @@ struct HabitListView: View {
             }
         }
         .onAppear {
-            DispatchQueue.main.async {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
                 Task {
                     await habitViewModel.getHabits()
                     await habitViewModel.checkAndCreateEntriesForDate(calendarViewModel.currentDate)
