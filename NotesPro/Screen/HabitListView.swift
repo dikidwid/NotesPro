@@ -92,31 +92,31 @@ struct HabitListView: View {
         .onChange(of: habitViewModel.lastUpdateTimestamp) { _, _ in
             calendarViewModel.updateAllHabitsCompletedDays(habitViewModel.allHabitsCompletedDays)
         }
-        .onChange(of: habitViewModel.selectedHabit) { oldValue, newValue in
-            habitViewModel.updateCompletedDays()
-            calendarViewModel.updateCompletedDays(habitViewModel.completedDays)
-        }
-        .onChange(of: calendarViewModel.selectedDate) { oldValue, newValue in
-            Task {
-                await habitViewModel.checkAndCreateEntriesForDate(newValue)
-                await habitViewModel.getDailyHabitEntries(from: newValue)
-                habitViewModel.updateStreaks(for: .now)
-                habitViewModel.updateAllHabitsCompletedDays()
-                calendarViewModel.updateAllHabitsCompletedDays(habitViewModel.allHabitsCompletedDays)
-            }
-        }
-        .task {
-            DispatchQueue.main.async {
-                Task {
-                    await habitViewModel.getHabits()
-                    await habitViewModel.checkAndCreateEntriesForDate(calendarViewModel.currentDate)
-                    await habitViewModel.getDailyHabitEntries(from: calendarViewModel.currentDate)
-                    habitViewModel.updateStreaks(for: .now)
-                    habitViewModel.updateAllHabitsCompletedDays()
-                    calendarViewModel.updateAllHabitsCompletedDays(habitViewModel.allHabitsCompletedDays)
-                }
-            }
-        }
+//        .onChange(of: habitViewModel.selectedHabit) { oldValue, newValue in
+//            habitViewModel.updateCompletedDays()
+//            calendarViewModel.updateCompletedDays(habitViewModel.completedDays)
+//        }
+//        .onChange(of: calendarViewModel.selectedDate) { oldValue, newValue in
+//            Task {
+//                await habitViewModel.checkAndCreateEntriesForDate(newValue)
+//                await habitViewModel.getDailyHabitEntries(from: newValue)
+//                habitViewModel.updateStreaks(for: .now)
+//                habitViewModel.updateAllHabitsCompletedDays()
+//                calendarViewModel.updateAllHabitsCompletedDays(habitViewModel.allHabitsCompletedDays)
+//            }
+//        }
+//        .task {
+//            DispatchQueue.main.async {
+//                Task {
+//                    await habitViewModel.getHabits()
+//                    await habitViewModel.checkAndCreateEntriesForDate(calendarViewModel.currentDate)
+//                    await habitViewModel.getDailyHabitEntries(from: calendarViewModel.currentDate)
+//                    habitViewModel.updateStreaks(for: .now)
+//                    habitViewModel.updateAllHabitsCompletedDays()
+//                    calendarViewModel.updateAllHabitsCompletedDays(habitViewModel.allHabitsCompletedDays)
+//                }
+//            }
+//        }
     }
 }
 
