@@ -26,6 +26,17 @@
 		3A7DBC6C2C3E48F700FF9CEB /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A7DBC662C3E48F700FF9CEB /* SettingsView.swift */; };
 		3A7DBCD42C4510CF00FF9CEB /* HabitDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A7DBCD32C4510CF00FF9CEB /* HabitDetailView.swift */; };
 		3A7DBCD62C4510DA00FF9CEB /* HabitListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A7DBCD52C4510DA00FF9CEB /* HabitListView.swift */; };
+		3A7DBCD82C45466500FF9CEB /* HabitViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A7DBCD72C45466500FF9CEB /* HabitViewModel.swift */; };
+		3A7DBCDA2C45528700FF9CEB /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 3A7DBCD92C45528700FF9CEB /* Localizable.xcstrings */; };
+		3A7DBCE52C457FD800FF9CEB /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A7DBCE42C457FD800FF9CEB /* CalendarView.swift */; };
+		3A7DBCE72C45802700FF9CEB /* DayOfWeek.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A7DBCE62C45802700FF9CEB /* DayOfWeek.swift */; };
+		3A7DBCE92C4585E700FF9CEB /* CalendarViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A7DBCE82C4585E700FF9CEB /* CalendarViewModel.swift */; };
+		3AA0D1262C46179A0091D84B /* View+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AA0D1252C46179A0091D84B /* View+Extension.swift */; };
+		3AA0D1282C4620020091D84B /* CheckboxTaskView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AA0D1272C4620020091D84B /* CheckboxTaskView.swift */; };
+		3AA0D1312C462CBF0091D84B /* Habit+Dummy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AA0D1302C462CBF0091D84B /* Habit+Dummy.swift */; };
+		3AA0D1372C47496C0091D84B /* SwiftDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AA0D1362C47496C0091D84B /* SwiftDataManager.swift */; };
+		3AA0D13A2C4749960091D84B /* ResponseError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AA0D1392C4749960091D84B /* ResponseError.swift */; };
+		3AA0D13E2C474A420091D84B /* HabitDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AA0D13D2C474A420091D84B /* HabitDataSource.swift */; };
 		E671A9F62C4113830008E410 /* DailyHabitEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = E671A9F52C41137E0008E410 /* DailyHabitEntry.swift */; };
 		E671A9F82C4119610008E410 /* AIPromptSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E671A9F72C4119520008E410 /* AIPromptSheetView.swift */; };
 /* End PBXBuildFile section */
@@ -51,6 +62,17 @@
 		3A7DBC662C3E48F700FF9CEB /* SettingsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		3A7DBCD32C4510CF00FF9CEB /* HabitDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitDetailView.swift; sourceTree = "<group>"; };
 		3A7DBCD52C4510DA00FF9CEB /* HabitListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitListView.swift; sourceTree = "<group>"; };
+		3A7DBCD72C45466500FF9CEB /* HabitViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitViewModel.swift; sourceTree = "<group>"; };
+		3A7DBCD92C45528700FF9CEB /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
+		3A7DBCE42C457FD800FF9CEB /* CalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
+		3A7DBCE62C45802700FF9CEB /* DayOfWeek.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayOfWeek.swift; sourceTree = "<group>"; };
+		3A7DBCE82C4585E700FF9CEB /* CalendarViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarViewModel.swift; sourceTree = "<group>"; };
+		3AA0D1252C46179A0091D84B /* View+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Extension.swift"; sourceTree = "<group>"; };
+		3AA0D1272C4620020091D84B /* CheckboxTaskView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckboxTaskView.swift; sourceTree = "<group>"; };
+		3AA0D1302C462CBF0091D84B /* Habit+Dummy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Habit+Dummy.swift"; sourceTree = "<group>"; };
+		3AA0D1362C47496C0091D84B /* SwiftDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftDataManager.swift; sourceTree = "<group>"; };
+		3AA0D1392C4749960091D84B /* ResponseError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseError.swift; sourceTree = "<group>"; };
+		3AA0D13D2C474A420091D84B /* HabitDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitDataSource.swift; sourceTree = "<group>"; };
 		E671A9EB2C3EBE470008E410 /* SwiftData.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = SwiftData.md; sourceTree = "<group>"; };
 		E671A9F52C41137E0008E410 /* DailyHabitEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyHabitEntry.swift; sourceTree = "<group>"; };
 		E671A9F72C4119520008E410 /* AIPromptSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AIPromptSheetView.swift; sourceTree = "<group>"; };
@@ -87,6 +109,8 @@
 			isa = PBXGroup;
 			children = (
 				3A7DBC4C2C3E48D300FF9CEB /* Common */,
+				3AA0D1352C46C0B50091D84B /* Data */,
+				3AA0D13C2C474A240091D84B /* Protocols */,
 				3A7DBC562C3E48E300FF9CEB /* Model */,
 				3A7DBC5F2C3E48EC00FF9CEB /* View */,
 				3A7DBC5D2C3E48EC00FF9CEB /* ViewModel */,
@@ -110,6 +134,7 @@
 			isa = PBXGroup;
 			children = (
 				3A7DBC442C3E48D300FF9CEB /* String+Extension.swift */,
+				3AA0D1252C46179A0091D84B /* View+Extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -133,6 +158,9 @@
 		3A7DBC4C2C3E48D300FF9CEB /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				3AA0D1382C4749890091D84B /* Error */,
+				3AA0D12C2C462B420091D84B /* DummyData */,
+				3A7DBCDB2C45529700FF9CEB /* Localization */,
 				3A7DBC452C3E48D300FF9CEB /* Extension */,
 				3A7DBC472C3E48D300FF9CEB /* Service */,
 				3A7DBC492C3E48D300FF9CEB /* Utilities */,
@@ -149,6 +177,7 @@
 				3A7DBC522C3E48E300FF9CEB /* DailyTaskDefinition.swift */,
 				3A7DBC542C3E48E300FF9CEB /* Habit.swift */,
 				3A7DBC552C3E48E300FF9CEB /* Note.swift */,
+				3A7DBCE62C45802700FF9CEB /* DayOfWeek.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -157,6 +186,8 @@
 			isa = PBXGroup;
 			children = (
 				3A7DBC5C2C3E48EC00FF9CEB /* NotesViewModel.swift */,
+				3A7DBCD72C45466500FF9CEB /* HabitViewModel.swift */,
+				3A7DBCE82C4585E700FF9CEB /* CalendarViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -165,6 +196,8 @@
 			isa = PBXGroup;
 			children = (
 				3A7DBC5E2C3E48EC00FF9CEB /* Row.swift */,
+				3A7DBCE42C457FD800FF9CEB /* CalendarView.swift */,
+				3AA0D1272C4620020091D84B /* CheckboxTaskView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -182,6 +215,54 @@
 				3A7DBCD52C4510DA00FF9CEB /* HabitListView.swift */,
 			);
 			path = Screen;
+			sourceTree = "<group>";
+		};
+		3A7DBCDB2C45529700FF9CEB /* Localization */ = {
+			isa = PBXGroup;
+			children = (
+				3A7DBCD92C45528700FF9CEB /* Localizable.xcstrings */,
+			);
+			path = Localization;
+			sourceTree = "<group>";
+		};
+		3AA0D12C2C462B420091D84B /* DummyData */ = {
+			isa = PBXGroup;
+			children = (
+				3AA0D1302C462CBF0091D84B /* Habit+Dummy.swift */,
+			);
+			path = DummyData;
+			sourceTree = "<group>";
+		};
+		3AA0D1352C46C0B50091D84B /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				3AA0D13B2C4749B10091D84B /* LocalData */,
+				3AA0D1362C47496C0091D84B /* SwiftDataManager.swift */,
+			);
+			path = Data;
+			sourceTree = "<group>";
+		};
+		3AA0D1382C4749890091D84B /* Error */ = {
+			isa = PBXGroup;
+			children = (
+				3AA0D1392C4749960091D84B /* ResponseError.swift */,
+			);
+			path = Error;
+			sourceTree = "<group>";
+		};
+		3AA0D13B2C4749B10091D84B /* LocalData */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = LocalData;
+			sourceTree = "<group>";
+		};
+		3AA0D13C2C474A240091D84B /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				3AA0D13D2C474A420091D84B /* HabitDataSource.swift */,
+			);
+			path = Protocols;
 			sourceTree = "<group>";
 		};
 		E671A9EA2C3EBE420008E410 /* Docs */ = {
@@ -208,6 +289,8 @@
 			dependencies = (
 			);
 			name = NotesPro;
+			packageProductDependencies = (
+			);
 			productName = NotesPro;
 			productReference = 3A7DBC332C3E48A200FF9CEB /* NotesPro.app */;
 			productType = "com.apple.product-type.application";
@@ -234,8 +317,11 @@
 			knownRegions = (
 				en,
 				Base,
+				id,
 			);
 			mainGroup = 3A7DBC2A2C3E48A200FF9CEB;
+			packageReferences = (
+			);
 			productRefGroup = 3A7DBC342C3E48A200FF9CEB /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -252,6 +338,7 @@
 			files = (
 				3A7DBC3E2C3E48A400FF9CEB /* Preview Assets.xcassets in Resources */,
 				3A7DBC3B2C3E48A400FF9CEB /* Assets.xcassets in Resources */,
+				3A7DBCDA2C45528700FF9CEB /* Localizable.xcstrings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -262,18 +349,28 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3AA0D1282C4620020091D84B /* CheckboxTaskView.swift in Sources */,
+				3A7DBCE92C4585E700FF9CEB /* CalendarViewModel.swift in Sources */,
 				3A7DBC4F2C3E48D300FF9CEB /* Constants.swift in Sources */,
 				3A7DBC4E2C3E48D300FF9CEB /* AIService.swift in Sources */,
 				3A7DBCD42C4510CF00FF9CEB /* HabitDetailView.swift in Sources */,
 				3A7DBC6C2C3E48F700FF9CEB /* SettingsView.swift in Sources */,
 				3A7DBC612C3E48EC00FF9CEB /* Row.swift in Sources */,
 				3A7DBC582C3E48E300FF9CEB /* DailyTaskDefinition.swift in Sources */,
+				3AA0D1262C46179A0091D84B /* View+Extension.swift in Sources */,
+				3A7DBCE52C457FD800FF9CEB /* CalendarView.swift in Sources */,
 				3A7DBC4D2C3E48D300FF9CEB /* String+Extension.swift in Sources */,
+				3AA0D1312C462CBF0091D84B /* Habit+Dummy.swift in Sources */,
+				3A7DBCD82C45466500FF9CEB /* HabitViewModel.swift in Sources */,
+				3A7DBCE72C45802700FF9CEB /* DayOfWeek.swift in Sources */,
 				3A7DBC572C3E48E300FF9CEB /* DailyTask.swift in Sources */,
+				3AA0D1372C47496C0091D84B /* SwiftDataManager.swift in Sources */,
+				3AA0D13A2C4749960091D84B /* ResponseError.swift in Sources */,
 				3A7DBC6A2C3E48F700FF9CEB /* NoteEditorView.swift in Sources */,
 				3A7DBC5A2C3E48E300FF9CEB /* Habit.swift in Sources */,
 				3A7DBC5B2C3E48E300FF9CEB /* Note.swift in Sources */,
 				3A7DBCD62C4510DA00FF9CEB /* HabitListView.swift in Sources */,
+				3AA0D13E2C474A420091D84B /* HabitDataSource.swift in Sources */,
 				E671A9F82C4119610008E410 /* AIPromptSheetView.swift in Sources */,
 				3A7DBC602C3E48EC00FF9CEB /* NotesViewModel.swift in Sources */,
 				3A7DBC6B2C3E48F700FF9CEB /* NotesView.swift in Sources */,
@@ -422,6 +519,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -451,6 +549,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

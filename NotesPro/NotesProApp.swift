@@ -18,8 +18,10 @@ struct NotesProApp: App {
 
 struct ContentView: View {
     var body: some View {
-        MainView()
-            .modelContainer(for: swiftDataModels)
+        NavigationStack {
+            HabitListView(habitViewModel: HabitViewModel(habitDataSource: SwiftDataManager.shared),
+                          noteViewModel: NotesViewModel())
+        }
     }
 }
 

@@ -1,0 +1,188 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    " so that I can" : {
+
+    },
+    "," : {
+
+    },
+    ", and I" : {
+
+    },
+    "." : {
+
+    },
+    "%lld" : {
+
+    },
+    "%lld habits" : {
+      "localizations" : {
+        "en" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld habit"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld habits"
+                }
+              },
+              "zero" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "No habit"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "%lld tasks to do" : {
+      "localizations" : {
+        "en" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld task to do"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "new",
+                  "value" : "%lld tasks to do"
+                }
+              },
+              "zero" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "All tasks completed"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "2" : {
+
+    },
+    "08.00" : {
+
+    },
+    "Add New Habit" : {
+
+    },
+    "Add Note" : {
+
+    },
+    "AI Recommendations:" : {
+
+    },
+    "AI will help you generated a few\ntasks from your prompt" : {
+
+    },
+    "AI will only give you some suggestions. The decision is still yours to make!" : {
+
+    },
+    "as my reward." : {
+
+    },
+    "at " : {
+
+    },
+    "Best Streak" : {
+
+    },
+    "Content" : {
+
+    },
+    "Current Streak" : {
+
+    },
+    "Currently, I" : {
+
+    },
+    "Done" : {
+
+    },
+    "Failed to create preview: %@" : {
+
+    },
+    "Generate AI Recommendations" : {
+
+    },
+    "Goals" : {
+
+    },
+    "Goals Screen" : {
+
+    },
+    "Habit" : {
+
+    },
+    "habit you want to build" : {
+
+    },
+    "Hey,\nI'm ready to\nhelp you here!" : {
+
+    },
+    "I want to " : {
+
+    },
+    "I'll do it every " : {
+
+    },
+    "I'm Ready" : {
+
+    },
+    "No Habit Found" : {
+
+    },
+    "Notes" : {
+
+    },
+    "Search" : {
+
+    },
+    "Settings" : {
+
+    },
+    "Settings Screen" : {
+
+    },
+    "small reward I wanted after done my habits" : {
+
+    },
+    "something that you do repeatedly" : {
+
+    },
+    "somethings that you want" : {
+
+    },
+    "Title" : {
+
+    },
+    "when you want to do it" : {
+
+    },
+    "where you want to do it" : {
+
+    },
+    "You didn't defined the habit yet." : {
+
+    },
+    "You don't have any specific task for this habit" : {
+
+    }
+  },
+  "version" : "1.0"
+}

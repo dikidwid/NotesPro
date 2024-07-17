@@ -9,174 +9,173 @@ import SwiftUI
 import SwiftData
 
 struct HabitDetailView: View {
-    @ObservedObject var viewModel: NotesViewModel
     let habit: Habit
+    @ObservedObject var calendarViewModel: CalendarViewModel
+    @ObservedObject var noteViewModel: NotesViewModel
+    
+    @State private var note = ""
     
     var body: some View {
-        VStack {
-            DatePicker("Date", selection: .constant(.now), displayedComponents: .date)
-                .padding()
-                .background(.white)
-            
-            HStack {
-                RoundedRectangle(cornerRadius: 12)
-                    .fill(.background)
-                    .frame(width: 175, height: 83)
-                    .overlay {
-                        VStack {
-                            HStack {
-                                Image(systemName: "trophy.circle.fill")
-                                    .font(.system(size: 30))
-                                    .foregroundStyle(.orange)
-                                
-                                Spacer()
-                                
-                                Text("102")
-                                    .font(.system(.title, weight: .bold))
-                            }
-                            
-                            Spacer()
-                            
-                            Text("Best Habit Streak")
-                                .font(.system(.body, weight: .semibold))
-                                .foregroundStyle(.secondary)
-
-                        }
-                        .padding()
-
-                    }
+        ScrollView {
+            VStack {
+                StreakCardView(bestTreak: 40, currentStreak: 3)
+                    .padding(.top)
                 
-                Spacer()
+                CalendarView(viewModel: calendarViewModel)
+                    .padding(.top)
                 
-                RoundedRectangle(cornerRadius: 12)
-                    .fill(.background)
-                    .frame(width: 175, height: 83)
-                    .overlay {
-                        VStack {
-                            HStack {
-                                Image(systemName: "flame.circle.fill")
-                                    .font(.system(size: 30))
-                                    .foregroundStyle(.secondary)
-                                
-                                Spacer()
-                                
-                                Text("102")
-                                    .font(.system(.title, weight: .bold))
-                            }
-                            
-                            Spacer()
-                            
-                            Text("Best Habit Streak")
-                                .font(.system(.body, weight: .semibold))
-                                .foregroundStyle(.secondary)
-
+                Divider()
+                
+                if habit.isTaskEmpty(for: calendarViewModel.currentDate) {
+                    Text("You don't have any specific task for this habit")
+                        .font(.system(.subheadline))
+                        .foregroundStyle(.secondary)
+                        .padding(.vertical)
+                } else {
+                    VStack(alignment: .leading, spacing: 10) {
+                        ForEach(habit.tasks(for: calendarViewModel.currentDate)) { task in
+                            CheckboxTaskView(isShowReminderTime: false, task: task, viewModel: noteViewModel)
                         }
-                        .padding()
-
                     }
-
-            }
-            .overlay(alignment: .topLeading) {
-                Text("Overview")
-                    .font(.footnote)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding(.vertical)
+                    .padding(.horizontal, 32)
+                }
+                
+                Divider()
+                
+                Text(calendarViewModel.currentDate.formatted(date: .abbreviated, time: .omitted))
+                    .font(.system(.caption2))
                     .foregroundStyle(.secondary)
-                    .textCase(.uppercase)
-                    .offset(x: 24 ,y: -20)
+                    .padding(.vertical, 10)
+                
+                TextField("Add Note", text: $note, axis: .vertical)
+                    .padding(.horizontal, 24)
+                    .padding(.bottom)
+                    .autocorrectionDisabled()
             }
-            .padding(.top, 24)
-            .padding(.horizontal, 18)
-            
-            List {
-                Section("Tasks") {
-                    CheckboxTaskView(isShowReminderTime: true, task: DailyTask(taskName: "Read the book for 5 minutes"), viewModel: viewModel)
-                    
-                    CheckboxTaskView(isShowReminderTime: true, task: DailyTask(taskName: "Take note important things"), viewModel: viewModel)
+            .navigationTitle(habit.title)
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button {
+                        
+                    } label: {
+                        Image(systemName: "ellipsis.circle")
+                    }
                 }
                 
-                Section("How do you feel?") {
-                    TextField("Happy", text: .constant(""))
-                }
-                
-                Section("What you can learn from today?") {
-                    TextField("I will do better next time", text: .constant(""))
-                }
-            }
-            .scrollDisabled(true)
-        }
-        .navigationTitle(habit.title)
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(Color(.systemGroupedBackground))
-        .toolbar {
-            ToolbarItem(placement: .topBarTrailing) {
-                Button {
-                    
-                } label: {
-                    Image(systemName: "wand.and.stars")
-                }
-            }
-            
-            ToolbarItem(placement: .topBarTrailing) {
-                Button {
-                    
-                } label: {
-                    Image(systemName: "pencil")
+                ToolbarItem(placement: .bottomBar) {
+                    HStack {
+                        Button {
+                            
+                        } label: {
+                            Image(systemName: "checklist")
+                        }
+                        
+                        Spacer()
+                        
+                        Button {
+                            
+                        } label: {
+                            Image(systemName: "camera")
+                        }
+                        
+                        Spacer()
+                        
+                        Button {
+                            
+                        } label: {
+                            Image(systemName: "pencil.tip.crop.circle")
+                        }
+                        
+                        Spacer()
+                        
+                        Button {
+                            
+                        } label: {
+                            Image(systemName: "pencil.line")
+                        }
+                    }
                 }
             }
         }
     }
 }
 
-struct CheckboxTaskView: View {
-    let isShowReminderTime: Bool
-    @Bindable var task: DailyTask
-    @ObservedObject var viewModel: NotesViewModel
+struct StreakCardView: View {
+    let bestTreak: Int
+    let currentStreak: Int
     
     var body: some View {
-        HStack(spacing: 16) {
-            Image(systemName: task.isChecked ? "checkmark.circle.fill" : "circle")
-                .foregroundStyle(task.isChecked ? .accent : .secondary)
-                .font(.title3)
-                .fontWeight(.semibold)
-                .contentTransition(.symbolEffect(.replace))
-                .onTapGesture {
-                    viewModel.toggleTask(task)
-                }
-            
-            
-            VStack(alignment: .leading, spacing: 6) {
-                Text(task.taskName)
-                    .font(.system(.body))
-                    .foregroundStyle(task.isChecked ? Color.secondary : .black)
-                
-                if isShowReminderTime {
-                    HStack(spacing: 4) {
-                        Image(systemName: "clock")
+        HStack {
+            RoundedRectangle(cornerRadius: 12)
+                .stroke(lineWidth: 1)
+                .fill(.secondary)
+                .frame(width: 175, height: 83)
+                .overlay {
+                    VStack(alignment: .leading) {
+                        HStack {
+                            Image(systemName: "trophy.circle.fill")
+                                .font(.system(size: 30))
+                                .foregroundStyle(.orange)
+                            
+                            Spacer()
+                            
+                            Text("\(bestTreak)")
+                                .font(.system(.title, weight: .bold))
+                        }
                         
-                        Text("08.00")
+                        Spacer()
+                        
+                        Text("Best Streak")
+                            .font(.system(.body, weight: .semibold))
+                            .foregroundStyle(.secondary)
+                        
                     }
-                    .font(.caption)
-                    .foregroundColor(.secondary)
+                    .padding()
                     
                 }
-            }
-            .strikethrough(task.isChecked)
-
-        }
-        .background(Color(.systemBackground))
-    }
-}
-
-#Preview("Habit Detail") {
-    do {
-        let config = ModelConfiguration(isStoredInMemoryOnly: true)
-        let container = try ModelContainer(for: DailyTask.self, configurations: config)
-        
-        return NavigationStack {
-            HabitDetailView(viewModel: NotesViewModel(), habit: Habit(title: "Reading Habit", description: "This is description for reading habit"))
-                .modelContainer(container)
+            
+            Spacer()
+            
+            RoundedRectangle(cornerRadius: 12)
+                .stroke(lineWidth: 1)
+                .fill(.secondary)
+                .overlay {
+                    VStack(alignment: .leading) {
+                        HStack {
+                            Image(systemName: "flame.circle.fill")
+                                .font(.system(size: 30))
+                                .foregroundStyle(.secondary)
+                            
+                            Spacer()
+                            
+                            Text("\(currentStreak)")
+                                .font(.system(.title, weight: .bold))
+                        }
+                        
+                        Spacer()
+                        
+                        Text("Current Streak")
+                            .font(.system(.body, weight: .semibold))
+                            .foregroundStyle(.secondary)
+                        
+                    }
+                    .padding()
+                    
+                }
             
         }
-    } catch {
-        return Text("Failed to create preview: \(error.localizedDescription)")
+        .padding(.horizontal, 18)
     }
 }
+
+
+//
+//#Preview("Habit Detail") {
+//    NavigationStack {
+//        HabitDetailView(habit: DummyData.habitsDummy[0])
+//    }
+//    
+//}
