@@ -64,6 +64,7 @@ struct CalendarView: View {
                     .onTapGesture {
                         if !viewModel.isFutureDate(day.date) {
                             viewModel.currentDate = day.date
+                            viewModel.selectedDate = day.date
                         }
                     }
                     .opacity(viewModel.isFutureDate(day.date) ? 0.3 : 1.0)

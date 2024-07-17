@@ -8,15 +8,13 @@
 import SwiftUI
 import SwiftData
 
+@MainActor
 final class HabitViewModel: ObservableObject {
     @Published var habits: [Habit] = []
     @Published var selectedHabit: Habit?
     @Published var isAddHabitSheetPresented = false
-    
     @Published var newHabitId: UUID?
-    
     @Published var dailyHabitEntries: [DailyHabitEntry] = []
-    
     @Published var responseError: ResponseError?
     
     let habitDataSource: HabitDataSource
@@ -31,6 +29,14 @@ final class HabitViewModel: ObservableObject {
         } else {
             // Fallback for other data sources, if necessary
             return DailyHabitEntry(day: date)
+        }
+    }
+    
+    func checkAndCreateEntriesForDate(_ date: Date) async {
+        if let swiftDataManager = habitDataSource as? SwiftDataManager {
+            await swiftDataManager.checkAndCreateEntriesForDate(date, habits: self.habits)
+            await getHabits()
+            await getDailyHabitEntries(from: date)
         }
     }
     
@@ -57,17 +63,51 @@ final class HabitViewModel: ObservableObject {
     func addHabit(modelContext: ModelContext) -> Habit {
         let newHabit = Habit(title: "", description: "")
         modelContext.insert(newHabit)
-        try? modelContext.save()
+        try? SwiftDataManager.shared.modelContainer.mainContext.save()
         newHabitId = newHabit.id
         return newHabit
     }
     
     func deleteHabit(_ habit: Habit, modelContext: ModelContext) {
-        modelContext.delete(habit)
+        SwiftDataManager.shared.modelContainer.mainContext.delete(habit)
         saveHabit(modelContext: modelContext)
+        if selectedHabit?.id == habit.id {
+            selectedHabit = nil
+        }
+        Task {
+            await refreshHabits()
+        }
     }
     
-    func saveHabit(modelContext: ModelContext){
-        try? modelContext.save()
+    func saveHabit(modelContext: ModelContext) {
+        try? SwiftDataManager.shared.modelContainer.mainContext.save()
+    }
+    
+    func refreshHabits() async {
+        await getHabits()
+    }
+    
+    func updateDailyHabitEntry(for habit: Habit, on date: Date) {
+        if let swiftDataManager = habitDataSource as? SwiftDataManager {
+            swiftDataManager.updateDailyHabitEntry(for: habit, on: date)
+        }
+    }
+    
+    func updateAllDailyHabitEntries(for habit: Habit) {
+        if let swiftDataManager = habitDataSource as? SwiftDataManager {
+            swiftDataManager.updateAllDailyHabitEntries(for: habit)
+        }
+    }
+    
+    func updateHabit(_ habit: Habit, modelContext: ModelContext) {
+        do {
+            try modelContext.save()
+            // Sync defined tasks after updating the habit
+            if let swiftDataManager = habitDataSource as? SwiftDataManager {
+                swiftDataManager.syncDefinedTasks(for: habit)
+            }
+        } catch {
+            print("Error updating habit: \(error.localizedDescription)")
+        }
     }
 }

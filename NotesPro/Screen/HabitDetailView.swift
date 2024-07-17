@@ -9,16 +9,22 @@ import SwiftUI
 import SwiftData
 
 struct HabitDetailView: View {
+    @Environment(\.modelContext) private var modelContext
+    @Environment(\.dismiss) private var dismiss
+    @EnvironmentObject private var habitViewModel: HabitViewModel
+    @EnvironmentObject private var addHabitViewModel: AddHabitViewModel
+    @EnvironmentObject var calendarViewModel: CalendarViewModel
+    @EnvironmentObject var noteViewModel: NotesViewModel
+    
     @Bindable var habit: Habit
     @Bindable var dailyHabitEntry: DailyHabitEntry
-    @ObservedObject var calendarViewModel: CalendarViewModel
-    @ObservedObject var noteViewModel: NotesViewModel
+    
+    @State private var isEditSheetPresented = false
+    @State private var showDeleteAlert = false
     
     init(habit: Habit, dailyHabitEntry: DailyHabitEntry, calendarViewModel: CalendarViewModel, noteViewModel: NotesViewModel) {
         self.habit = habit
         self.dailyHabitEntry = dailyHabitEntry
-        self.calendarViewModel = calendarViewModel
-        self.noteViewModel = noteViewModel
     }
     
     var body: some View {
@@ -64,49 +70,88 @@ struct HabitDetailView: View {
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
-                    Button {
-                        
+                    Menu {
+                        Button("Edit") {
+                            addHabitViewModel.populateFromHabit(habit)
+                            isEditSheetPresented = true
+                        }
+                        Button("Delete", role: .destructive) {
+                            showDeleteAlert = true
+                        }
                     } label: {
                         Image(systemName: "ellipsis.circle")
                     }
                 }
-                
-                ToolbarItem(placement: .bottomBar) {
-                    HStack {
-                        Button {
-                            
-                        } label: {
-                            Image(systemName: "checklist")
-                        }
-                        
-                        Spacer()
-                        
-                        Button {
-                            
-                        } label: {
-                            Image(systemName: "camera")
-                        }
-                        
-                        Spacer()
-                        
-                        Button {
-                            
-                        } label: {
-                            Image(systemName: "pencil.tip.crop.circle")
-                        }
-                        
-                        Spacer()
-                        
-                        Button {
-                            
-                        } label: {
-                            Image(systemName: "pencil.line")
-                        }
-                    }
-                }
+            }
+//            .toolbar {
+//                ToolbarItem(placement: .topBarTrailing) {
+//                    Button {
+//                        
+//                    } label: {
+//                        Image(systemName: "ellipsis.circle")
+//                    }
+//                }
+//                
+//                ToolbarItem(placement: .bottomBar) {
+//                    HStack {
+//                        Button {
+//                            
+//                        } label: {
+//                            Image(systemName: "checklist")
+//                        }
+//                        
+//                        Spacer()
+//                        
+//                        Button {
+//                            
+//                        } label: {
+//                            Image(systemName: "camera")
+//                        }
+//                        
+//                        Spacer()
+//                        
+//                        Button {
+//                            
+//                        } label: {
+//                            Image(systemName: "pencil.tip.crop.circle")
+//                        }
+//                        
+//                        Spacer()
+//                        
+//                        Button {
+//                            
+//                        } label: {
+//                            Image(systemName: "pencil.line")
+//                        }
+//                    }
+//                }
+//            }
+        }
+        .onDisappear {
+            if habitViewModel.selectedHabit?.id != habit.id {
+                dismiss()
             }
         }
+        .sheet(isPresented: $isEditSheetPresented) {
+            AddHabitView()
+                .environmentObject(habitViewModel)
+                .environmentObject(addHabitViewModel)
+        }
+        .alert("Delete Habit", isPresented: $showDeleteAlert) {
+            Button("Cancel", role: .cancel) { }
+            Button("Delete", role: .destructive) {
+                deleteHabit()
+            }
+        } message: {
+            Text("Are you sure you want to delete this habit? This action cannot be undone.")
+        }
     }
+    
+    private func deleteHabit() {
+        habitViewModel.deleteHabit(habit, modelContext: modelContext)
+        dismiss()
+    }
+    
 }
 
 struct StreakCardView: View {

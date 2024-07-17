@@ -59,6 +59,15 @@ class SwiftDataManager: HabitDataSource {
         }
     }
     
+    @MainActor
+    func checkAndCreateEntriesForDate(_ date: Date, habits: [Habit]) async {
+        for habit in habits {
+            if habit.hasEntry(for: date) == nil {
+                _ = addNewEntry(habit: habit, date: date)
+            }
+        }
+    }
+    
     @discardableResult
     func addNewEntry(habit: Habit, date: Date) -> DailyHabitEntry {
         let dailyHabitEntry = DailyHabitEntry(day: date)
@@ -76,5 +85,40 @@ class SwiftDataManager: HabitDataSource {
         try? modelContext.save()
         
         return dailyHabitEntry
+    }
+    
+    func updateDailyHabitEntry(for habit: Habit, on date: Date) {
+        if let existingEntry = habit.hasEntry(for: date) {
+            // Update existing entry
+            existingEntry.tasks = habit.definedTasks.map { DailyTask(taskName: $0.taskName) }
+        } else {
+            // Create new entry if it doesn't exist
+            let newEntry = addNewEntry(habit: habit, date: date)
+            newEntry.tasks = habit.definedTasks.map { DailyTask(taskName: $0.taskName) }
+        }
+        try? modelContext.save()
+    }
+    
+    func updateAllDailyHabitEntries(for habit: Habit) {
+        for entry in habit.dailyHabitEntries {
+            entry.tasks = habit.definedTasks.map { DailyTask(taskName: $0.taskName) }
+        }
+        try? modelContext.save()
+    }
+    
+    func syncDefinedTasks(for habit: Habit) {
+        for entry in habit.dailyHabitEntries {
+            let existingTasks = entry.tasks
+            let updatedTasks = habit.definedTasks.map { definition -> DailyTask in
+                if let existingTask = existingTasks.first(where: { $0.taskName == definition.taskName }) {
+                    existingTask.taskName = definition.taskName
+                    return existingTask
+                } else {
+                    return DailyTask(taskName: definition.taskName)
+                }
+            }
+            entry.tasks = updatedTasks
+        }
+        try? modelContext.save()
     }
 }

@@ -11,10 +11,17 @@ final class CalendarViewModel: ObservableObject {
     @Published var daysSlider: [DayOfWeek] = []
     @Published var currentWeekIndex: Int = 0
     @Published var currentDate: Date = .now
+    @Published var selectedDate: Date = .now
     
+
     init() {
         self.daysSlider = fetchDayOfWeek(for: .now)
         self.daysSlider = daysSlider
+    }
+    
+    func selectDate(_ date: Date) {
+        self.currentDate = date
+        self.selectedDate = date
     }
     
     func isFutureDate(_ date: Date) -> Bool {

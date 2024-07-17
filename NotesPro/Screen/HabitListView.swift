@@ -9,10 +9,11 @@ import SwiftUI
 import SwiftData
 
 struct HabitListView: View {
-    @StateObject var calendarViewModel: CalendarViewModel = CalendarViewModel()
-    @ObservedObject var habitViewModel: HabitViewModel
-    @ObservedObject var addHabitViewModel: AddHabitViewModel
-    @ObservedObject var noteViewModel: NotesViewModel
+    @EnvironmentObject var calendarViewModel: CalendarViewModel
+    @EnvironmentObject var habitViewModel: HabitViewModel
+    @EnvironmentObject var addHabitViewModel: AddHabitViewModel
+    @EnvironmentObject var noteViewModel: NotesViewModel
+    
     @Query var habits: [Habit]
     
     var body: some View {
@@ -30,7 +31,7 @@ struct HabitListView: View {
                         Text("You didn't defined the habit yet.")
                     } actions: {
                         Button {
-                            
+                            habitViewModel.isAddHabitSheetPresented.toggle()
                         } label: {
                             Text("Add New Habit")
                         }
@@ -40,11 +41,17 @@ struct HabitListView: View {
                         HabitRowView(habit: habit, calendarViewModel: calendarViewModel,
                                      habitViewModel: habitViewModel,
                                      noteViewModel: noteViewModel)
-                            .onTapGesture {
-                                habitViewModel.selectedHabit = habit
-                            }
+                        .onTapGesture {
+                            habitViewModel.selectedHabit = habit
+                        }
                     }
                 }
+            }
+        }
+        .onChange(of: calendarViewModel.selectedDate) { oldValue, newValue in
+            Task {
+                await habitViewModel.checkAndCreateEntriesForDate(newValue)
+                await habitViewModel.getDailyHabitEntries(from: newValue)
             }
         }
         .navigationBarBackgroundColor(Color(.systemBackground))
@@ -52,12 +59,14 @@ struct HabitListView: View {
         .background(Color(.systemGroupedBackground))
         .navigationTitle("Habit")
         .navigationDestination(item: $habitViewModel.selectedHabit) { habit in
-            HabitDetailView(
-                habit: habit,
-                dailyHabitEntry: habitViewModel.getOrCreateEntry(for: habit, on: calendarViewModel.currentDate),
-                calendarViewModel: calendarViewModel,
-                noteViewModel: noteViewModel
-            )
+            if habits.contains(where: { $0.id == habit.id }) {
+                HabitDetailView(
+                    habit: habit,
+                    dailyHabitEntry: habitViewModel.getOrCreateEntry(for: habit, on: calendarViewModel.currentDate),
+                    calendarViewModel: calendarViewModel,
+                    noteViewModel: noteViewModel
+                )
+            }
         }
         .sheet(isPresented: $habitViewModel.isAddHabitSheetPresented) {
             AddHabitView()
@@ -91,80 +100,13 @@ struct HabitListView: View {
             DispatchQueue.main.async {
                 Task {
                     await habitViewModel.getHabits()
+                    await habitViewModel.checkAndCreateEntriesForDate(calendarViewModel.currentDate)
                     await habitViewModel.getDailyHabitEntries(from: calendarViewModel.currentDate)
                 }
             }
         }
-        .onAppear {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                for habit in habitViewModel.habits {
-                    if habit.hasEntry(for: .now) == nil {
-                        SwiftDataManager.shared.addNewEntry(habit: habit, date: .now)
-                    }
-                    let yesterday = Calendar.current.date(byAdding: .day, value: -1, to: .now)
-                    SwiftDataManager.shared.addNewEntry(habit: habit, date: yesterday!)
-
-                }
-//                habitViewModel.habits.forEach { myHabit in
-//                    if myHabit.isTaskEmpty(for: .now) {
-//                        SwiftDataManager.shared.addNewEntry(habit: myHabit, date: .now)
-//                    }
-//                }
-//                checkNewDay()
-            }
-        }
     }
-    
-//    func checkNewDay() {
-//        print("Checking new day")
-//        
-//        // Check if there is any entry in this day
-//        let currentDate = Date()
-//        print(habitViewModel.habits)
-//
-//        habitViewModel.habits.forEach { myHabit in
-//            var entriesThisDay: [DailyHabitEntry] = []
-//            print("Habit")
-//
-//            // Populate entries today for this habit
-//            myHabit.dailyHabitEntries.forEach { myHabitEntry in
-//                print("Tasks: \(myHabitEntry.tasks)")
-//
-//                if Calendar.current.isDateInToday(myHabitEntry.day) {
-//                    print("Tasks: \(myHabitEntry.tasks)")
-//                    entriesThisDay.append(myHabitEntry)
-//                }
-//            }
-//            
-//            // If there is no entry this day for this habit, add a new entry
-//            if entriesThisDay.isEmpty {
-//                print("No entries this day. Adding...")
-//                
-//                SwiftDataManager.shared.addNewEntry(habit: myHabit, date: currentDate)
-//                
-////                var todayEntry = DailyHabitEntry(day: currentDate)
-////                todayEntry.habit = myHabit
-////                
-////                // Assign tasks to the entry based on DailyTaskDefinition
-////                myHabit.definedTasks.forEach{ definedTask in
-////                    let newDailyTask = DailyTask(taskName: definedTask.taskName)
-////                    todayEntry.tasks.append(newDailyTask)
-////                }
-////                
-////                SwiftDataManager.shared.modelContainer.mainContext.insert(todayEntry)
-//            }
-//                        
-//        }
-//        
-//        // If there are not entries this day, add new entry
-////        if entriesThisDay.isEmpty {
-////            let newEntry = DailyHabitEntry(day: Date())
-////            newEntry.tasks.append(newEntry.habit?.definedTasks)
-////            SwiftDataManager.shared.modelContainer.mainContext.insert(newEntry)
-////        }
-//    }
-    
-}
+    }
 
 struct HabitRowView: View {
     let habit: Habit
@@ -229,11 +171,12 @@ struct HabitRowView: View {
 }
 
 #Preview {
-//    let newTask = DailyTaskDefinition(taskName: "")
-//    let reminder = DailyTaskReminder()    
-    return NavigationStack {
-        HabitListView(habitViewModel: HabitViewModel(habitDataSource: SwiftDataManager.shared),
-                      addHabitViewModel: AddHabitViewModel(), noteViewModel: NotesViewModel())
-        .modelContainer(SwiftDataManager.shared.modelContainer)
+    NavigationStack {
+        HabitListView()
     }
+    .environmentObject(CalendarViewModel())
+    .environmentObject(HabitViewModel(habitDataSource: SwiftDataManager.shared))
+    .environmentObject(AddHabitViewModel())
+    .environmentObject(NotesViewModel())
+    .modelContainer(SwiftDataManager.shared.modelContainer)
 }

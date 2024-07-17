@@ -16,9 +16,12 @@ class AddHabitViewModel: ObservableObject {
     @Published var isAIOnboardingPresented = false
     @Published var isAIChatSheetPresented = false
 
+    @EnvironmentObject private var habitViewModel: HabitViewModel
+    @EnvironmentObject private var calendarViewModel: CalendarViewModel
+
     private let reminderService = ReminderService.shared
     private let modelContext = SwiftDataManager.shared.modelContainer.mainContext
-        
+    
     func updateHabitName(_ name: String) {
         habitName = name.trimmingCharacters(in: .whitespacesAndNewlines)
         updateValidHabitStatus()
@@ -33,6 +36,11 @@ class AddHabitViewModel: ObservableObject {
             updateHabit(habit, modelContext: modelContext)
         } else {
             saveNewHabit(modelContext: modelContext)
+        }
+        
+        // Sync defined tasks after saving or updating
+        if let habit = existingHabit {
+            SwiftDataManager.shared.syncDefinedTasks(for: habit)
         }
     }
     
@@ -53,7 +61,6 @@ class AddHabitViewModel: ObservableObject {
     private func saveChanges(modelContext: ModelContext) {
         do {
             try modelContext.save()
-            //scheduleRemindersForHabit(habit) <--- TODO: Tolong di fix
         } catch {
             print("Error saving habit: \(error.localizedDescription)")
         }
