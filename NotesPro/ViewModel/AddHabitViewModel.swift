@@ -9,6 +9,7 @@ import SwiftData
 
 @MainActor
 class AddHabitViewModel: ObservableObject {
+    @Published var showAIModal: Bool = false
     @Published var habitName: String = ""
     @Published var habitDescription: String = ""
     @Published var isValidHabit: Bool = false
@@ -35,7 +36,9 @@ class AddHabitViewModel: ObservableObject {
         if let habit = existingHabit {
             updateHabit(habit, modelContext: modelContext)
         } else {
-            saveNewHabit(modelContext: modelContext)
+            let newHabit = saveNewHabit(modelContext: modelContext)
+            // Create a new entry for the current date
+            SwiftDataManager.shared.addNewEntry(habit: newHabit, date: Date())
         }
         
         // Sync defined tasks after saving or updating
@@ -44,11 +47,12 @@ class AddHabitViewModel: ObservableObject {
         }
     }
     
-    private func saveNewHabit(modelContext: ModelContext) {
+    private func saveNewHabit(modelContext: ModelContext) -> Habit {
         let newHabit = Habit(title: habitName, description: habitDescription)
         newHabit.definedTasks = definedTasks
         modelContext.insert(newHabit)
         saveChanges(modelContext: modelContext)
+        return newHabit
     }
     
     private func updateHabit(_ habit: Habit, modelContext: ModelContext) {
@@ -121,6 +125,7 @@ class AddHabitViewModel: ObservableObject {
     
     func hideAIChatSheet() {
         isAIChatSheetPresented = false
+        isAIOnboardingPresented = false
     }
     
     // New Mthod untuk handle reminder
