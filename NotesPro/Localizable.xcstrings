@@ -58,6 +58,18 @@
         }
       }
     },
+    "%lld" : {
+
+    },
+    "%lld habits" : {
+
+    },
+    "%lld tasks to do" : {
+
+    },
+    "2" : {
+
+    },
     "08.00" : {
       "localizations" : {
         "id" : {
@@ -119,6 +131,7 @@
       }
     },
     "Add" : {
+      "extractionState" : "stale",
       "localizations" : {
         "id" : {
           "stringUnit" : {
@@ -128,7 +141,14 @@
         }
       }
     },
+    "Add New Habit" : {
+
+    },
+    "Add Note" : {
+
+    },
     "Add Reward" : {
+      "extractionState" : "stale",
       "localizations" : {
         "id" : {
           "stringUnit" : {
@@ -148,6 +168,9 @@
         }
       }
     },
+    "AI Habit Generator" : {
+
+    },
     "AI Recommendations:" : {
       "localizations" : {
         "id" : {
@@ -157,6 +180,12 @@
           }
         }
       }
+    },
+    "AI will help you generated a few\ntasks from your prompt" : {
+
+    },
+    "AI will only give you some suggestions. The decision is still yours to make!" : {
+
     },
     "as my reward." : {
       "localizations" : {
@@ -188,6 +217,9 @@
         }
       }
     },
+    "Best Streak" : {
+
+    },
     "Cancel" : {
       "localizations" : {
         "id" : {
@@ -207,6 +239,9 @@
           }
         }
       }
+    },
+    "Current Streak" : {
+
     },
     "Currently, I" : {
       "localizations" : {
@@ -266,16 +301,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Masukkan Nama Habit"
-          }
-        }
-      }
-    },
-    "Enter reward name" : {
-      "localizations" : {
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tuliskan nama reward"
           }
         }
       }
@@ -419,6 +444,7 @@
       }
     },
     "Goals" : {
+      "extractionState" : "stale",
       "localizations" : {
         "id" : {
           "stringUnit" : {
@@ -458,6 +484,9 @@
         }
       }
     },
+    "Hey,\nI'm ready to\nhelp you here!" : {
+
+    },
     "I want to " : {
       "localizations" : {
         "id" : {
@@ -477,6 +506,9 @@
           }
         }
       }
+    },
+    "I'm Ready" : {
+
     },
     "Monday" : {
       "localizations" : {
@@ -498,6 +530,9 @@
         }
       }
     },
+    "New notes you create will appear here." : {
+
+    },
     "New Task" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -508,6 +543,12 @@
           }
         }
       }
+    },
+    "No Habit Found" : {
+
+    },
+    "No Notes" : {
+
     },
     "Notes" : {
       "localizations" : {
@@ -581,7 +622,11 @@
         }
       }
     },
+    "Reset" : {
+
+    },
     "Rewards" : {
+      "extractionState" : "stale",
       "localizations" : {
         "id" : {
           "stringUnit" : {
@@ -711,6 +756,9 @@
         }
       }
     },
+    "The AI is Generating Your Habits..." : {
+
+    },
     "Thursday" : {
       "localizations" : {
         "id" : {
@@ -761,6 +809,9 @@
           }
         }
       }
+    },
+    "Type a message..." : {
+
     },
     "Wednesday" : {
       "localizations" : {

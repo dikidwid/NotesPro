@@ -19,15 +19,16 @@ struct DetailTaskView: View {
             Form {
                 Section(header: Text("TASK")) {
                     TextField("Enter Task Name", text: $task.taskName)
+                        .autocorrectionDisabled()
                 }
                 
                 Section(header: Text("REMINDERS")) {
-                    Toggle("Reminder", isOn: $task.reminder.isEnabled)
+                    Toggle("Reminder", isOn: $task.isReminderEnabled)
                     
-                    if task.reminder.isEnabled {
-                        DatePicker("Time", selection: $task.reminder.clock, displayedComponents: .hourAndMinute)
+                    if task.isReminderEnabled {
+                        DatePicker("Time", selection: $task.reminderClock, displayedComponents: .hourAndMinute)
                         
-                        RepeatDaysMenu(repeatDays: $task.reminder.repeatDays)
+                        RepeatDaysMenu(task: task)
                     }
                 }
             }
@@ -62,45 +63,45 @@ struct DetailTaskView: View {
 }
 
 struct RepeatDaysMenu: View {
-    @Binding var repeatDays: DailyTaskReminderRepeatDays
+    @Bindable var task: DailyTaskDefinition
     @State private var showMenu = false
     
     var body: some View {
         Menu {
             Button(action: {
-                repeatDays.sunday = true
-                repeatDays.monday = true
-                repeatDays.tuesday = true
-                repeatDays.wednesday = true
-                repeatDays.thursday = true
-                repeatDays.friday = true
-                repeatDays.saturday = true
+                task.sundayReminder = true
+                task.mondayReminder = true
+                task.tuesdayReminder = true
+                task.wednesdayReminder = true
+                task.thursdayReminder = true
+                task.fridayReminder = true
+                task.saturdayReminder = true
             }) {
                 Label("Everyday", systemImage: isEveryday() ? "checkmark" : "")
             }
             
             Divider()
             
-            Button(action: { repeatDays.sunday.toggle() }) {
-                Label("Sunday", systemImage: repeatDays.sunday ? "checkmark" : "")
+            Button(action: { task.sundayReminder.toggle() }) {
+                Label("Sunday", systemImage: task.sundayReminder ? "checkmark" : "")
             }
-            Button(action: { repeatDays.monday.toggle() }) {
-                Label("Monday", systemImage: repeatDays.monday ? "checkmark" : "")
+            Button(action: { task.mondayReminder.toggle() }) {
+                Label("Monday", systemImage: task.mondayReminder ? "checkmark" : "")
             }
-            Button(action: { repeatDays.tuesday.toggle() }) {
-                Label("Tuesday", systemImage: repeatDays.tuesday ? "checkmark" : "")
+            Button(action: { task.tuesdayReminder.toggle() }) {
+                Label("Tuesday", systemImage: task.tuesdayReminder ? "checkmark" : "")
             }
-            Button(action: { repeatDays.wednesday.toggle() }) {
-                Label("Wednesday", systemImage: repeatDays.wednesday ? "checkmark" : "")
+            Button(action: { task.wednesdayReminder.toggle() }) {
+                Label("Wednesday", systemImage: task.wednesdayReminder ? "checkmark" : "")
             }
-            Button(action: { repeatDays.thursday.toggle() }) {
-                Label("Thursday", systemImage: repeatDays.thursday ? "checkmark" : "")
+            Button(action: { task.thursdayReminder.toggle() }) {
+                Label("Thursday", systemImage: task.thursdayReminder ? "checkmark" : "")
             }
-            Button(action: { repeatDays.friday.toggle() }) {
-                Label("Friday", systemImage: repeatDays.friday ? "checkmark" : "")
+            Button(action: { task.fridayReminder.toggle() }) {
+                Label("Friday", systemImage: task.fridayReminder ? "checkmark" : "")
             }
-            Button(action: { repeatDays.saturday.toggle() }) {
-                Label("Saturday", systemImage: repeatDays.saturday ? "checkmark" : "")
+            Button(action: { task.saturdayReminder.toggle() }) {
+                Label("Saturday", systemImage: task.saturdayReminder ? "checkmark" : "")
             }
         } label: {
             HStack {
@@ -114,7 +115,7 @@ struct RepeatDaysMenu: View {
     }
     
     private func isEveryday() -> Bool {
-        return repeatDays.sunday && repeatDays.monday && repeatDays.tuesday && repeatDays.wednesday && repeatDays.thursday && repeatDays.friday && repeatDays.saturday
+        return task.sundayReminder && task.mondayReminder && task.tuesdayReminder && task.wednesdayReminder && task.thursdayReminder && task.fridayReminder && task.saturdayReminder
     }
     
     private func getRepeatDescription() -> String {
@@ -123,13 +124,13 @@ struct RepeatDaysMenu: View {
         }
         
         let days = [
-            (day: "Sun", isSelected: repeatDays.sunday),
-            (day: "Mon", isSelected: repeatDays.monday),
-            (day: "Tue", isSelected: repeatDays.tuesday),
-            (day: "Wed", isSelected: repeatDays.wednesday),
-            (day: "Thu", isSelected: repeatDays.thursday),
-            (day: "Fri", isSelected: repeatDays.friday),
-            (day: "Sat", isSelected: repeatDays.saturday)
+            (day: "Sun", isSelected: task.sundayReminder),
+            (day: "Mon", isSelected: task.mondayReminder),
+            (day: "Tue", isSelected: task.tuesdayReminder),
+            (day: "Wed", isSelected: task.wednesdayReminder),
+            (day: "Thu", isSelected: task.thursdayReminder),
+            (day: "Fri", isSelected: task.fridayReminder),
+            (day: "Sat", isSelected: task.saturdayReminder)
         ]
         
         let selectedDays = days.filter { $0.isSelected }.map { $0.day }
@@ -144,15 +145,12 @@ struct RepeatDaysMenu: View {
 
 #Preview {
     do {
-        let config = ModelConfiguration(isStoredInMemoryOnly: false)
-        let container = try ModelContainer(for: DailyTaskDefinition.self, DailyTaskReminder.self, DailyTaskReminderRepeatDays.self, configurations: config)
+        let config = ModelConfiguration(isStoredInMemoryOnly: true)
+        let container = try ModelContainer(for: DailyTaskDefinition.self, configurations: config)
         
         let sampleTask = DailyTaskDefinition(taskName: "Meditate for 10 minutes")
-        sampleTask.reminder = DailyTaskReminder(
-            isEnabled: true,
-            clock: Calendar.current.date(from: DateComponents(hour: 7, minute: 0)) ?? Date(),
-            repeatDays: DailyTaskReminderRepeatDays()
-        )
+        sampleTask.isReminderEnabled = true
+        sampleTask.reminderClock = Calendar.current.date(from: DateComponents(hour: 7, minute: 0)) ?? Date()
         container.mainContext.insert(sampleTask)
         return DetailTaskView(task: sampleTask, isNewTask: false)
             .modelContainer(container)

@@ -11,7 +11,7 @@ struct AddHabitView: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.modelContext) private var modelContext
     @EnvironmentObject private var addHabitViewModel: AddHabitViewModel
-    @EnvironmentObject private var habitsViewModel: HabitsViewModel
+    @EnvironmentObject private var habitsViewModel: HabitViewModel
     
     @State private var showDetailTaskSheet = false
     @State private var selectedTask: DailyTaskDefinition?
@@ -19,16 +19,25 @@ struct AddHabitView: View {
     var body: some View {
         NavigationStack {
             VStack(spacing: 0) {
+                
                 Divider()
                 
                 Form {
                     HabitNameSection(habitName: $addHabitViewModel.habitName, updateHabitName: addHabitViewModel.updateHabitName)
+                    
                     TasksSection(tasks: addHabitViewModel.definedTasks, viewModel: addHabitViewModel, showDetailTaskSheet: $showDetailTaskSheet, selectedTask: $selectedTask)
+                    
                     IntelligenceSection()
                 }
             }
             .navigationTitle(habitsViewModel.selectedHabit == nil ? "New Habit" : "Edit Habit")
             .navigationBarTitleDisplayMode(.inline)
+            .navigationDestination(item: $selectedTask) { task in
+                DetailTaskView(task: task, isNewTask: habitsViewModel.selectedHabit == nil)
+                    .onDisappear {
+                        addHabitViewModel.deleteEmptyTasks()
+                    }
+            }
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
                     Button("Cancel") {
@@ -44,18 +53,13 @@ struct AddHabitView: View {
                         }
                     }
                     .foregroundColor(addHabitViewModel.isValidHabit ? .accentColor : .gray)
+                    .disabled(!addHabitViewModel.isValidHabit)
                 }
             }
         }
-        .padding(.top, 10)
-        .sheet(item: $selectedTask) { task in
-            DetailTaskView(task: task, isNewTask: habitsViewModel.selectedHabit == nil)
-                .onDisappear {
-                    addHabitViewModel.deleteEmptyTasks()
-                }
-        }
-        .sheet(isPresented: $addHabitViewModel.isAIChatSheetPresented) {
-            AIChatView()
+//        .padding(.top, 10)
+        .sheet(isPresented: $addHabitViewModel.isAIOnboardingPresented) {
+            AIOnboardingView()
         }
     }
 }
@@ -67,6 +71,7 @@ struct HabitNameSection: View {
     var body: some View {
         Section(header: Text("Habit")) {
             TextField("Enter Habit Name", text: $habitName)
+                .autocorrectionDisabled()
                 .onChange(of: habitName) { _, newValue in
                     updateHabitName(newValue)
                 }
@@ -92,6 +97,9 @@ struct TasksSection: View {
                     .font(.title3)
                 Text("Add Task")
                     .foregroundColor(.primary)
+                
+                Spacer()
+
             }
             .onTapGesture {
                 selectedTask = viewModel.addTask()
@@ -116,23 +124,26 @@ struct TaskRow: View {
                     viewModel.deleteTask(task)
                 }
             
-            VStack(alignment: .leading) {
-                Text(task.taskName)
-                if task.reminder.isEnabled {
-                    Text(task.reminder.getDescription())
-                        .font(.footnote)
-                        .opacity(0.6)
+            HStack {
+                VStack(alignment: .leading) {
+                    Text(task.taskName)
+                    if task.isReminderEnabled {
+                        Text(task.getReminderDescription())
+                            .font(.footnote)
+                            .opacity(0.6)
+                    }
                 }
+                
+                Spacer()
+                
+                Image(systemName: "chevron.right")
+                    .foregroundColor(.secondary)
             }
+            .contentShape(Rectangle())
             .onTapGesture {
                 selectedTask = task
                 showDetailTaskSheet = true
             }
-            
-            Spacer()
-            
-            Image(systemName: "chevron.right")
-                .foregroundColor(.secondary)
         }
         .foregroundColor(.primary)
     }
@@ -146,7 +157,7 @@ struct IntelligenceSection: View {
     var body: some View {
         Section(header: Text("or use AI habit Generator")) {
             Button("Generate Habits with AI") {
-                viewModel.showAIChatSheet()
+                viewModel.showAIOnboardingSheet()
             }
             .foregroundColor(.accentColor)
         }
@@ -156,20 +167,12 @@ struct IntelligenceSection: View {
 #Preview {
     do {
         let config = ModelConfiguration(isStoredInMemoryOnly: true)
-        let container = try ModelContainer(for: Habit.self, DailyTaskDefinition.self, DailyTaskReminder.self, DailyTaskReminderRepeatDays.self, configurations: config)
+        let container = try ModelContainer(for: Habit.self, DailyTaskDefinition.self, configurations: config)
         
         let sampleHabit = Habit(title: "Read Books", description: "Read for personal growth")
         
         let task1 = DailyTaskDefinition(taskName: "Read 30 minutes")
-        task1.reminder = DailyTaskReminder(isEnabled: true, clock: Date(), repeatDays: DailyTaskReminderRepeatDays(monday: true, wednesday: true, friday: true))
-        
         let task2 = DailyTaskDefinition(taskName: "Write summary")
-        
-        let newClock = Calendar.current.date(byAdding: .minute, value: 1, to: Date()) ?? Date()
-        
-        task1.reminder = DailyTaskReminder(
-            isEnabled: true, clock: newClock, repeatDays: DailyTaskReminderRepeatDays()
-        )
         
         sampleHabit.definedTasks = [task1, task2]
         
@@ -181,7 +184,7 @@ struct IntelligenceSection: View {
         return AddHabitView()
             .modelContainer(container)
             .environmentObject(viewModel)
-            .environmentObject(HabitsViewModel())
+//            .environmentObject(/*HabitsViewModel()*/)
         
     } catch {
         return Text("Failed to create preview: \(error.localizedDescription)")

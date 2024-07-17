@@ -135,6 +135,7 @@ struct AIChatView: View {
                     .padding(.horizontal)
                 }
             }
+            .navigationBarBackButtonHidden()
             .navigationBarTitle("AI Habit Generator", displayMode: .inline)
             .navigationBarItems(leading: Button("Cancel") {
                 resetChat()

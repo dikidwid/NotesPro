@@ -7,15 +7,21 @@
 import SwiftUI
 import SwiftData
 
+@MainActor
 class AddHabitViewModel: ObservableObject {
+    @Published var showAIModal: Bool = false
     @Published var habitName: String = ""
     @Published var habitDescription: String = ""
     @Published var isValidHabit: Bool = false
     @Published var definedTasks: [DailyTaskDefinition] = []
+    @Published var isAIOnboardingPresented = false
     @Published var isAIChatSheetPresented = false
 
+    @EnvironmentObject private var habitViewModel: HabitViewModel
+    @EnvironmentObject private var calendarViewModel: CalendarViewModel
+
     private let reminderService = ReminderService.shared
-    private let modelContext = GlobalSwiftDataService.shared.modelContext
+    private let modelContext = SwiftDataManager.shared.modelContainer.mainContext
     
     func updateHabitName(_ name: String) {
         habitName = name.trimmingCharacters(in: .whitespacesAndNewlines)
@@ -30,15 +36,23 @@ class AddHabitViewModel: ObservableObject {
         if let habit = existingHabit {
             updateHabit(habit, modelContext: modelContext)
         } else {
-            saveNewHabit(modelContext: modelContext)
+            let newHabit = saveNewHabit(modelContext: modelContext)
+            // Create a new entry for the current date
+            SwiftDataManager.shared.addNewEntry(habit: newHabit, date: Date())
+        }
+        
+        // Sync defined tasks after saving or updating
+        if let habit = existingHabit {
+            SwiftDataManager.shared.syncDefinedTasks(for: habit)
         }
     }
     
-    private func saveNewHabit(modelContext: ModelContext) {
+    private func saveNewHabit(modelContext: ModelContext) -> Habit {
         let newHabit = Habit(title: habitName, description: habitDescription)
         newHabit.definedTasks = definedTasks
         modelContext.insert(newHabit)
         saveChanges(modelContext: modelContext)
+        return newHabit
     }
     
     private func updateHabit(_ habit: Habit, modelContext: ModelContext) {
@@ -51,13 +65,11 @@ class AddHabitViewModel: ObservableObject {
     private func saveChanges(modelContext: ModelContext) {
         do {
             try modelContext.save()
-            //scheduleRemindersForHabit(habit) <--- TODO: Tolong di fix
         } catch {
             print("Error saving habit: \(error.localizedDescription)")
         }
     }
     
-    @discardableResult
     func addTask() -> DailyTaskDefinition {
         let newTask = DailyTaskDefinition(taskName: "")
         definedTasks.append(newTask)
@@ -103,19 +115,23 @@ class AddHabitViewModel: ObservableObject {
         updateValidHabitStatus()
     }
     
+    func showAIOnboardingSheet() {
+        isAIOnboardingPresented = true
+    }
+    
     func showAIChatSheet() {
         isAIChatSheetPresented = true
     }
     
     func hideAIChatSheet() {
         isAIChatSheetPresented = false
+        isAIOnboardingPresented = false
     }
     
     // New Mthod untuk handle reminder
-    func updateTaskReminder(_ task: DailyTaskDefinition, isEnabled: Bool, clock: Date, repeatDays: DailyTaskReminderRepeatDays) {
-        task.reminder.isEnabled = isEnabled
-        task.reminder.clock = clock
-        task.reminder.repeatDays = repeatDays
+    func updateTaskReminder(_ task: DailyTaskDefinition, isEnabled: Bool, clock: Date) {
+            task.isReminderEnabled = isEnabled
+            task.reminderClock = clock
     }
     
     private func scheduleRemindersForHabit(_ habit: Habit) {
