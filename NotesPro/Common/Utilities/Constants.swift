@@ -8,9 +8,9 @@
 import SwiftData
 
 let swiftDataModels: [any PersistentModel.Type] = [
-    Goal.self,
     Habit.self,
     Note.self,
     DailyTask.self,
-    DailyTaskDefinition.self
+    DailyTaskDefinition.self,
+    DailyHabitEntry.self
 ]

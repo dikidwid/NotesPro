@@ -14,11 +14,28 @@ struct NotesView: View {
                     .padding()
                 
                 List {
-                    NoteSection(title: "Today", subtitle: "Tue 9 Jul", notes: todayNotes)
+                    if !todayNotes.isEmpty
+                    {
+                        NoteSection(title: "Today", subtitle: "Tue 9 Jul", notes: todayNotes)
+                    }
+
+                    if !previousWeekNotes.isEmpty
+                    {
+                        NoteSection(title: "Previous 7 Days", subtitle: "", notes: previousWeekNotes)
+                    }
+
+                    if !previousMonthNotes.isEmpty
+                    {
+                        NoteSection(title: "Previous 30 Days", subtitle: "", notes: previousMonthNotes)
+                    }
                     
-                    NoteSection(title: "Previous 7 Days", subtitle: "", notes: previousWeekNotes)
-                    
-                    NoteSection(title: "Previous 30 Days", subtitle: "", notes: previousMonthNotes)
+                    if todayNotes.isEmpty && previousWeekNotes.isEmpty && previousMonthNotes.isEmpty {
+                        ContentUnavailableView {
+                            Label("No Notes", systemImage: "note.text")
+                        } description: {
+                            Text("New notes you create will appear here.")
+                        }
+                    }
                 }
                 .listStyle(InsetGroupedListStyle())
             }
@@ -30,7 +47,7 @@ struct NotesView: View {
                         viewModel.newNoteId = newNote.id
                     }) {
                         Image(systemName: "square.and.pencil")
-                            .foregroundColor(.yellow)
+                            .foregroundColor(.accentColor)
                     }
                 }
             }
@@ -114,11 +131,6 @@ struct NoteRowView: View {
     
     var body: some View {
         HStack(spacing: 16) {
-            Image(systemName: note.tasks.isEmpty ? "doc.fill" : "checklist")
-                .foregroundColor(.yellow)
-                .frame(width: 40, height: 40)
-                .background(Color.yellow.opacity(0.2))
-                .cornerRadius(8)
             
             VStack(alignment: .leading, spacing: 4) {
                 Text(note.title)
@@ -145,7 +157,6 @@ struct NoteRowView: View {
         
         let todayNote2 = Note(title: "TOEFL Test", content: "Subtitle")
         todayNote2.createdDate = Date()
-        todayNote2.tasks = [DailyTask(taskName: "Sample Task")]
         
         let weekNote1 = Note(title: "Beli Jus", content: "Ayam 1 Ikan 3 Beras 3kg Susu")
         weekNote1.createdDate = Calendar.current.date(byAdding: .day, value: -3, to: Date())!
