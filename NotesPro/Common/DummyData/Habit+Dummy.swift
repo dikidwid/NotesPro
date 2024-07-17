@@ -64,7 +64,7 @@ struct DummyData {
         readingHabit.definedTasks.append(contentsOf: [readingTask1, readingTask2])
         writingHabit.definedTasks.append(contentsOf: [writingTask1, writingTask2])
         
-//        return []
+        return []
         return [readingHabit, writingHabit]
     }
 }

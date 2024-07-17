@@ -68,6 +68,7 @@ class AddHabitViewModel: ObservableObject {
         } catch {
             print("Error saving habit: \(error.localizedDescription)")
         }
+        populateToEmpty()
     }
     
     func addTask() -> DailyTaskDefinition {
@@ -93,6 +94,7 @@ class AddHabitViewModel: ObservableObject {
     
     func populateToEmpty() {
         habitName = ""
+        habitDescription = ""
         definedTasks = []
     }
     

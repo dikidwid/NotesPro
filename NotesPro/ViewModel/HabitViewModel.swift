@@ -16,22 +16,115 @@ final class HabitViewModel: ObservableObject {
     @Published var newHabitId: UUID?
     @Published var dailyHabitEntries: [DailyHabitEntry] = []
     @Published var responseError: ResponseError?
-    
+        
+    @Published var completedDays: Set<Date> = []
+    @Published var allHabitsCompletedDays: Set<Date> = []
+    @Published var individualHabitCompletedDays: Set<Date> = []
+    @Published var lastUpdateTimestamp: Date = Date()
+
     let habitDataSource: HabitDataSource
+
+    func updateAllHabitsCompletedDays() {
+        var newCompletedDays = Set<Date>()
+        let calendar = Calendar.current
+        
+        for date in habits.flatMap({ $0.dailyHabitEntries.map({ $0.day }) }) {
+            let startOfDay = calendar.startOfDay(for: date)
+            if isAllHabitsCompletedForDay(startOfDay) {
+                newCompletedDays.insert(startOfDay)
+            }
+        }
+        
+        self.allHabitsCompletedDays = newCompletedDays
+    }
+    
+    func updateIndividualHabitCompletedDays(for habit: Habit) {
+        var newCompletedDays = Set<Date>()
+        let calendar = Calendar.current
+        
+        for entry in habit.dailyHabitEntries {
+            let startOfDay = calendar.startOfDay(for: entry.day)
+            if entry.tasks.allSatisfy({ $0.isChecked }) {
+                newCompletedDays.insert(startOfDay)
+            }
+        }
+        
+        self.individualHabitCompletedDays = newCompletedDays
+    }
+
+    func updateCompletedDays() {
+        var newCompletedDays = Set<Date>()
+        let calendar = Calendar.current
+        
+        for habit in habits {
+            for entry in habit.dailyHabitEntries {
+                let startOfDay = calendar.startOfDay(for: entry.day)
+                if isAllHabitsCompletedForDay(startOfDay) {
+                    newCompletedDays.insert(startOfDay)
+                }
+            }
+        }
+        
+        self.completedDays = newCompletedDays
+    }
+    
+    func isAllHabitsCompletedForDay(_ date: Date) -> Bool {
+        let startOfDay = Calendar.current.startOfDay(for: date)
+        return habits.allSatisfy { habit in
+            guard let entry = habit.hasEntry(for: startOfDay) else { return false }
+            return entry.tasks.allSatisfy { $0.isChecked }
+        }
+    }
+    
+    
+    private var updateTimer: Timer?
     
     init(habitDataSource: HabitDataSource) {
         self.habitDataSource = habitDataSource
+        startContinuousUpdates()
     }
+    
+    deinit {
+        Task {
+            await stopContinuousUpdates()
+        }
+    }
+    
+    private func startContinuousUpdates() {
+        updateTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [weak self] _ in
+            Task { @MainActor in
+                await self?.updateAllData()
+            }
+        }
+    }
+    
+    private func stopContinuousUpdates() {
+        updateTimer?.invalidate()
+        updateTimer = nil
+    }
+    
+    @MainActor
+    private func updateAllData() async {
+        await getHabits()
+        updateStreaks(for: Date())
+        updateAllHabitsCompletedDays()
+        if let selectedHabit = selectedHabit {
+            updateIndividualHabitCompletedDays(for: selectedHabit)
+        }
+        lastUpdateTimestamp = Date()
+    }
+
     
     func updateStreaks(for date: Date) {
         if let swiftDataManager = habitDataSource as? SwiftDataManager {
             swiftDataManager.updateStreaks(for: date)
             Task {
                 await refreshHabits()
+                updateCompletedDays()
             }
         }
     }
-    
+ 
     func getOrCreateEntry(for habit: Habit, on date: Date) -> DailyHabitEntry {
         if let swiftDataManager = habitDataSource as? SwiftDataManager {
             return swiftDataManager.getOrCreateEntry(for: habit, on: date)
@@ -94,6 +187,7 @@ final class HabitViewModel: ObservableObject {
     
     func refreshHabits() async {
         await getHabits()
+        updateCompletedDays()
     }
     
     func updateDailyHabitEntry(for habit: Habit, on date: Date) {
@@ -119,4 +213,15 @@ final class HabitViewModel: ObservableObject {
             print("Error updating habit: \(error.localizedDescription)")
         }
     }
+    
+    func toggleTask(_ task: DailyTask) {
+        task.isChecked.toggle()
+        task.checkedDate = task.isChecked ? Date() : nil
+        updateAllHabitsCompletedDays()
+        if let habit = task.dailyHabitEntry?.habit {
+            updateIndividualHabitCompletedDays(for: habit)
+        }
+        updateStreaks(for: Date())
+    }
+    
 }

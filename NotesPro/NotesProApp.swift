@@ -22,11 +22,12 @@ struct ContentView: View {
         NavigationStack {
             HabitListView()
         }
-        .environmentObject(CalendarViewModel())
         .environmentObject(HabitViewModel(habitDataSource: SwiftDataManager.shared))
+        .environmentObject(CalendarViewModel())
         .environmentObject(AddHabitViewModel())
         .environmentObject(NotesViewModel())
         .modelContainer(SwiftDataManager.shared.modelContainer)
+        
 //        MainView()
 //            .environmentObject(addHabitViewModel)
 //            .environmentObject(notesViewModel)
