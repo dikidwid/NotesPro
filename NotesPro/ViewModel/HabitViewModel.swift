@@ -28,10 +28,8 @@ final class HabitViewModel: ObservableObject {
         for habit in habits {
             for entry in habit.dailyHabitEntries {
                 let startOfDay = calendar.startOfDay(for: entry.day)
-                if !entry.tasks.contains(where: { !$0.isChecked }) {
+                if isAllHabitsCompletedForDay(startOfDay) {
                     newCompletedDays.insert(startOfDay)
-                } else {
-                    newCompletedDays.remove(startOfDay)
                 }
             }
         }
@@ -41,18 +39,50 @@ final class HabitViewModel: ObservableObject {
     
     func isAllHabitsCompletedForDay(_ date: Date) -> Bool {
         let startOfDay = Calendar.current.startOfDay(for: date)
-        return completedDays.contains(startOfDay)
+        return habits.allSatisfy { habit in
+            guard let entry = habit.hasEntry(for: startOfDay) else { return false }
+            return entry.tasks.allSatisfy { $0.isChecked }
+        }
     }
     
     func toggleTask(_ task: DailyTask) {
         task.isChecked.toggle()
         task.checkedDate = task.isChecked ? Date() : nil
         updateCompletedDays()
+        updateStreaks(for: Date())
     }
     
     
+    private var updateTimer: Timer?
+    
     init(habitDataSource: HabitDataSource) {
         self.habitDataSource = habitDataSource
+        startContinuousUpdates()
+    }
+    
+    deinit {
+        Task {
+            await stopContinuousUpdates()
+        }
+    }
+    
+    private func startContinuousUpdates() {
+        updateTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [weak self] _ in
+            Task { @MainActor in
+                await self?.updateAllData()
+            }
+        }
+    }
+    
+    private func stopContinuousUpdates() {
+        updateTimer?.invalidate()
+        updateTimer = nil
+    }
+    
+    @MainActor
+    private func updateAllData() async {
+        await getHabits()
+        updateStreaks(for: Date())
     }
     
     func updateStreaks(for date: Date) {

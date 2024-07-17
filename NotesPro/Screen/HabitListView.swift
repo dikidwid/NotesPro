@@ -21,10 +21,6 @@ struct HabitListView: View {
             VStack(spacing: 20) {
                 CalendarView(viewModel: calendarViewModel)
                     .background(.background)
-                    .onChange(of: habitViewModel.selectedHabit) { oldValue, newValue in
-                        habitViewModel.updateCompletedDays()
-                        calendarViewModel.updateCompletedDays([.now])
-                    }
                 
                 if habits.isEmpty {
                     Spacer().frame(height: 100)
@@ -50,15 +46,6 @@ struct HabitListView: View {
                         }
                     }
                 }
-            }
-        }
-        .onChange(of: calendarViewModel.selectedDate) { oldValue, newValue in
-            Task {
-                await habitViewModel.checkAndCreateEntriesForDate(newValue)
-                await habitViewModel.getDailyHabitEntries(from: newValue)
-                habitViewModel.updateStreaks(for: .now)
-                habitViewModel.updateCompletedDays()
-                calendarViewModel.updateCompletedDays(habitViewModel.completedDays)
             }
         }
         .navigationBarBackgroundColor(Color(.systemBackground))
@@ -100,6 +87,19 @@ struct HabitListView: View {
                         Image(systemName: "square.and.pencil")
                     }
                 }
+            }
+        }
+        .onChange(of: habitViewModel.selectedHabit) { oldValue, newValue in
+            habitViewModel.updateCompletedDays()
+            calendarViewModel.updateCompletedDays(habitViewModel.completedDays)
+        }
+        .onChange(of: calendarViewModel.selectedDate) { oldValue, newValue in
+            Task {
+                await habitViewModel.checkAndCreateEntriesForDate(newValue)
+                await habitViewModel.getDailyHabitEntries(from: newValue)
+                habitViewModel.updateStreaks(for: .now)
+                habitViewModel.updateCompletedDays()
+                calendarViewModel.updateCompletedDays(habitViewModel.completedDays)
             }
         }
         .task {
