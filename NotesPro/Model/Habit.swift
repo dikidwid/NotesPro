@@ -23,7 +23,7 @@ final class Habit: Identifiable {
     // User mengisi journal / notes harian untuk habit. Data tersebut disimpan di DailyHabitEntry.
     @Relationship(deleteRule: .cascade, inverse: \DailyHabitEntry.habit)
     var dailyHabitEntries: [DailyHabitEntry] = []
-    
+        
     init(title: String, description: String) {
         self.id = UUID()
         self.title = title

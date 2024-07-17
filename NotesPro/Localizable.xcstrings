@@ -1,0 +1,587 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    " so that I can" : {
+
+    },
+    "," : {
+
+    },
+    ", and I" : {
+
+    },
+    "." : {
+
+    },
+    "%@ on %@" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ on %2$@"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ pada %2$@"
+          }
+        }
+      }
+    },
+    "08.00" : {
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "08.00"
+          }
+        }
+      }
+    },
+    "15" : {
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "15"
+          }
+        }
+      }
+    },
+    "16" : {
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "16"
+          }
+        }
+      }
+    },
+    "17" : {
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "17"
+          }
+        }
+      }
+    },
+    "18" : {
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "18"
+          }
+        }
+      }
+    },
+    "19" : {
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "19"
+          }
+        }
+      }
+    },
+    "Add" : {
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tambah"
+          }
+        }
+      }
+    },
+    "Add Reward" : {
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tambah Hadiah"
+          }
+        }
+      }
+    },
+    "Add Task" : {
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tambah Tugas"
+          }
+        }
+      }
+    },
+    "AI Recommendations:" : {
+
+    },
+    "as my reward." : {
+
+    },
+    "at " : {
+
+    },
+    "Back" : {
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kembali"
+          }
+        }
+      }
+    },
+    "Cancel" : {
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Batal"
+          }
+        }
+      }
+    },
+    "Content" : {
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Konten"
+          }
+        }
+      }
+    },
+    "Currently, I" : {
+
+    },
+    "Done" : {
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Selesai"
+          }
+        }
+      }
+    },
+    "Edit Habit" : {
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ubah Kebiasaan"
+          }
+        }
+      }
+    },
+    "Edit Task" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Edit Tugas"
+          }
+        }
+      }
+    },
+    "Enjoy a cup of tea after reading" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nikmati secangkir teh setelah membaca"
+          }
+        }
+      }
+    },
+    "Enter Habit Name" : {
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Masukkan Kebiasaanmu"
+          }
+        }
+      }
+    },
+    "Enter reward name" : {
+
+    },
+    "Enter Task Name" : {
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Masukkan Nama Tugasmu"
+          }
+        }
+      }
+    },
+    "Every Friday" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Setiap Jumat"
+          }
+        }
+      }
+    },
+    "Every Monday" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Setiap Senin"
+          }
+        }
+      }
+    },
+    "Every Saturday" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Setiap Sabtu"
+          }
+        }
+      }
+    },
+    "Every Sunday" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Setiap Minggu"
+          }
+        }
+      }
+    },
+    "Every Thursday" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Setiap Kamis"
+          }
+        }
+      }
+    },
+    "Every Tuesday" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Setiap Selasa"
+          }
+        }
+      }
+    },
+    "Everyday" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Setiap Hari"
+          }
+        }
+      }
+    },
+    "Failed to create preview: %@" : {
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gagal membuat pratinjau: %@"
+          }
+        }
+      }
+    },
+    "Friday" : {
+
+    },
+    "Generate AI Recommendations" : {
+
+    },
+    "Generate Habits with AI" : {
+
+    },
+    "Generate Habits with AI " : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Buat Kebiasaan dengan Kecerdasan Buatan"
+          }
+        }
+      }
+    },
+    "Goals" : {
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tujuan"
+          }
+        }
+      }
+    },
+    "Habit" : {
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kebiasaan"
+          }
+        }
+      }
+    },
+    "habit you want to build" : {
+
+    },
+    "Habits" : {
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kebiasaan"
+          }
+        }
+      }
+    },
+    "I want to " : {
+
+    },
+    "I'll do it every " : {
+
+    },
+    "Monday" : {
+
+    },
+    "New Habit" : {
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kebiasaan Baru"
+          }
+        }
+      }
+    },
+    "New Task" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tugas Baru"
+          }
+        }
+      }
+    },
+    "Notes" : {
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Catatan"
+          }
+        }
+      }
+    },
+    "or use AI habit Generator" : {
+
+    },
+    "or use Apple Intelligence habit Generator" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "atau gunakan Generator Kebiasaan Apple Intelligence"
+          }
+        }
+      }
+    },
+    "Reminder" : {
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pengingat"
+          }
+        }
+      }
+    },
+    "Reminders" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pengingat"
+          }
+        }
+      }
+    },
+    "REMINDERS" : {
+
+    },
+    "Repeat" : {
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ulangi"
+          }
+        }
+      }
+    },
+    "Rewards" : {
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hadiah"
+          }
+        }
+      }
+    },
+    "Saturday" : {
+
+    },
+    "Save" : {
+
+    },
+    "Search" : {
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mencari"
+          }
+        }
+      }
+    },
+    "Settings" : {
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pengaturan"
+          }
+        }
+      }
+    },
+    "Settings Screen" : {
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pengaturan Layar"
+          }
+        }
+      }
+    },
+    "small reward I wanted after done my habits" : {
+
+    },
+    "something that you do repeatedly" : {
+
+    },
+    "somethings that you want" : {
+
+    },
+    "Sunday" : {
+
+    },
+    "TASK" : {
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tugas"
+          }
+        }
+      }
+    },
+    "Task Details" : {
+
+    },
+    "Tasks" : {
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tugas"
+          }
+        }
+      }
+    },
+    "Thursday" : {
+
+    },
+    "Time" : {
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Waktu"
+          }
+        }
+      }
+    },
+    "Title" : {
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Judul"
+          }
+        }
+      }
+    },
+    "TOEFL Test Habit" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kebiasaan Ujian TOEFL"
+          }
+        }
+      }
+    },
+    "Tuesday" : {
+
+    },
+    "Wednesday" : {
+
+    },
+    "when you want to do it" : {
+
+    },
+    "where you want to do it" : {
+
+    }
+  },
+  "version" : "1.0"
+}

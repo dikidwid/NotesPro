@@ -11,5 +11,6 @@ let swiftDataModels: [any PersistentModel.Type] = [
     Habit.self,
     Note.self,
     DailyTask.self,
-    DailyTaskDefinition.self
+    DailyTaskDefinition.self,
+    DailyHabitEntry.self
 ]
