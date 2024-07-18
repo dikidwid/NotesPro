@@ -295,6 +295,8 @@ struct AIChatView: View {
         
         Don't wrap your response with backticks.
         
+        Response language is based on user interview language (English / Indonesian)
+        
         Now generate tasks for building habit based on this interview with user:
         
         \(getInterviewQuestionAndAnswers())
