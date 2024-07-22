@@ -168,7 +168,7 @@ struct AIChatView: View {
                 }
             }
             .navigationDestination(isPresented: $navigateToAddHabit) {
-                AddHabitView()
+//                AddHabitView()
             }
             .toolbar {
                 ToolbarItem(placement: .keyboard) {

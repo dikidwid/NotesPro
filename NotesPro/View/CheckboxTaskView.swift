@@ -9,7 +9,7 @@ import SwiftUI
 
 struct CheckboxTaskView: View {
     let isShowReminderTime: Bool
-    @Bindable var task: DailyTask
+    var task: TaskModel
     
 //    @EnvironmentObject var viewModel: NotesViewModel
     @EnvironmentObject var viewModel: HabitViewModel
@@ -22,7 +22,7 @@ struct CheckboxTaskView: View {
                 .fontWeight(.semibold)
                 .contentTransition(.symbolEffect(.replace))
                 .onTapGesture {
-                    viewModel.toggleTask(task)
+//                    viewModel.toggleTask(task)
                 }
             
             

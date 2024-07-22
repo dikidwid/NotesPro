@@ -32,7 +32,7 @@ struct HabitDetailView: View {
             VStack {
                 StreakCardView(bestStreak: habit.bestStreak, currentStreak: habit.currentStreak)
                 
-                CalendarView(viewModel: calendarViewModel, forAllHabits: false)
+                CalendarView(calendarViewModel: calendarViewModel, forAllHabits: false)
                 
                 Divider()
                 
@@ -43,9 +43,9 @@ struct HabitDetailView: View {
                         .padding(.vertical)
                 } else {
                     VStack(alignment: .leading, spacing: 10) {
-                        ForEach(habit.tasks(for: calendarViewModel.currentDate)) { task in
-                            CheckboxTaskView(isShowReminderTime: false, task: task)
-                        }
+//                        ForEach(habit.tasks(for: calendarViewModel.currentDate)) { task in
+////                            CheckboxTaskView(isShowReminderTime: false, task: task)
+//                        }
                     }
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding(.vertical)
@@ -124,9 +124,8 @@ struct HabitDetailView: View {
             }
         }
         .sheet(isPresented: $isEditSheetPresented) {
-            AddHabitView()
-                .environmentObject(habitViewModel)
-                .environmentObject(addHabitViewModel)
+//            AddHabitView(addHabitViewModel: addHabitViewModel,
+//                         habitViewModel: habitViewModel)
         }
         .alert("Delete Habit", isPresented: $showDeleteAlert) {
             Button("Cancel", role: .cancel) { }
@@ -136,23 +135,22 @@ struct HabitDetailView: View {
         } message: {
             Text("Are you sure you want to delete this habit? This action cannot be undone.")
         }
-        .onChange(of: habitViewModel.lastUpdateTimestamp) { oldValue, newValue in
-            habitViewModel.updateStreaks(for: .now)
-            habitViewModel.updateCompletedDays()
-            habitViewModel.updateIndividualHabitCompletedDays(for: habit)
-            calendarViewModel.updateIndividualHabitCompletedDays(habitViewModel.individualHabitCompletedDays)
-        }
-        .onAppear {
-            habitViewModel.updateIndividualHabitCompletedDays(for: habit)
-            calendarViewModel.updateIndividualHabitCompletedDays(habitViewModel.individualHabitCompletedDays)
-        }
+//        .onChange(of: habitViewModel.lastUpdateTimestamp) { oldValue, newValue in
+////            habitViewModel.updateStreaks(for: .now)
+////            habitViewModel.updateCompletedDays()
+////            habitViewModel.updateIndividualHabitCompletedDays(for: habit)
+//            calendarViewModel.updateIndividualHabitCompletedDays(habitViewModel.individualHabitCompletedDays)
+//        }
+//        .onAppear {
+//            habitViewModel.updateIndividualHabitCompletedDays(for: habit)
+//            calendarViewModel.updateIndividualHabitCompletedDays(habitViewModel.individualHabitCompletedDays)
+//        }
     }
     
     private func deleteHabit() {
         habitViewModel.deleteHabit(habit, modelContext: modelContext)
         dismiss()
     }
-    
 }
 
 struct StreakCardView: View {
@@ -224,10 +222,128 @@ struct StreakCardView: View {
 }
 
 
-//
-//#Preview("Habit Detail") {
-//    NavigationStack {
-//        HabitDetailView(habit: DummyData.habitsDummy[0])
-//    }
-//
-//}
+
+#Preview("Habit Detail") {
+    let getHabitUseCase = GetHabitUseCase(repository: HabitRepositoryMock(habits: DummyData.habitsDummy, habit: DummyData.habitsDummy[0]))
+    let habitDetailViewModel = HabitDetailViewModel(selectedHabit: DummyData.habitsDummy[0])
+    return NavigationStack {
+        HabitDetailVieww(habitDetailViewModel: habitDetailViewModel,
+                         calendarViewModel: CalendarViewModel())
+    }
+
+}
+
+
+struct HabitDetailVieww: View {
+    @ObservedObject var habitDetailViewModel: HabitDetailViewModel
+    @ObservedObject var calendarViewModel: CalendarViewModel
+    
+    var body: some View {
+        ScrollView {
+            VStack {
+                StreakCardView(bestStreak: habitDetailViewModel.selectedHabit.bestStreak,
+                               currentStreak: habitDetailViewModel.selectedHabit.currentStreak)
+                
+                CalendarView(calendarViewModel: calendarViewModel, forAllHabits: false)
+                
+                Divider()
+                
+                if habitDetailViewModel.selectedHabit.isDefinedTaskEmpty(for: calendarViewModel.currentDate) {
+                    Text("You don't have any specific task for this habit")
+                        .font(.system(.subheadline))
+                        .foregroundStyle(.secondary)
+                        .padding(.vertical)
+                } else {
+                    VStack(alignment: .leading, spacing: 10) {
+                        ForEach(habitDetailViewModel.selectedHabit.tasks(for: calendarViewModel.currentDate)) { task in
+//                            CheckboxTaskView(isShowReminderTime: false, task: task)
+                        }
+                    }
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding(.vertical)
+                    .padding(.horizontal, 32)
+                }
+                
+                Divider()
+                
+                Text(calendarViewModel.currentDate.formatted(date: .abbreviated, time: .omitted))
+                    .font(.system(.caption2))
+                    .foregroundStyle(.secondary)
+                    .padding(.vertical, 10)
+                
+                TextField("Add Note", text: $habitDetailViewModel.note, axis: .vertical)
+                    .padding(.horizontal, 24)
+                    .padding(.bottom)
+                    .autocorrectionDisabled()
+            }
+            .navigationTitle(habitDetailViewModel.selectedHabit.habitName)
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Menu {
+                        Button("Edit Habit", systemImage: "pencil") {
+                            habitDetailViewModel.isEditSelectedHabit.toggle()
+                        }
+                        
+                        Button("Delete Habit", systemImage: "trash", role: .destructive) {
+//                            showDeleteAlert = true
+                        }
+                    } label: {
+                        Image(systemName: "ellipsis.circle")
+                    }
+                }
+                
+                ToolbarItem(placement: .bottomBar) {
+                    HStack {
+                        Button {
+                            
+                        } label: {
+                            Image(systemName: "checklist")
+                        }
+                        
+                        Spacer()
+                        
+                        Button {
+                            
+                        } label: {
+                            Image(systemName: "camera")
+                        }
+                        
+                        Spacer()
+                        
+                        Button {
+                            
+                        } label: {
+                            Image(systemName: "pencil.tip.crop.circle")
+                        }
+                        
+                        Spacer()
+                        
+                        Button {
+                            
+                        } label: {
+                            Image(systemName: "pencil.line")
+                        }
+                    }
+                }
+
+            }
+
+        }
+//        .sheet(isPresented: $isEditSheetPresented) {
+//            AddHabitView(addHabitViewModel: addHabitViewModel,
+//                         habitViewModel: habitViewModel)
+//        }
+
+    }
+}
+
+final class HabitDetailViewModel: ObservableObject {
+    @Published var selectedHabit: HabitModel
+    @Published var dailyHabitEntry: DailyHabitEntry?
+    @Published var note: String = ""
+    @Published var isEditSelectedHabit: Bool = false
+    
+    init(selectedHabit: HabitModel) {
+        self.selectedHabit = selectedHabit
+    }
+}

@@ -46,27 +46,27 @@ final class DailyTaskDefinition: Identifiable {
     
 }
 
-extension DailyTaskDefinition {
+extension TaskModel {
     func getReminderDescription() -> String {
         if !isReminderEnabled {
             return ""
         }
         
         let days = [
-            (day: "Sun", isSelected: sundayReminder),
-            (day: "Mon", isSelected: mondayReminder),
-            (day: "Tue", isSelected: tuesdayReminder),
-            (day: "Wed", isSelected: wednesdayReminder),
-            (day: "Thu", isSelected: thursdayReminder),
-            (day: "Fri", isSelected: fridayReminder),
-            (day: "Sat", isSelected: saturdayReminder)
+            (day: "Sun", isSelected: isSundayReminderOn),
+            (day: "Mon", isSelected: isMondayReminderOn),
+            (day: "Tue", isSelected: isTuesdayReminderOn),
+            (day: "Wed", isSelected: isWednesdayReminderOn),
+            (day: "Thu", isSelected: isThursdayReminderOn),
+            (day: "Fri", isSelected: isFridayReminderOn),
+            (day: "Sat", isSelected: isSaturdayRemidnerOn)
         ]
         
         let selectedDays = days.filter { $0.isSelected }.map { $0.day }
         
         let timeFormatter = DateFormatter()
         timeFormatter.dateFormat = "h:mm a"
-        let timeString = timeFormatter.string(from: reminderClock)
+        let timeString = timeFormatter.string(from: reminderTime)
         
         if selectedDays.count == 7 {
             return "Everyday at \(timeString)"
@@ -76,5 +76,4 @@ extension DailyTaskDefinition {
             return selectedDays.joined(separator: ", ") + " at \(timeString)"
         }
     }
-
 }

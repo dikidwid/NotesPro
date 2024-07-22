@@ -18,16 +18,9 @@ class SwiftDataManager: HabitDataSource {
     
     @MainActor
     private init() {
-        // Change isStoredInMemoryOnly to false if you would like to see the data persistance after kill/exit the app
         let config = ModelConfiguration(isStoredInMemoryOnly: false)
         let container = try! ModelContainer(for: Habit.self,
                                             configurations: config)
-        
-        let habits: [Habit] = DummyData.habitsDummy
-        
-        for habit in habits {
-            container.mainContext.insert(habit)
-        }
 
         self.modelContainer = container
         self.modelContext = modelContainer.mainContext
@@ -174,6 +167,4 @@ class SwiftDataManager: HabitDataSource {
         let date2 = calendar.startOfDay(for: date2)
         return calendar.dateComponents([.day], from: date1, to: date2).day ?? 0
     }
-    
-
 }

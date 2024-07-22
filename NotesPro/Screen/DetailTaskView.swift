@@ -2,44 +2,36 @@ import SwiftUI
 import SwiftData
 
 struct DetailTaskView: View {
-    @Environment(\.modelContext) private var modelContext
-    @Environment(\.dismiss) private var dismiss
-    
-    @Bindable var task: DailyTaskDefinition
-    
-    let isNewTask: Bool
-    
-    init(task: DailyTaskDefinition, isNewTask: Bool) {
-        self.task = task
-        self.isNewTask = isNewTask
-    }
+    @Environment(\.dismiss) var dismiss
+    @ObservedObject var addHabitViewModel: AddHabitViewModell
+    @ObservedObject var detailTaskViewModel: DetailTaskViewModel
     
     var body: some View {
         NavigationStack {
             Form {
-                Section(header: Text("TASK")) {
-                    TextField("Enter Task Name", text: $task.taskName)
+                Section(header: Text("TASK NAME")) {
+                    TextField("Enter Task Name", text: $detailTaskViewModel.selectedTask.taskName)
                         .autocorrectionDisabled()
                 }
                 
                 Section(header: Text("REMINDERS")) {
-                    Toggle("Reminder", isOn: $task.isReminderEnabled)
+                    Toggle("Reminder", isOn: $detailTaskViewModel.selectedTask.isReminderEnabled)
                     
-                    if task.isReminderEnabled {
-                        DatePicker("Time", selection: $task.reminderClock, displayedComponents: .hourAndMinute)
+                    if detailTaskViewModel.selectedTask.isReminderEnabled {
+                        DatePicker("Time", selection: $detailTaskViewModel.selectedTask.reminderTime, displayedComponents: .hourAndMinute)
                         
-                        RepeatDaysMenu(task: task)
+                        RepeatDaysMenu(detailTaskViewModel: detailTaskViewModel)
                     }
                 }
             }
-            .navigationTitle(isNewTask ? "Task Details" : "Task Details")
+            .navigationTitle("Task Details")
             .navigationBarTitleDisplayMode(.inline)
             .navigationBarBackButtonHidden(true)
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
-                    Button(action: {
+                    Button {
                         dismiss()
-                    }) {
+                    } label: {
                         HStack {
                             Image(systemName: "chevron.backward")
                             Text("Back")
@@ -49,88 +41,69 @@ struct DetailTaskView: View {
                 }
                 
                 ToolbarItem(placement: .topBarTrailing) {
-                    if isNewTask {
-                        Button("Save") {
-                            try? modelContext.save()
-                            dismiss()
-                        }
-                        .foregroundColor(.accentColor)
+                    Button("Save") {
+                        addHabitViewModel.saveTask(detailTaskViewModel.selectedTask)
+                        dismiss()
                     }
+                    .foregroundColor(.accentColor)
+                    
                 }
             }
         }
     }
 }
 
-struct RepeatDaysMenu: View {
-    @Bindable var task: DailyTaskDefinition
-    @State private var showMenu = false
+final class DetailTaskViewModel: ObservableObject {
+    @Published var selectedTask: TaskModel
     
-    var body: some View {
-        Menu {
-            Button(action: {
-                task.sundayReminder = true
-                task.mondayReminder = true
-                task.tuesdayReminder = true
-                task.wednesdayReminder = true
-                task.thursdayReminder = true
-                task.fridayReminder = true
-                task.saturdayReminder = true
-            }) {
-                Label("Everyday", systemImage: isEveryday() ? "checkmark" : "")
-            }
-            
-            Divider()
-            
-            Button(action: { task.sundayReminder.toggle() }) {
-                Label("Sunday", systemImage: task.sundayReminder ? "checkmark" : "")
-            }
-            Button(action: { task.mondayReminder.toggle() }) {
-                Label("Monday", systemImage: task.mondayReminder ? "checkmark" : "")
-            }
-            Button(action: { task.tuesdayReminder.toggle() }) {
-                Label("Tuesday", systemImage: task.tuesdayReminder ? "checkmark" : "")
-            }
-            Button(action: { task.wednesdayReminder.toggle() }) {
-                Label("Wednesday", systemImage: task.wednesdayReminder ? "checkmark" : "")
-            }
-            Button(action: { task.thursdayReminder.toggle() }) {
-                Label("Thursday", systemImage: task.thursdayReminder ? "checkmark" : "")
-            }
-            Button(action: { task.fridayReminder.toggle() }) {
-                Label("Friday", systemImage: task.fridayReminder ? "checkmark" : "")
-            }
-            Button(action: { task.saturdayReminder.toggle() }) {
-                Label("Saturday", systemImage: task.saturdayReminder ? "checkmark" : "")
-            }
-        } label: {
-            HStack {
-                Text("Repeat")
-                    .foregroundColor(.primary)
-                Spacer()
-                Text(getRepeatDescription())
-                    .foregroundColor(.secondary)
-            }
-        }
+    @Published var isReminderEnabled: Bool = false
+    @Published var reminderDate: Date = .now
+    
+    @Published var isSundayReminderOn: Bool = false
+    @Published var isMondayReminderOn: Bool = false
+    @Published var isTuesdayReminderOn: Bool = false
+    @Published var isWednesdayReminderOn: Bool = false
+    @Published var isThursdayReminderOn: Bool = false
+    @Published var isFridayReminderOn: Bool = false
+    @Published var isSaturdayReminderOn: Bool = false
+    
+    init(selectedTask: TaskModel) {
+        self.selectedTask = selectedTask
     }
     
-    private func isEveryday() -> Bool {
-        return task.sundayReminder && task.mondayReminder && task.tuesdayReminder && task.wednesdayReminder && task.thursdayReminder && task.fridayReminder && task.saturdayReminder
+    enum Weekday: String, CaseIterable {
+        case sunday = "Sunday"
+        case monday = "Monday"
+        case tuesday = "Tuesday"
+        case wednesday = "Wednesday"
+        case thursday = "Thursday"
+        case friday = "Friday"
+        case saturday = "Saturday"
     }
     
-    private func getRepeatDescription() -> String {
-        if isEveryday() {
+    var isEveryday: Bool {
+        return isSundayReminderOn &&
+        isMondayReminderOn &&
+        isTuesdayReminderOn &&
+        isWednesdayReminderOn &&
+        isThursdayReminderOn &&
+        isFridayReminderOn &&
+        isSaturdayReminderOn
+    }
+    
+    var reminderLabel: String {
+        if isEveryday {
             return "Everyday"
         }
         
         let days = [
-            (day: "Sun", isSelected: task.sundayReminder),
-            (day: "Mon", isSelected: task.mondayReminder),
-            (day: "Tue", isSelected: task.tuesdayReminder),
-            (day: "Wed", isSelected: task.wednesdayReminder),
-            (day: "Thu", isSelected: task.thursdayReminder),
-            (day: "Fri", isSelected: task.fridayReminder),
-            (day: "Sat", isSelected: task.saturdayReminder)
+            (day: "Sun", isSelected: isSundayReminderOn),
+            (day: "Mon", isSelected: isMondayReminderOn),
+            (day: "Tue", isSelected: isTuesdayReminderOn),
+            (day: "Wed", isSelected: isWednesdayReminderOn),
+            (day: "Thu", isSelected: isThursdayReminderOn),
+            (day: "Fri", isSelected: isFridayReminderOn),
+            (day: "Sat", isSelected: isSaturdayReminderOn)
         ]
         
         let selectedDays = days.filter { $0.isSelected }.map { $0.day }
@@ -141,20 +114,120 @@ struct RepeatDaysMenu: View {
             return selectedDays.joined(separator: ", ")
         }
     }
-}
-
-#Preview {
-    do {
-        let config = ModelConfiguration(isStoredInMemoryOnly: true)
-        let container = try ModelContainer(for: DailyTaskDefinition.self, configurations: config)
+    
+    var reminderDescription: String {
+        if !isReminderEnabled {
+            return ""
+        }
         
-        let sampleTask = DailyTaskDefinition(taskName: "Meditate for 10 minutes")
-        sampleTask.isReminderEnabled = true
-        sampleTask.reminderClock = Calendar.current.date(from: DateComponents(hour: 7, minute: 0)) ?? Date()
-        container.mainContext.insert(sampleTask)
-        return DetailTaskView(task: sampleTask, isNewTask: false)
-            .modelContainer(container)
-    } catch {
-        return Text("Failed to create preview: \(error.localizedDescription)")
+        let days = [
+            (day: "Sun", isSelected: isSundayReminderOn),
+            (day: "Mon", isSelected: isMondayReminderOn),
+            (day: "Tue", isSelected: isTuesdayReminderOn),
+            (day: "Wed", isSelected: isWednesdayReminderOn),
+            (day: "Thu", isSelected: isThursdayReminderOn),
+            (day: "Fri", isSelected: isFridayReminderOn),
+            (day: "Sat", isSelected: isSaturdayReminderOn)
+        ]
+        
+        let selectedDays = days.filter { $0.isSelected }.map { $0.day }
+        
+        let timeFormatter = DateFormatter()
+        timeFormatter.dateFormat = "h:mm a"
+        let timeString = timeFormatter.string(from: reminderDate)
+        
+        if selectedDays.count == 7 {
+            return "Everyday at \(timeString)"
+        } else if selectedDays.count == 1 {
+            return "Every \(selectedDays[0]) at \(timeString)"
+        } else {
+            return selectedDays.joined(separator: ", ") + " at \(timeString)"
+        }
+    }
+    
+    func toggleReminder(for day: Weekday) {
+        switch day {
+        case .sunday:
+            isSundayReminderOn.toggle()
+        case .monday:
+            isMondayReminderOn.toggle()
+        case .tuesday:
+            isTuesdayReminderOn.toggle()
+        case .wednesday:
+            isWednesdayReminderOn.toggle()
+        case .thursday:
+            isThursdayReminderOn.toggle()
+        case .friday:
+            isFridayReminderOn.toggle()
+        case .saturday:
+            isSaturdayReminderOn.toggle()
+        }
+    }
+
+    func toggleReminderForEveryday() {
+       isSundayReminderOn.toggle()
+       isMondayReminderOn.toggle()
+       isTuesdayReminderOn.toggle()
+       isWednesdayReminderOn.toggle()
+       isThursdayReminderOn.toggle()
+       isFridayReminderOn.toggle()
+       isSaturdayReminderOn.toggle()
+    }
+    
+    func iconReminder(for day: Weekday) -> String {
+        switch day {
+        case .sunday:
+            return isSundayReminderOn ? "checkmark" : ""
+        case .monday:
+            return isMondayReminderOn ? "checkmark" : ""
+        case .tuesday:
+            return isTuesdayReminderOn ? "checkmark" : ""
+        case .wednesday:
+            return isWednesdayReminderOn ? "checkmark" : ""
+        case .thursday:
+            return isThursdayReminderOn ? "checkmark" : ""
+        case .friday:
+            return isFridayReminderOn ? "checkmark" : ""
+        case .saturday:
+            return isSaturdayReminderOn ? "checkmark" : ""
+        }
     }
 }
+
+struct RepeatDaysMenu: View {
+    @ObservedObject var detailTaskViewModel: DetailTaskViewModel
+    
+    var body: some View {
+        Menu {
+            Button {
+                detailTaskViewModel.toggleReminderForEveryday()
+                
+            } label: {
+                Label("Everyday", systemImage: detailTaskViewModel.isEveryday ? "checkmark" : "")
+            }
+            
+            Divider()
+            
+            ForEach(DetailTaskViewModel.Weekday.allCases, id: \.self) { day in
+                Button(action: { detailTaskViewModel.toggleReminder(for: day) }) {
+                    Label(day.rawValue, systemImage: detailTaskViewModel.iconReminder(for: day))
+                }
+            }
+        } label: {
+            HStack {
+                Text("Repeat")
+                    .foregroundColor(.primary)
+                
+                Spacer()
+                
+                Text(detailTaskViewModel.reminderLabel)
+                    .foregroundColor(.secondary)
+            }
+        }
+    }
+}
+
+//#Preview {
+//    DetailTaskView(detailTaskViewModel: DetailTaskViewModel(), 
+//                   addHabitViewModel: <#AddHabitViewModell#>)
+//}

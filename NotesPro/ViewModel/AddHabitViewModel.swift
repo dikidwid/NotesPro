@@ -17,9 +17,6 @@ class AddHabitViewModel: ObservableObject {
     @Published var isAIOnboardingPresented = false
     @Published var isAIChatSheetPresented = false
 
-    @EnvironmentObject private var habitViewModel: HabitViewModel
-    @EnvironmentObject private var calendarViewModel: CalendarViewModel
-
     private let reminderService = ReminderService.shared
     private let modelContext = SwiftDataManager.shared.modelContainer.mainContext
     
@@ -151,3 +148,5 @@ class AddHabitViewModel: ObservableObject {
         }
     }
 }
+
+

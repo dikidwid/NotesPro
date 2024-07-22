@@ -199,6 +199,9 @@
         }
       }
     },
+    "Add Habit" : {
+
+    },
     "Add New Habit" : {
       "localizations" : {
         "id" : {
@@ -445,7 +448,6 @@
       }
     },
     "Failed to create preview: %@" : {
-      "extractionState" : "stale",
       "localizations" : {
         "id" : {
           "stringUnit" : {
@@ -456,6 +458,7 @@
       }
     },
     "Friday" : {
+      "extractionState" : "stale",
       "localizations" : {
         "id" : {
           "stringUnit" : {
@@ -572,6 +575,7 @@
       }
     },
     "Monday" : {
+      "extractionState" : "stale",
       "localizations" : {
         "id" : {
           "stringUnit" : {
@@ -582,6 +586,7 @@
       }
     },
     "New Habit" : {
+      "extractionState" : "stale",
       "localizations" : {
         "id" : {
           "stringUnit" : {
@@ -682,6 +687,7 @@
       }
     },
     "Saturday" : {
+      "extractionState" : "stale",
       "localizations" : {
         "id" : {
           "stringUnit" : {
@@ -762,6 +768,7 @@
       }
     },
     "Sunday" : {
+      "extractionState" : "stale",
       "localizations" : {
         "id" : {
           "stringUnit" : {
@@ -772,6 +779,7 @@
       }
     },
     "TASK" : {
+      "extractionState" : "stale",
       "localizations" : {
         "id" : {
           "stringUnit" : {
@@ -790,6 +798,9 @@
           }
         }
       }
+    },
+    "TASK NAME" : {
+
     },
     "Tasks" : {
       "localizations" : {
@@ -812,6 +823,7 @@
       }
     },
     "Thursday" : {
+      "extractionState" : "stale",
       "localizations" : {
         "id" : {
           "stringUnit" : {
@@ -842,6 +854,7 @@
       }
     },
     "Tuesday" : {
+      "extractionState" : "stale",
       "localizations" : {
         "id" : {
           "stringUnit" : {
@@ -862,6 +875,7 @@
       }
     },
     "Wednesday" : {
+      "extractionState" : "stale",
       "localizations" : {
         "id" : {
           "stringUnit" : {

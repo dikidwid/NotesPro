@@ -9,7 +9,7 @@
 //
 //struct Recommendation: Identifiable {
 //    let id = UUID()
-//    let title: String
+//    let habitName: String
 //    let items: [String]
 //}
 //

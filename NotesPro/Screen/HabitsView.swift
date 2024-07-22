@@ -34,7 +34,7 @@
 //                            habitsViewModel.selectHabit(habit)
 //                            addHabitViewModel.populateFromHabit(habit)
 //                        }) {
-//                            Text(habit.title)
+//                            Text(habit.habitName)
 //                                .foregroundStyle(.primary)
 //                        }
 //                    }

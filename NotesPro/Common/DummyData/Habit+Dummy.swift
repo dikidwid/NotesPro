@@ -8,15 +8,39 @@
 import Foundation
 
 struct DummyData {
-    static var habitsDummy: [Habit] {
-        let readingHabit = Habit(title: "Reading Habit", description: "This is description of the reading habit")
-        let writingHabit = Habit(title: "Writing Habit", description: "This is description of the writing habit")
+    static var tasksDummy: [TaskModel] {
+        [
+            TaskModel(taskName: "Task 1"),
+            TaskModel(taskName: "Task 2", isReminderEnabled: true),
+            TaskModel(taskName: "Task 3")
+        ]
+    }
+    static var habitsDummy: [HabitModel] {
+        let todayReadingHabitEntry = DailyHabitEntryModel(date: .now,
+                                                          note: "ini adalah note dari seorang sigma",
+                                                          tasks: tasksDummy)
+        
+        let readingHabit = HabitModel(id: UUID(),
+                                      habitName: "Reading Habit",
+                                      currentStreak: 4,
+                                      bestStreak: 10,
+                                      lastCompletedDate: .now,
+                                      definedTasks: [],
+                                      dailyHabitEntries: [todayReadingHabitEntry])
+        
+        let writingHabit = HabitModel(id: UUID(),
+                                      habitName: "Writing Habit",
+                                      currentStreak: 7,
+                                      bestStreak: 23,
+                                      lastCompletedDate: .now,
+                                      definedTasks: [],
+                                      dailyHabitEntries: [])
         
         let today = Date()
         
         // MARK: Seeder for Today Reading Habit Entry
-        let readingTask1 = DailyTaskDefinition(taskName: "Read the book for 5 minutes")
-        let readingTask2 = DailyTaskDefinition(taskName: "Enjoy a cup of tea after reading")
+//        let readingTask1 = DailyTaskDefinition(taskName: "Read the book for 5 minutes")
+//        let readingTask2 = DailyTaskDefinition(taskName: "Enjoy a cup of tea after reading")
         
 //        let todayReadingHabitEntry = DailyHabitEntry(day: today)
 //        todayReadingHabitEntry.habit = readingHabit
@@ -43,8 +67,8 @@ struct DummyData {
 //        ]
                 
         // MARK: Seeder for Today Writing Habit Entry
-        let writingTask1 = DailyTaskDefinition(taskName: "Writing your experience today in a page")
-        let writingTask2 = DailyTaskDefinition(taskName: "Read on your own reflection")
+//        let writingTask1 = DailyTaskDefinition(taskName: "Writing your experience today in a page")
+//        let writingTask2 = DailyTaskDefinition(taskName: "Read on your own reflection")
         
 //        let todayWritingHabitEntry = DailyHabitEntry(day: today)
 //        todayWritingHabitEntry.habit = writingHabit
@@ -61,10 +85,9 @@ struct DummyData {
 //        ]
 //
         
-        readingHabit.definedTasks.append(contentsOf: [readingTask1, readingTask2])
-        writingHabit.definedTasks.append(contentsOf: [writingTask1, writingTask2])
+//        readingHabit.definedTasks.append(contentsOf: [readingTask1, readingTask2])
+//        writingHabit.definedTasks.append(contentsOf: [writingTask1, writingTask2])
         
-        return []
         return [readingHabit, writingHabit]
     }
 }

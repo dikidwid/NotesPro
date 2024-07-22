@@ -46,7 +46,7 @@
 //    }
 //    
 //    func addHabit(modelContext: ModelContext) -> Habit {
-//        let newHabit = Habit(title: "", description: "")
+//        let newHabit = Habit(habitName: "", description: "")
 //        modelContext.insert(newHabit)
 //        try? modelContext.save()
 //        newHabitId = newHabit.id

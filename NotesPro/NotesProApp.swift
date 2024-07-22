@@ -16,17 +16,20 @@ struct NotesProApp: App {
     }
 }
 
+@MainActor
 struct ContentView: View {
+    
+    let getHabitUseCase = GetHabitsUseCase(repository: HabitRepositoryImpl(dataSource: SwiftDataManager.shared))
 
     var body: some View {
         NavigationStack {
-            HabitListView()
+//            HabitListView(viewModel: HabitViewModel(getHabitsUseCase: getHabitUseCase) as! (any HabitViewModelProtocol))
         }
-        .environmentObject(HabitViewModel(habitDataSource: SwiftDataManager.shared))
-        .environmentObject(CalendarViewModel())
-        .environmentObject(AddHabitViewModel())
-        .environmentObject(NotesViewModel())
-        .modelContainer(SwiftDataManager.shared.modelContainer)
+//        .environmentObject(HabitViewModel())
+//        .environmentObject(CalendarViewModel())
+//        .environmentObject(AddHabitViewModel())
+//        .environmentObject(NotesViewModel())
+//        .modelContainer(SwiftDataManager.shared.modelContainer)
         
 //        MainView()
 //            .environmentObject(addHabitViewModel)
