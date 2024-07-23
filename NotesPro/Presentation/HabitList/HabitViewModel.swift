@@ -14,6 +14,8 @@ protocol HabitViewModelProtocol: ObservableObject {
     var isShowAddNewHabitView: Bool { get set }
     var getHabitsUseCase: GetHabitsUseCase { get }
     func fetchHabits() async
+    func updateNote(for entry: DailyHabitEntryModel, from habit: HabitModel, on date: Date)
+    func toggleTask(for task: TaskModel)
 }
 
 class HabitViewModelMock: HabitViewModelProtocol {
@@ -21,9 +23,11 @@ class HabitViewModelMock: HabitViewModelProtocol {
     @Published var selectedHabit: HabitModel?
     @Published var isShowAddNewHabitView: Bool = false
     let getHabitsUseCase: GetHabitsUseCase
+    let updateTaskUseCase: UpdateTaskUseCase
     
-    init(getHabitsUseCase: GetHabitsUseCase) {
+    init(getHabitsUseCase: GetHabitsUseCase, updateTaskUseCase: UpdateTaskUseCase) {
         self.getHabitsUseCase = getHabitsUseCase
+        self.updateTaskUseCase = updateTaskUseCase
     }
     
     func fetchHabits() {
@@ -37,6 +41,51 @@ class HabitViewModelMock: HabitViewModelProtocol {
             }
         }
     }
+    
+    func updateNote(for entry: DailyHabitEntryModel, from habit: HabitModel, on date: Date) {
+        if let habitIndex = habits.firstIndex(where: { $0 == habit }) {
+            if let entryIndex = habits[habitIndex].dailyHabitEntries.firstIndex(where: { Calendar.current.isDate($0.date, inSameDayAs: date) }) {
+                habits[habitIndex].dailyHabitEntries[entryIndex] = entry
+            }
+        }
+    }
+    
+    func toggleTask(for task: TaskModel) {
+        for indexHabit in habits.indices {
+            for indexDailyHabitEntry in habits[indexHabit].dailyHabitEntries.indices {
+                for indexTask in habits[indexHabit].dailyHabitEntries[indexDailyHabitEntry].tasks.indices {
+                    if habits[indexHabit].dailyHabitEntries[indexDailyHabitEntry].tasks[indexTask].id == task.id {
+                        let foundedTask = habits[indexHabit].dailyHabitEntries[indexDailyHabitEntry].tasks[indexTask]
+                        if foundedTask.isChecked == true {
+                            habits[indexHabit].dailyHabitEntries[indexDailyHabitEntry].tasks[indexTask].isChecked = false
+                            updateTaskUseCase.execute(for: habits[indexHabit].dailyHabitEntries[indexDailyHabitEntry].tasks[indexTask])
+                        } else {
+                            habits[indexHabit].dailyHabitEntries[indexDailyHabitEntry].tasks[indexTask].isChecked = true
+                            updateTaskUseCase.execute(for: habits[indexHabit].dailyHabitEntries[indexDailyHabitEntry].tasks[indexTask])
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+//    func checkEntryHabit(for newDate: Date) {
+//        let entries = habits.flatMap { $0.dailyHabitEntries }
+//        if entries.contains(where: { Calendar.current.isDate($0.date, inSameDayAs: newDate) }) {
+//            print("Entry already exists")
+//        } else {
+//            createNewEntry(on: newDate)
+//        }
+//    }
+//
+//    private func createNewEntry(on newDate: Date) {
+//        for index in habits.indices {
+//            var newEntryHabit = DailyHabitEntryModel(date: newDate, note: "")
+//            newEntryHabit.tasks = habits[index].definedTasks
+//            habits[index].dailyHabitEntries.append(newEntryHabit)
+//            print("\(habits[index].habitName) with \(habits[index].dailyHabitEntries.count) entries")
+//        }
+//    }
 }
 
 @MainActor

@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct HabitModel: Identifiable {
+struct HabitModel: Identifiable, Hashable {
     let id: UUID
     var habitName: String
     
@@ -15,7 +15,7 @@ struct HabitModel: Identifiable {
     var bestStreak: Int
     var lastCompletedDate: Date?
     
-//    var definedTasks: [TaskModel]
+    var definedTasks: [TaskModel]
     var dailyHabitEntries: [DailyHabitEntryModel]
         
     init (
@@ -24,7 +24,7 @@ struct HabitModel: Identifiable {
         currentStreak: Int = 0,
         bestStreak: Int = 0,
         lastCompletedDate: Date? = nil,
-        definedTasks: [TaskDefinitionModel] = [],
+        definedTasks: [TaskModel] = [],
         dailyHabitEntries: [DailyHabitEntryModel] = []
     ) {
         self.id = id
@@ -32,22 +32,22 @@ struct HabitModel: Identifiable {
         self.currentStreak = currentStreak
         self.bestStreak = bestStreak
         self.lastCompletedDate = lastCompletedDate
-//        self.definedTasks = definedTasks
+        self.definedTasks = definedTasks
         self.dailyHabitEntries = dailyHabitEntries
     }
 }
 
 extension HabitModel {
-    func hasEntry(for date: Date) -> DailyHabitEntryModel? {
-        self.dailyHabitEntries.first { Calendar.current.isDate($0.date, inSameDayAs: date) }
+    func hasEntry(for date: Date) -> DailyHabitEntryModel {
+        self.dailyHabitEntries.first { Calendar.current.isDate($0.date, inSameDayAs: date) } ?? DailyHabitEntryModel(date: date, note: "", habit: self, tasks: self.definedTasks)
     }
 
     func tasks(for date: Date) -> [TaskModel] {
-        hasEntry(for: date)?.tasks.sorted(by: { $0.taskName < $1.taskName }) ?? []
+        hasEntry(for: date).tasks.sorted(by: { $0.taskName < $1.taskName })
     }
     
     func isAllTaskDone(for date: Date) -> Bool {
-        hasEntry(for: date)?.tasks.filter { $0.isChecked == false }.count == 0
+        hasEntry(for: date).tasks.filter { $0.isChecked == false }.count == 0
     }
     
     func isDefinedTaskEmpty(for date: Date) -> Bool {

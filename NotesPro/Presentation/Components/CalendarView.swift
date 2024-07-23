@@ -23,7 +23,7 @@ struct CalendarView: View {
                 
                 Spacer()
                 
-                Text(calendarViewModel.currentDate.formatted(date: .complete, time: .omitted))
+                Text(calendarViewModel.selectedDate.formatted(date: .complete, time: .omitted))
                     .font(.system(.body, weight: .semibold))
                     .onTapGesture {
                         calendarViewModel.switchToCurrentWeek()
@@ -38,7 +38,7 @@ struct CalendarView: View {
                         .bold()
                 }
             }
-            .animation(.easeOut, value: calendarViewModel.currentDate)
+            .animation(.easeOut, value: calendarViewModel.selectedDate)
             .padding([.bottom, .horizontal])
             
             HStack {
@@ -65,7 +65,7 @@ struct CalendarView: View {
                     }
                     .onTapGesture {
                         if !calendarViewModel.isFutureDate(day.date) {
-                            calendarViewModel.currentDate = day.date
+                            calendarViewModel.selectedDate = day.date
                             calendarViewModel.selectedDate = day.date
                         }
                     }

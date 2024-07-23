@@ -19,7 +19,7 @@ struct NotesProApp: App {
 @MainActor
 struct ContentView: View {
     
-    let getHabitUseCase = GetHabitsUseCase(repository: HabitRepositoryImpl(dataSource: SwiftDataManager.shared))
+//    let getHabitUseCase = GetHabitsUseCase(repository: HabitRepositoryImpl(dataSource: SwiftDataManager.shared))
 
     var body: some View {
         NavigationStack {

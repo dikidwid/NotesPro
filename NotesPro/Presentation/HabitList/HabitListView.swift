@@ -11,6 +11,12 @@ struct HabitListView<HabitViewModel>: View where HabitViewModel: HabitViewModelP
     @ObservedObject var calendarViewModel: CalendarViewModel
     @ObservedObject var habitViewModel: HabitViewModel
     @ObservedObject var addHabitViewModel: AddHabitViewModell
+    
+    init(calendarViewModel: CalendarViewModel, habitViewModel: HabitViewModel, addHabitViewModel: AddHabitViewModell) {
+        self._calendarViewModel = ObservedObject(wrappedValue: calendarViewModel)
+        self._habitViewModel = ObservedObject(wrappedValue: habitViewModel)
+        self._addHabitViewModel = ObservedObject(wrappedValue: addHabitViewModel)
+    }
 
     var body: some View {
         NavigationStack {
@@ -33,12 +39,11 @@ struct HabitListView<HabitViewModel>: View where HabitViewModel: HabitViewModelP
                     } else {
                         ForEach(habitViewModel.habits) { habit in
                             HabitRowView(habit: habit,
-                                         calendarViewModel: calendarViewModel,
-                                         habitViewModel: habitViewModel)
+                                         calendarViewModel: calendarViewModel)
                             .onTapGesture {
                                 habitViewModel.selectedHabit = habit
                             }
-                            
+                            .environmentObject(habitViewModel)
                         }
                     }
                 }
@@ -49,6 +54,9 @@ struct HabitListView<HabitViewModel>: View where HabitViewModel: HabitViewModelP
             .task {
                 await habitViewModel.fetchHabits()
             }
+//            .onChange(of: calendarViewModel.selectedDate) { _, newDate in
+//                habitViewModel.checkEntryHabit(for: newDate)
+//            }
             .toolbar {
                 ToolbarItem(placement: .bottomBar) {
                     HStack {
@@ -70,6 +78,12 @@ struct HabitListView<HabitViewModel>: View where HabitViewModel: HabitViewModelP
                     }
                 }
             }
+            .navigationDestination(item: $habitViewModel.selectedHabit) { habit in
+                HabitDetailVieww(habitViewModel: habitViewModel,
+                                 habitDetailViewModel: HabitDetailViewModel(selectedHabit: habit,
+                                                                            date: calendarViewModel.selectedDate),
+                                 calendarViewModel: calendarViewModel)
+            }
             .sheet(isPresented: $habitViewModel.isShowAddNewHabitView) {
                 AddNewHabitView(addHabitViewModel: addHabitViewModel,
                                 habitViewModel: habitViewModel)
@@ -79,11 +93,11 @@ struct HabitListView<HabitViewModel>: View where HabitViewModel: HabitViewModelP
 }
 
 
-struct HabitRowView<HabitViewModel>: View where HabitViewModel: HabitViewModelProtocol {
+struct HabitRowView: View {
     let habit: HabitModel
     @Environment(\.colorScheme) private var isDarkMode
     @ObservedObject var calendarViewModel: CalendarViewModel
-    @ObservedObject var habitViewModel: HabitViewModel
+//    @ObservedObject var habitViewModel: HabitViewModel
     
     var body: some View {
         VStack(alignment: .leading) {
@@ -92,15 +106,15 @@ struct HabitRowView<HabitViewModel>: View where HabitViewModel: HabitViewModelPr
                     Text(habit.habitName)
                         .font(.system(.headline))
                     
-//                    if habit.isDefinedTaskEmpty(for: calendarViewModel.currentDate) {
-//                        Text("No task defined")
-//                            .font(.system(.subheadline))
-//                            .foregroundStyle(.secondary)
-//                    } else {
-                        Text("\(habit.totalUndoneTask(for: calendarViewModel.currentDate)) tasks to do")
+                    if habit.isDefinedTaskEmpty(for: calendarViewModel.selectedDate) {
+                        Text("No task defined")
                             .font(.system(.subheadline))
                             .foregroundStyle(.secondary)
-//                    }
+                    } else {
+                        Text("\(habit.totalUndoneTask(for: calendarViewModel.selectedDate)) tasks to do")
+                            .font(.system(.subheadline))
+                            .foregroundStyle(.secondary)
+                    }
                 }
                 
                 Spacer()
@@ -116,8 +130,9 @@ struct HabitRowView<HabitViewModel>: View where HabitViewModel: HabitViewModelPr
                 .padding(.all, 5)
 
             VStack(alignment: .leading, spacing: 10) {
-                ForEach(habit.tasks(for: calendarViewModel.currentDate)) { task in
-                    CheckboxTaskView(isShowReminderTime: false, task: task)
+                ForEach(habit.tasks(for: calendarViewModel.selectedDate)) { task in
+                    CheckboxTaskView<HabitViewModelMock>(checkboxTaskViewModel: CheckboxTaskViewModel(task: task,
+                                                                                                      isShowReminderTime: false))
                 }
             }
         }
@@ -131,11 +146,11 @@ struct HabitRowView<HabitViewModel>: View where HabitViewModel: HabitViewModelPr
 }
 
 #Preview {
-    let habitRepoMock       = HabitRepositoryMock(habits: DummyData.habitsDummy, habit: DummyData.habitsDummy[0])
+    let habitRepoMock       = HabitRepositoryMock.shared
     let calendarViewModel   = CalendarViewModel()
-    let habitViewModel      = HabitViewModelMock(getHabitsUseCase: GetHabitsUseCase(repository: habitRepoMock))
+    let habitViewModel      = HabitViewModelMock(getHabitsUseCase: GetHabitsUseCase(repository: habitRepoMock), updateTaskUseCase: UpdateTaskUseCase(repository: habitRepoMock))
     let addHabitViewModel   = AddHabitViewModell(addHabitUseCase: AddHabitUseCase(repository: habitRepoMock))
-    
+
     return HabitListView(calendarViewModel: calendarViewModel,
                          habitViewModel: habitViewModel,
                          addHabitViewModel: addHabitViewModel)

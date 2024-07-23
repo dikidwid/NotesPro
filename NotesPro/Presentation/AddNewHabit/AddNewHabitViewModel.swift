@@ -177,10 +177,28 @@ final class AddHabitViewModell: ObservableObject {
     }
     
     func createHabit() {
-        let todayHabitEntry = DailyHabitEntryModel(date: .now, note: "adalah", tasks: tasks)
-        
-        let newHabit = HabitModel(habitName: habitName, dailyHabitEntries: [todayHabitEntry])
-        
+        let newHabit = HabitModel(habitName: habitName)
+                
         addHabitUseCase.execute(habit: newHabit)
     }
+
+//    private func generateEntriesForPast30Days() -> [DailyHabitEntryModel] {
+//        var entries: [DailyHabitEntryModel] = []
+//        let calendar = Calendar.current
+//        let currentDate = Date()
+//        
+//        for dayOffset in 0..<30 {
+//            if let date = calendar.date(byAdding: .day, value: -dayOffset, to: currentDate) {
+//                let entry = DailyHabitEntryModel(
+//                    date: date,
+//                    note: "Entry for \(calendar.component(.day, from: date))",
+//                    tasks: tasks, 
+//                    habit:
+//                )
+//                entries.append(entry)
+//            }
+//        }
+//        
+//        return entries
+//    }
 }

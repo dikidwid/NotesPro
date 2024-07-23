@@ -15,23 +15,23 @@ extension Habit {
             currentStreak: self.currentStreak,
             bestStreak: self.bestStreak,
             lastCompletedDate: self.lastCompletedDate,
-            definedTasks: self.toTaskDefinitionModels(dailyTaskDefinitions: self.definedTasks),
-            dailyHabitEntries: self.toDailyHabitEntries(dailyHabitEntry: self.dailyHabitEntries)
+            definedTasks: self.toTaskModels(dailyTaskDefinitions: self.definedTasks),
+            dailyHabitEntries: self.toDailyHabitEntries(dailyHabitEntries: self.dailyHabitEntries)
         )
     }
     
-    func toTaskDefinitionModels(dailyTaskDefinitions: [DailyTaskDefinition]) -> [TaskDefinitionModel] {
-        dailyTaskDefinitions.map { $0.toTaskDefinitionModel() }
+    func toTaskModels(dailyTaskDefinitions: [DailyTaskDefinition] ) -> [TaskModel] {
+        dailyTaskDefinitions.map { $0.toTaskModel() }
     }
     
-    func toDailyHabitEntries(dailyHabitEntry: [DailyHabitEntry]) -> [DailyHabitEntryModel] {
-        dailyHabitEntry.map { $0.toDailyHabitEntryModel() }
+    func toDailyHabitEntries(dailyHabitEntries: [DailyHabitEntry]) -> [DailyHabitEntryModel] {
+        dailyHabitEntries.map { $0.toDailyHabitEntryModel() }
     }
 }
 
 extension DailyTaskDefinition {
-    func toTaskDefinitionModel() -> TaskDefinitionModel {
-        TaskDefinitionModel(taskName: self.taskName)
+    func toTaskModel() -> TaskModel {
+        TaskModel(taskName: self.taskName)
     }
 }
 

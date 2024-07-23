@@ -72,7 +72,7 @@ extension TaskDefinitionModel {
         
         let timeFormatter = DateFormatter()
         timeFormatter.dateFormat = "h:mm a"
-        let timeString = timeFormatter.string(from: reminderDate ?? .now)
+        let timeString = timeFormatter.string(from: reminderDate)
         
         if selectedDays.count == 7 {
             return "Everyday at \(timeString)"

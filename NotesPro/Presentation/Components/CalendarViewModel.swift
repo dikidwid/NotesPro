@@ -10,7 +10,6 @@ import SwiftUI
 final class CalendarViewModel: ObservableObject {
     @Published var daysSlider: [DayOfWeek] = []
     @Published var currentWeekIndex: Int = 0
-    @Published var currentDate: Date = .now
     @Published var selectedDate: Date = .now
     @Published var completedDays: Set<Date> = []
     
@@ -40,13 +39,13 @@ final class CalendarViewModel: ObservableObject {
 
     init() {
         self.daysSlider = fetchDayOfWeek(for: .now)
-        self.daysSlider = daysSlider
+        
     }
     
-    func selectDate(_ date: Date) {
-        self.currentDate = date
-        self.selectedDate = date
-    }
+//    func selectDate(_ date: Date) {
+//        self.currentDate = date
+//        self.selectedDate = date
+//    }
     
     func isFutureDate(_ date: Date) -> Bool {
         return date > Date()
@@ -81,22 +80,22 @@ final class CalendarViewModel: ObservableObject {
     }
     
     func isCurrentDateSame(with date: Date) -> Bool {
-        return Calendar.current.isDate(date, inSameDayAs: currentDate)
+        return Calendar.current.isDate(date, inSameDayAs: selectedDate)
     }
     
     func switchToNextWeek() {
-        currentDate = Calendar.current.date(byAdding: .day, value: 7, to: currentDate)!
-        daysSlider = fetchDayOfWeek(for: currentDate)
+        selectedDate = Calendar.current.date(byAdding: .day, value: 7, to: selectedDate)!
+        daysSlider = fetchDayOfWeek(for: selectedDate)
     }
     
     func switchToCurrentWeek() {
-        currentDate = .now
-        daysSlider = fetchDayOfWeek(for: currentDate)
+        selectedDate = .now
+        daysSlider = fetchDayOfWeek(for: selectedDate)
     }
     
     func switchToPreviousWeek() {
-        currentDate = Calendar.current.date(byAdding: .day, value: -7, to: currentDate)!
-        daysSlider = fetchDayOfWeek(for: currentDate)
+        selectedDate = Calendar.current.date(byAdding: .day, value: -7, to: selectedDate)!
+        daysSlider = fetchDayOfWeek(for: selectedDate)
     }
     
     func fetchDayOfWeek(for startDate: Date) -> [DayOfWeek] {

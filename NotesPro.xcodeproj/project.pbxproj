@@ -25,6 +25,9 @@
 		3A0FCC5B2C4E8DF400A6B67F /* AddNewHabitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A0FCC5A2C4E8DF400A6B67F /* AddNewHabitView.swift */; };
 		3A0FCC5D2C4E8E1400A6B67F /* AddNewHabitViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A0FCC5C2C4E8E1400A6B67F /* AddNewHabitViewModel.swift */; };
 		3A0FCC612C4E907300A6B67F /* HabitListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A0FCC5E2C4E8FD300A6B67F /* HabitListView.swift */; };
+		3A107A742C4F60B700EDD876 /* DailyHabitEntryRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A107A732C4F60B700EDD876 /* DailyHabitEntryRepository.swift */; };
+		3A107A7D2C4F65BC00EDD876 /* GetDailyHabitEntriesUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A107A7C2C4F65BC00EDD876 /* GetDailyHabitEntriesUseCase.swift */; };
+		3A107A8E2C4FF6A300EDD876 /* UpdateTaskUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A107A8D2C4FF6A300EDD876 /* UpdateTaskUseCase.swift */; };
 		3A7DBC372C3E48A200FF9CEB /* NotesProApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A7DBC362C3E48A200FF9CEB /* NotesProApp.swift */; };
 		3A7DBC3B2C3E48A400FF9CEB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3A7DBC3A2C3E48A400FF9CEB /* Assets.xcassets */; };
 		3A7DBC3E2C3E48A400FF9CEB /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3A7DBC3D2C3E48A400FF9CEB /* Preview Assets.xcassets */; };
@@ -36,13 +39,11 @@
 		3A7DBC5A2C3E48E300FF9CEB /* Habit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A7DBC542C3E48E300FF9CEB /* Habit.swift */; };
 		3A7DBC602C3E48EC00FF9CEB /* NotesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A7DBC5C2C3E48EC00FF9CEB /* NotesViewModel.swift */; };
 		3A7DBC612C3E48EC00FF9CEB /* Row.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A7DBC5E2C3E48EC00FF9CEB /* Row.swift */; };
-		3A7DBC682C3E48F700FF9CEB /* HabitsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A7DBC622C3E48F700FF9CEB /* HabitsView.swift */; };
 		3A7DBC692C3E48F700FF9CEB /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A7DBC632C3E48F700FF9CEB /* MainView.swift */; };
 		3A7DBC6A2C3E48F700FF9CEB /* NoteEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A7DBC642C3E48F700FF9CEB /* NoteEditorView.swift */; };
 		3A7DBC6B2C3E48F700FF9CEB /* NotesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A7DBC652C3E48F700FF9CEB /* NotesView.swift */; };
 		3A7DBC6C2C3E48F700FF9CEB /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A7DBC662C3E48F700FF9CEB /* SettingsView.swift */; };
 		3AA0D1402C47672F0091D84B /* HabitDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AA0D13F2C47672F0091D84B /* HabitDetailView.swift */; };
-		3AA0D1422C47673B0091D84B /* wd.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AA0D1412C47673B0091D84B /* wd.swift */; };
 		3AA0D1452C4768040091D84B /* CheckboxTaskView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AA0D1432C4768030091D84B /* CheckboxTaskView.swift */; };
 		3AA0D1462C4768040091D84B /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AA0D1442C4768030091D84B /* CalendarView.swift */; };
 		3AA0D1492C47680F0091D84B /* CalendarViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AA0D1472C47680F0091D84B /* CalendarViewModel.swift */; };
@@ -86,6 +87,9 @@
 		3A0FCC5A2C4E8DF400A6B67F /* AddNewHabitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewHabitView.swift; sourceTree = "<group>"; };
 		3A0FCC5C2C4E8E1400A6B67F /* AddNewHabitViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewHabitViewModel.swift; sourceTree = "<group>"; };
 		3A0FCC5E2C4E8FD300A6B67F /* HabitListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitListView.swift; sourceTree = "<group>"; };
+		3A107A732C4F60B700EDD876 /* DailyHabitEntryRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyHabitEntryRepository.swift; sourceTree = "<group>"; };
+		3A107A7C2C4F65BC00EDD876 /* GetDailyHabitEntriesUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetDailyHabitEntriesUseCase.swift; sourceTree = "<group>"; };
+		3A107A8D2C4FF6A300EDD876 /* UpdateTaskUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateTaskUseCase.swift; sourceTree = "<group>"; };
 		3A7DBC332C3E48A200FF9CEB /* NotesPro.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NotesPro.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3A7DBC362C3E48A200FF9CEB /* NotesProApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotesProApp.swift; sourceTree = "<group>"; };
 		3A7DBC3A2C3E48A400FF9CEB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -98,13 +102,11 @@
 		3A7DBC542C3E48E300FF9CEB /* Habit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Habit.swift; sourceTree = "<group>"; };
 		3A7DBC5C2C3E48EC00FF9CEB /* NotesViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotesViewModel.swift; sourceTree = "<group>"; };
 		3A7DBC5E2C3E48EC00FF9CEB /* Row.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Row.swift; sourceTree = "<group>"; };
-		3A7DBC622C3E48F700FF9CEB /* HabitsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HabitsView.swift; sourceTree = "<group>"; };
 		3A7DBC632C3E48F700FF9CEB /* MainView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		3A7DBC642C3E48F700FF9CEB /* NoteEditorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoteEditorView.swift; sourceTree = "<group>"; };
 		3A7DBC652C3E48F700FF9CEB /* NotesView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotesView.swift; sourceTree = "<group>"; };
 		3A7DBC662C3E48F700FF9CEB /* SettingsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		3AA0D13F2C47672F0091D84B /* HabitDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitDetailView.swift; sourceTree = "<group>"; };
-		3AA0D1412C47673B0091D84B /* wd.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = wd.swift; sourceTree = "<group>"; };
 		3AA0D1432C4768030091D84B /* CheckboxTaskView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CheckboxTaskView.swift; sourceTree = "<group>"; };
 		3AA0D1442C4768030091D84B /* CalendarView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
 		3AA0D1472C47680F0091D84B /* CalendarViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarViewModel.swift; sourceTree = "<group>"; };
@@ -170,6 +172,8 @@
 				3A0FCC2E2C4A582100A6B67F /* AddHabitUseCase.swift */,
 				3A0FCC322C4A588400A6B67F /* UpdateHabitUseCase.swift */,
 				3A0FCC302C4A584C00A6B67F /* DeleteHabitUseCase.swift */,
+				3A107A7C2C4F65BC00EDD876 /* GetDailyHabitEntriesUseCase.swift */,
+				3A107A8D2C4FF6A300EDD876 /* UpdateTaskUseCase.swift */,
 			);
 			path = UseCases;
 			sourceTree = "<group>";
@@ -247,6 +251,7 @@
 		3A0FCC412C4BE6C100A6B67F /* Presentation */ = {
 			isa = PBXGroup;
 			children = (
+				3A0FCC632C4E952700A6B67F /* HabitDetailView */,
 				3A0FCC622C4E90EA00A6B67F /* Components */,
 				3A0FCC592C4E8DD600A6B67F /* AddNewHabit */,
 				3A0FCC4D2C4C953A00A6B67F /* DailyHabitEntry */,
@@ -268,6 +273,7 @@
 			isa = PBXGroup;
 			children = (
 				3A0FCC452C4C097600A6B67F /* Model */,
+				3A107A722C4F608C00EDD876 /* Repository */,
 			);
 			path = DailyHabitEntry;
 			sourceTree = "<group>";
@@ -345,6 +351,22 @@
 				3AA0D1472C47680F0091D84B /* CalendarViewModel.swift */,
 			);
 			path = Components;
+			sourceTree = "<group>";
+		};
+		3A0FCC632C4E952700A6B67F /* HabitDetailView */ = {
+			isa = PBXGroup;
+			children = (
+				3AA0D13F2C47672F0091D84B /* HabitDetailView.swift */,
+			);
+			path = HabitDetailView;
+			sourceTree = "<group>";
+		};
+		3A107A722C4F608C00EDD876 /* Repository */ = {
+			isa = PBXGroup;
+			children = (
+				3A107A732C4F60B700EDD876 /* DailyHabitEntryRepository.swift */,
+			);
+			path = Repository;
 			sourceTree = "<group>";
 		};
 		3A7DBC2A2C3E48A200FF9CEB = {
@@ -466,10 +488,7 @@
 				3A7DBC642C3E48F700FF9CEB /* NoteEditorView.swift */,
 				3A7DBC652C3E48F700FF9CEB /* NotesView.swift */,
 				CDAF88152C41AA08005EA0B1 /* DetailTaskView.swift */,
-				3A7DBC622C3E48F700FF9CEB /* HabitsView.swift */,
 				CDAF88112C411B3C005EA0B1 /* AddHabitView.swift */,
-				3AA0D1412C47673B0091D84B /* wd.swift */,
-				3AA0D13F2C47672F0091D84B /* HabitDetailView.swift */,
 				3A7DBC662C3E48F700FF9CEB /* SettingsView.swift */,
 			);
 			path = Screen;
@@ -598,12 +617,14 @@
 				3A0FCC2D2C4A57D200A6B67F /* HabitRepository.swift in Sources */,
 				3AA0D1462C4768040091D84B /* CalendarView.swift in Sources */,
 				3A7DBC4E2C3E48D300FF9CEB /* AIService.swift in Sources */,
+				3A107A8E2C4FF6A300EDD876 /* UpdateTaskUseCase.swift in Sources */,
 				3A7DBC6C2C3E48F700FF9CEB /* SettingsView.swift in Sources */,
 				3A0FCC172C4A45B700A6B67F /* HabitModel.swift in Sources */,
 				3A7DBC612C3E48EC00FF9CEB /* Row.swift in Sources */,
 				3A7DBC582C3E48E300FF9CEB /* DailyTaskDefinition.swift in Sources */,
 				E678581E2C46B0F200C09E38 /* Note.swift in Sources */,
 				CDAF88122C411B3C005EA0B1 /* AddHabitView.swift in Sources */,
+				3A107A7D2C4F65BC00EDD876 /* GetDailyHabitEntriesUseCase.swift in Sources */,
 				3A0FCC612C4E907300A6B67F /* HabitListView.swift in Sources */,
 				3AA0D1492C47680F0091D84B /* CalendarViewModel.swift in Sources */,
 				3A7DBC4D2C3E48D300FF9CEB /* String+Extension.swift in Sources */,
@@ -617,6 +638,7 @@
 				E66CAE6E2C46345E00CBAD48 /* AIRecommendationVIew.swift in Sources */,
 				3A7DBC5A2C3E48E300FF9CEB /* Habit.swift in Sources */,
 				3A0FCC472C4C098F00A6B67F /* DailyHabitEntryModel.swift in Sources */,
+				3A107A742C4F60B700EDD876 /* DailyHabitEntryRepository.swift in Sources */,
 				E69767ED2C4506F30020316E /* AddHabitViewModel.swift in Sources */,
 				3A0FCC402C4BE5FF00A6B67F /* (HabitResponse).swift in Sources */,
 				E671A9F82C4119610008E410 /* AIPromptSheetView.swift in Sources */,
@@ -628,18 +650,15 @@
 				3A0FCC562C4CF20B00A6B67F /* TaskModel.swift in Sources */,
 				E69767EF2C4614740020316E /* AIChatView.swift in Sources */,
 				3A0FCC362C4A59CA00A6B67F /* HabitDataSource.swift in Sources */,
-				3AA0D1422C47673B0091D84B /* wd.swift in Sources */,
 				3A7DBC372C3E48A200FF9CEB /* NotesProApp.swift in Sources */,
 				3A0FCC4A2C4C922500A6B67F /* GetHabitsUseCase.swift in Sources */,
 				E61A4FC02C46C26B0049F0E6 /* GlobalSwiftDataService.swift in Sources */,
 				E671A9F62C4113830008E410 /* DailyHabitEntry.swift in Sources */,
 				3A0FCC242C4A508D00A6B67F /* HabitRepositoryImpl.swift in Sources */,
-				3A7DBC682C3E48F700FF9CEB /* HabitsView.swift in Sources */,
 				3A0FCC5B2C4E8DF400A6B67F /* AddNewHabitView.swift in Sources */,
 				3A0FCC332C4A588400A6B67F /* UpdateHabitUseCase.swift in Sources */,
 				3AA0D1572C4768D30091D84B /* ResponseError.swift in Sources */,
 				E66CAE6A2C462D4900CBAD48 /* AIOnboardingView.swift in Sources */,
-				3A7DBC682C3E48F700FF9CEB /* HabitsView.swift in Sources */,
 				3A0FCC582C4CF21700A6B67F /* TaskDefinitionModel.swift in Sources */,
 				3A0FCC312C4A584C00A6B67F /* DeleteHabitUseCase.swift in Sources */,
 				3AA0D14F2C47686D0091D84B /* DayOfWeek.swift in Sources */,

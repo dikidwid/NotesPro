@@ -15,28 +15,56 @@ struct DummyData {
             TaskModel(taskName: "Task 3")
         ]
     }
+    
+    private static func generateDummyEntries(for totalPastDays: Int, in habit: HabitModel) -> [DailyHabitEntryModel] {
+            var entries: [DailyHabitEntryModel] = []
+            let calendar = Calendar.current
+            let currentDate = Date()
+            
+            for totalPastDays in 0..<30 {
+                if let date = calendar.date(byAdding: .day, value: -totalPastDays, to: currentDate) {
+                    let entry = DailyHabitEntryModel(
+                        date: date,
+                        note: "Entry for \(calendar.component(.day, from: date))",
+                        habit: habit, 
+                        tasks: tasksDummy
+                    )
+                    entries.append(entry)
+                }
+            }
+            
+            return entries
+    }
+    
     static var habitsDummy: [HabitModel] {
-        let todayReadingHabitEntry = DailyHabitEntryModel(date: .now,
-                                                          note: "ini adalah note dari seorang sigma",
-                                                          tasks: tasksDummy)
         
-        let readingHabit = HabitModel(id: UUID(),
+        var readingHabit = HabitModel(id: UUID(),
                                       habitName: "Reading Habit",
                                       currentStreak: 4,
                                       bestStreak: 10,
                                       lastCompletedDate: .now,
-                                      definedTasks: [],
-                                      dailyHabitEntries: [todayReadingHabitEntry])
+                                      definedTasks: tasksDummy)
         
-        let writingHabit = HabitModel(id: UUID(),
+        readingHabit.dailyHabitEntries = generateDummyEntries(for: 30, in: readingHabit)
+        
+        var writingHabit = HabitModel(id: UUID(),
                                       habitName: "Writing Habit",
                                       currentStreak: 7,
                                       bestStreak: 23,
                                       lastCompletedDate: .now,
-                                      definedTasks: [],
-                                      dailyHabitEntries: [])
+                                      definedTasks: tasksDummy)
         
-        let today = Date()
+        writingHabit.dailyHabitEntries = generateDummyEntries(for: 30, in: writingHabit)
+                
+//        let todayReadingHabitEntry = DailyHabitEntryModel(date: todayDate,
+//                                                          note: "ini adalah note dari seorang sigma untuk reading habit",
+//                                                          habit: readingHabit, tasks: tasksDummy)
+//        
+//        let todayWritingHabitEntry = DailyHabitEntryModel(date: todayDate,
+//                                                          note: "ini adalah note dari seorang sigma untuk** writing habit**",
+//                                                          habit: writingHabit, tasks: tasksDummy)
+        
+//        let today = Date()
         
         // MARK: Seeder for Today Reading Habit Entry
 //        let readingTask1 = DailyTaskDefinition(taskName: "Read the book for 5 minutes")

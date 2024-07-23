@@ -277,6 +277,7 @@
       }
     },
     "Are you sure you want to delete this habit? This action cannot be undone." : {
+      "extractionState" : "stale",
       "localizations" : {
         "id" : {
           "stringUnit" : {
@@ -367,6 +368,7 @@
       }
     },
     "Delete" : {
+      "extractionState" : "stale",
       "localizations" : {
         "id" : {
           "stringUnit" : {
@@ -625,6 +627,9 @@
           }
         }
       }
+    },
+    "No task defined" : {
+
     },
     "Notes" : {
       "localizations" : {

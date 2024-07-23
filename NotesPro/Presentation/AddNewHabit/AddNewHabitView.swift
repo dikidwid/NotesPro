@@ -77,6 +77,7 @@ struct AddNewHabitView<HabitViewModel>: View where HabitViewModel: HabitViewMode
                     .foregroundColor(.accentColor)
                 }
             }
+            .background(.black)
             .navigationTitle("Add Habit")
             .navigationBarTitleDisplayMode(.inline)
             .navigationDestination(item: $addHabitViewModel.selectedTask) { task in
