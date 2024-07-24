@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import EventKit
 
 //struct HabitRepositoryImpl: HabitRepository {
 //    let dataSource: HabitDataSource
@@ -33,7 +34,7 @@ import Foundation
 //    }
 //    
 //    func createHabit(_ habit: HabitModel) {
-//        
+//
 //    }
 //    
 //    func getDailyHabitEntries(for habit: HabitModel) -> [DailyHabitEntryModel] {
@@ -43,6 +44,7 @@ import Foundation
 //}
 
 class HabitRepositoryMock: HabitRepository {
+    private let eventStore = EKEventStore()
     
     static var shared = HabitRepositoryMock()
     private init () {
@@ -59,8 +61,59 @@ class HabitRepositoryMock: HabitRepository {
         return .success(habit)
     }
     
-    func createHabit(_ habit: HabitModel) {
+//    func createHabit(_ habit: HabitModel) {
+//        habits.append(habit)
+//    }
+    
+    func createHabit(_ habit: HabitModel) async -> Result<HabitModel, ResponseError> {
         habits.append(habit)
+        
+        if habit.syncToCalendar {
+            let syncResult = await syncHabitToCalendar(habit)
+            switch syncResult {
+            case .success:
+                return .success(habit)
+            case .failure(let error):
+                return .failure(error)
+            }
+        }
+        
+        return .success(habit)
+    }
+    
+    func syncHabitToCalendar(_ habit: HabitModel) async -> Result<Void, ResponseError> {
+        do {
+            try await requestCalendarAccess()
+            try await addHabitToCalendar(habit)
+            return .success(())
+        } catch {
+            return .failure(.localStorageError(cause: "Error sync habit"))
+        }
+    }
+    
+    private func requestCalendarAccess() async throws {
+        return try await withCheckedThrowingContinuation { continuation in
+            eventStore.requestFullAccessToEvents { granted, error in
+                if granted {
+                    continuation.resume()
+                } else if let error = error {
+                    continuation.resume(throwing: error)
+                } else {
+                    continuation.resume(throwing: NSError(domain: "CalendarAccess", code: 0, userInfo: [NSLocalizedDescriptionKey: "Access denied"]))
+                }
+            }
+        }
+    }
+    
+    private func addHabitToCalendar(_ habit: HabitModel) async throws {
+        let event = EKEvent(eventStore: eventStore)
+        event.title = habit.habitName
+        event.notes = "Daily habit"
+        event.startDate = Date()
+        event.endDate = Calendar.current.date(byAdding: .year, value: 1, to: Date())!
+        event.calendar = eventStore.defaultCalendarForNewEvents
+        
+        try eventStore.save(event, span: .futureEvents)
     }
     
     func getDailyHabitEntries(for habit: HabitModel) -> [DailyHabitEntryModel] {

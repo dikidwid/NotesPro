@@ -23,6 +23,10 @@ struct DetailTaskView: View {
                         RepeatDaysMenu(detailTaskViewModel: detailTaskViewModel)
                     }
                 }
+                
+                Section(header: Text("Sync to Calendar")) {
+                    Toggle("Sync to Calendar", isOn: $detailTaskViewModel.syncToCalendar)
+                }
             }
             .navigationTitle("Task Details")
             .navigationBarTitleDisplayMode(.inline)
@@ -58,6 +62,8 @@ final class DetailTaskViewModel: ObservableObject {
     
     @Published var isReminderEnabled: Bool = false
     @Published var reminderDate: Date = .now
+    
+    @Published var syncToCalendar: Bool = false
     
     @Published var isSundayReminderOn: Bool = false
     @Published var isMondayReminderOn: Bool = false

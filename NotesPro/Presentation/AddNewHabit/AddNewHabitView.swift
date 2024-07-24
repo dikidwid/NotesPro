@@ -94,8 +94,8 @@ struct AddNewHabitView<HabitViewModel>: View where HabitViewModel: HabitViewMode
                 
                 ToolbarItem(placement: .topBarTrailing) {
                     Button("Save") {
-                        addHabitViewModel.createHabit()
                         Task {
+                            await addHabitViewModel.createHabit()
                             await habitViewModel.fetchHabits()
                         }
                         dismiss()

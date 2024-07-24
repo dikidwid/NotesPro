@@ -176,10 +176,10 @@ final class AddHabitViewModell: ObservableObject {
         selectedTask = task
     }
     
-    func createHabit() {
+    func createHabit() async {
         let newHabit = HabitModel(habitName: habitName)
                 
-        addHabitUseCase.execute(habit: newHabit)
+        await addHabitUseCase.execute(habit: newHabit)
     }
 
 //    private func generateEntriesForPast30Days() -> [DailyHabitEntryModel] {

@@ -10,7 +10,7 @@ import Foundation
 struct AddHabitUseCase {
     let repository: HabitRepository
     
-    func execute(habit: HabitModel) {
-        repository.createHabit(habit)
+    func execute(habit: HabitModel) async {
+        await repository.createHabit(habit)
     }
 }

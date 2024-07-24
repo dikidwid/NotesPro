@@ -116,6 +116,7 @@
 		3AA0D1502C4768870091D84B /* View+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "View+Extension.swift"; sourceTree = "<group>"; };
 		3AA0D1562C4768D30091D84B /* ResponseError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResponseError.swift; sourceTree = "<group>"; };
 		3AA0D1592C4769020091D84B /* Habit+Dummy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Habit+Dummy.swift"; sourceTree = "<group>"; };
+		CD41C42D2C50E29F0011CA03 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		CDAF880F2C41149D005EA0B1 /* HabitsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitsViewModel.swift; sourceTree = "<group>"; };
 		CDAF88112C411B3C005EA0B1 /* AddHabitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddHabitView.swift; sourceTree = "<group>"; };
 		CDAF88152C41AA08005EA0B1 /* DetailTaskView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailTaskView.swift; sourceTree = "<group>"; };
@@ -388,6 +389,7 @@
 		3A7DBC352C3E48A200FF9CEB /* NotesPro */ = {
 			isa = PBXGroup;
 			children = (
+				CD41C42D2C50E29F0011CA03 /* Info.plist */,
 				3A0FCC412C4BE6C100A6B67F /* Presentation */,
 				3AA0D14B2C4768360091D84B /* Data */,
 				3A0FCC0F2C4A43D000A6B67F /* Domain */,
@@ -802,6 +804,7 @@
 				DEVELOPMENT_TEAM = J4KR4C3C23;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = NotesPro/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -832,6 +835,7 @@
 				DEVELOPMENT_TEAM = J4KR4C3C23;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = NotesPro/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

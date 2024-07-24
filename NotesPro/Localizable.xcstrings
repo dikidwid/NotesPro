@@ -588,7 +588,6 @@
       }
     },
     "New Habit" : {
-      "extractionState" : "stale",
       "localizations" : {
         "id" : {
           "stringUnit" : {
@@ -782,6 +781,9 @@
           }
         }
       }
+    },
+    "Sync to Calendar" : {
+
     },
     "TASK" : {
       "extractionState" : "stale",
