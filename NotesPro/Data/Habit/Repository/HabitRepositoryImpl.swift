@@ -66,29 +66,43 @@ class HabitRepositoryMock: HabitRepository {
 //    }
     
     func createHabit(_ habit: HabitModel) async -> Result<HabitModel, ResponseError> {
-        habits.append(habit)
+        let tasks = habit.definedTasks
         
-        if habit.syncToCalendar {
-            let syncResult = await syncHabitToCalendar(habit)
-            switch syncResult {
-            case .success:
-                return .success(habit)
-            case .failure(let error):
-                return .failure(error)
+        for task in tasks {
+            if task.syncToCalendar {
+                let syncResult = await syncTaskToCalendar(task)
+                switch syncResult {
+                case .failure(let error):
+                    return .failure(error)
+                case .success:
+                    continue
+                }
             }
         }
         
         return .success(habit)
     }
+
     
-    func syncHabitToCalendar(_ habit: HabitModel) async -> Result<Void, ResponseError> {
+    func syncTaskToCalendar(_ task: TaskModel) async -> Result<Void, ResponseError> {
         do {
             try await requestCalendarAccess()
-            try await addHabitToCalendar(habit)
+            try await addTaskToCalendar(task)
             return .success(())
         } catch {
-            return .failure(.localStorageError(cause: "Error sync habit"))
+            return .failure(.localStorageError(cause: "Error sync task"))
         }
+    }
+    
+    func addTaskToCalendar(_ task: TaskModel) async throws {
+        let event = EKEvent(eventStore: eventStore)
+        event.title = task.taskName
+        event.notes = "NotesPro Task: \(task.taskName)"
+//        event.startDate = 
+//        event.endDate
+        event.calendar = eventStore.defaultCalendarForNewEvents
+        
+        try eventStore.save(event, span: .futureEvents)
     }
     
     private func requestCalendarAccess() async throws {
@@ -103,17 +117,6 @@ class HabitRepositoryMock: HabitRepository {
                 }
             }
         }
-    }
-    
-    private func addHabitToCalendar(_ habit: HabitModel) async throws {
-        let event = EKEvent(eventStore: eventStore)
-        event.title = habit.habitName
-        event.notes = "Daily habit"
-        event.startDate = Date()
-        event.endDate = Calendar.current.date(byAdding: .year, value: 1, to: Date())!
-        event.calendar = eventStore.defaultCalendarForNewEvents
-        
-        try eventStore.save(event, span: .futureEvents)
     }
     
     func getDailyHabitEntries(for habit: HabitModel) -> [DailyHabitEntryModel] {

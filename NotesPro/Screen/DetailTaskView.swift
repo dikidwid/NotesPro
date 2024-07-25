@@ -62,9 +62,7 @@ final class DetailTaskViewModel: ObservableObject {
     
     @Published var isReminderEnabled: Bool = false
     @Published var reminderDate: Date = .now
-    
-    @Published var syncToCalendar: Bool = false
-    
+        
     @Published var isSundayReminderOn: Bool = false
     @Published var isMondayReminderOn: Bool = false
     @Published var isTuesdayReminderOn: Bool = false
@@ -72,6 +70,8 @@ final class DetailTaskViewModel: ObservableObject {
     @Published var isThursdayReminderOn: Bool = false
     @Published var isFridayReminderOn: Bool = false
     @Published var isSaturdayReminderOn: Bool = false
+    
+    @Published var syncToCalendar: Bool = false
     
     init(selectedTask: TaskModel) {
         self.selectedTask = selectedTask

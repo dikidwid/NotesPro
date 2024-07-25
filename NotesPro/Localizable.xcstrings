@@ -588,6 +588,7 @@
       }
     },
     "New Habit" : {
+      "extractionState" : "stale",
       "localizations" : {
         "id" : {
           "stringUnit" : {

@@ -17,7 +17,6 @@ struct HabitModel: Identifiable, Hashable {
     
     var definedTasks: [TaskModel]
     var dailyHabitEntries: [DailyHabitEntryModel]
-    var syncToCalendar: Bool
         
     init (
         id: UUID = UUID(),
@@ -26,8 +25,7 @@ struct HabitModel: Identifiable, Hashable {
         bestStreak: Int = 0,
         lastCompletedDate: Date? = nil,
         definedTasks: [TaskModel] = [],
-        dailyHabitEntries: [DailyHabitEntryModel] = [],
-        syncToCalendar: Bool = false
+        dailyHabitEntries: [DailyHabitEntryModel] = []
     ) {
         self.id = id
         self.habitName = habitName
@@ -36,7 +34,6 @@ struct HabitModel: Identifiable, Hashable {
         self.lastCompletedDate = lastCompletedDate
         self.definedTasks = definedTasks
         self.dailyHabitEntries = dailyHabitEntries
-        self.syncToCalendar = syncToCalendar
     }
 }
 

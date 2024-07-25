@@ -22,6 +22,8 @@ struct TaskModel: Identifiable, Hashable {
     var isFridayReminderOn: Bool
     var isSaturdayRemidnerOn: Bool
     
+    var syncToCalendar: Bool
+    
     init(id: UUID = UUID(),
          taskName: String,
          isChecked: Bool = false,
@@ -33,7 +35,8 @@ struct TaskModel: Identifiable, Hashable {
          isWednesdayReminderOn: Bool = false,
          isThursdayReminderOn: Bool = false,
          isFridayReminderOn: Bool = false,
-         isSaturdayRemidnerOn: Bool = false
+         isSaturdayRemidnerOn: Bool = false,
+         syncToCalendar: Bool = false
     ) {
         self.id = id
         self.taskName = taskName
@@ -47,5 +50,6 @@ struct TaskModel: Identifiable, Hashable {
         self.isThursdayReminderOn = isThursdayReminderOn
         self.isFridayReminderOn = isFridayReminderOn
         self.isSaturdayRemidnerOn = isSaturdayRemidnerOn
+        self.syncToCalendar = syncToCalendar
     }
 }

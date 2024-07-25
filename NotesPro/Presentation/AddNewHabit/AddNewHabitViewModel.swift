@@ -176,9 +176,8 @@ final class AddHabitViewModell: ObservableObject {
         selectedTask = task
     }
     
-    func createHabit() async {
+    func createHabit() async{
         let newHabit = HabitModel(habitName: habitName)
-                
         await addHabitUseCase.execute(habit: newHabit)
     }
 

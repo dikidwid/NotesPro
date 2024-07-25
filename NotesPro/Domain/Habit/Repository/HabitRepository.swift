@@ -12,7 +12,9 @@ protocol HabitRepository {
     func getHabit(_ habit: HabitModel) async -> Result<HabitModel, ResponseError>
 //    func createHabit(_ habit: HabitModel)
     func createHabit(_ habit: HabitModel) async -> Result<HabitModel, ResponseError>
-    func syncHabitToCalendar(_ habit: HabitModel) async -> Result<Void, ResponseError>
+    func syncTaskToCalendar(_ taks: TaskModel) async -> Result<Void, ResponseError>
+    
+    
     func getDailyHabitEntries(for habit: HabitModel) -> [DailyHabitEntryModel]
 //    func updateEntry(_ entry: DailyHabitEntryModel, for habit: HabitModel)
     func updateTask(_ task: TaskModel)
