@@ -18,7 +18,7 @@ struct HabitFormView: View {
     @State private var isLoading: Bool = false
     
     @ObservedObject var aiService: AIService = AIService(
-        identifier: FakeAPIKey.GPT4o.rawValue, useStreaming: false, isConversation: false)
+        identifier: AICreds.freeAICreds.rawValue, useStreaming: false, isConversation: false)
     
     var body: some View {
         ZStack {
