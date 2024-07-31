@@ -9,8 +9,8 @@ import Foundation
 import Combine
 import UIKit
 
-enum FakeAPIKey: String {
-    case GPT4o = "app-nZejRKIvCLCPLae2pxNTUESN"
+enum AICreds: String {
+    case freeAICreds = "app-BTkZEbgf4EHRpiEyIjKA59W4"
 }
 
 enum AIStatus: String {

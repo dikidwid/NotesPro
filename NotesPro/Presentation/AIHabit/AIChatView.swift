@@ -44,7 +44,7 @@ struct AIChatView: View {
     @FocusState private var isFocused: Bool
     
     @ObservedObject var aiService: AIService = AIService(
-        identifier: FakeAPIKey.GPT4o.rawValue, useStreaming: false, isConversation: false)
+        identifier: AICreds.freeAICreds.rawValue, useStreaming: false, isConversation: false)
     
     let questions = [
         "What specific habit do you want to build?",
@@ -251,54 +251,62 @@ struct AIChatView: View {
     
     func askAI() {
         let prompt = """
-        Based on the Atomic Habits framework by James Clear, provide recommendations for building the habit described below. Format the response as a JSON array of objects.
-        
-        Consider the following principles from Atomic Habits:
-        1. Make it obvious
-        2. Make it attractive
-        3. Make it easy
-        4. Make it satisfying
-        
-        Provide 3 task recommendations that align with these principles and help establish the desired habit.
-        Each recommendation should only have 2-3 tasks.
-        Each task max 5 words.
-        The title should be habit name.
-        
+        Based on James Clear's Atomic Habits framework, provide practical and specific recommendations for building the habit described in the user interview. Format the response as a JSON array of objects.
+
+        Consider these principles from Atomic Habits, focusing on making the habit:
+        1. Obvious: Use clear cues in the environment
+        2. Attractive: Link it to something enjoyable
+        3. Easy: Start with a very small action
+        4. Satisfying: Create immediate rewards
+
+        Provide 3 habit recommendations that align with these principles and help establish the desired habit.
+        - Each recommendation should have 3-5 concrete, actionable tasks.
+        - Each task should be max 4-7 words and very specific, concrete, and actionable task.
+        - The title is the habit title that should be a concise, action-oriented habit name.
+
         Example response format:
         {
             "recommendations": [
                 {
-                    "title": "Reading and Writing Habit",
+                    "title": "10-Minute Daily Meditation",
                     "tasks": [
-                        "Search for new book",
-                        "Read book for 5 minutes",
-                        "Write a summary"
+                        "Set phone reminder at 7AM",
+                        "Sit on cushion for 10 minutes",
+                        "Log session in habit app",
+                        "Reward yourself with lemon drink",
                     ]
                 },
                 {
-                    "title": Reading Science Article",
+                    "title": "Five Pushups Per Day",
                     "tasks": [
-                        "Search for new articles",
-                        "Read articles for 10 minutes"
+                        "Place yoga mat by bed",
+                        "Do 5 pushups after waking up",
+                        "Reward yourself with cold bath"
                     ]
                 },
                 {
-                    "title": "Communication Habit",
+                    "title": "Nightly Gratitude Journal",
                     "tasks": [
-                        "Buy new book",
-                        "Read book for 15 minutes",
-                        "Discuss with a friend",
+                        "Put journal on pillow",
+                        "Write 3 grateful things",
+                        "Reward with favorite lotion"
                     ]
                 }
             ]
         }
-        
-        Don't wrap your response with backticks.
-        
-        Response language is based on user interview language (English / Indonesian)
-        
-        Now generate tasks for building habit based on this interview with user:
-        
+
+        Key points for recommendations:
+        - Make tasks extremely specific and actionable
+        - Start with tiny, easy-to-do actions
+        - Include clear environmental cues
+        - Add immediate rewards or tracking
+
+        Important notes:
+        - Do not include triple backticks in your JSON response.
+        - Give recommendations in the same language as the user interview (English or Indonesian or the language based in user interview).
+        - Base your recommendations on the following user interview, ensuring they are tailored to the user's specific situation and goals:
+
+        Now make recommendations based on the interview below.
         \(getInterviewQuestionAndAnswers())
         """
         
