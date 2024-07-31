@@ -10,7 +10,7 @@ import SwiftUI
 final class CalendarViewModel: ObservableObject {
     @Published var daysSlider: [DayOfWeek] = []
     @Published var currentWeekIndex: Int = 0
-    @Published var selectedDate: Date = .now
+    @Published var selectedDate: Date
     @Published var completedDays: Set<Date> = []
     
     @Published var allHabitsCompletedDays: Set<Date> = []
@@ -37,9 +37,9 @@ final class CalendarViewModel: ObservableObject {
         return completedDays.contains(Calendar.current.startOfDay(for: date))
     }
 
-    init() {
-        self.daysSlider = fetchDayOfWeek(for: .now)
-        
+    init(selectedDate: Date = .now) {
+//        self.daysSlider = fetchDayOfWeek(for: .now)
+        self.selectedDate = selectedDate
     }
     
 //    func selectDate(_ date: Date) {
@@ -131,6 +131,4 @@ final class CalendarViewModel: ObservableObject {
         return String(dayString.prefix(1))
         
     }
-    
-    
 }

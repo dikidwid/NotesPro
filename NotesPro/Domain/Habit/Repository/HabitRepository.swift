@@ -8,10 +8,17 @@
 import Foundation
 
 protocol HabitRepository {
+    func createHabit(_ habit: HabitModel)
     func getHabits() async -> Result<[HabitModel], ResponseError>
     func getHabit(_ habit: HabitModel) async -> Result<HabitModel, ResponseError>
-    func createHabit(_ habit: HabitModel)
+    func updateHabit(_ habit: HabitModel)
+    func deleteHabit(_ habit: HabitModel)
+    
     func getDailyHabitEntries(for habit: HabitModel) -> [DailyHabitEntryModel]
-//    func updateEntry(_ entry: DailyHabitEntryModel, for habit: HabitModel)
+    func getHabitEntry(_ habit: HabitModel, on date: Date) -> DailyHabitEntryModel
+    func updateHabitEntry(_ HabitEntry: DailyHabitEntryModel)
+
+    func addTask(_ task: TaskModel)
     func updateTask(_ task: TaskModel)
+    func deleteTask(_ task: TaskModel)
 }

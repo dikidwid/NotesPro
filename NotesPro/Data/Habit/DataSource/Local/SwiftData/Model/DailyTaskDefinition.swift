@@ -59,7 +59,7 @@ extension TaskModel {
             (day: "Wed", isSelected: isWednesdayReminderOn),
             (day: "Thu", isSelected: isThursdayReminderOn),
             (day: "Fri", isSelected: isFridayReminderOn),
-            (day: "Sat", isSelected: isSaturdayRemidnerOn)
+            (day: "Sat", isSelected: isSaturdayReminderOn)
         ]
         
         let selectedDays = days.filter { $0.isSelected }.map { $0.day }

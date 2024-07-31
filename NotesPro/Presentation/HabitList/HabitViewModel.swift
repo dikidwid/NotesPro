@@ -11,25 +11,30 @@ import SwiftData
 protocol HabitViewModelProtocol: ObservableObject {
     var habits: [HabitModel] { get set }
     var selectedHabit: HabitModel? { get set }
+    var selectedDate: Date { get set }
     var isShowAddNewHabitView: Bool { get set }
     var getHabitsUseCase: GetHabitsUseCase { get }
     func fetchHabits() async
     func updateNote(for entry: DailyHabitEntryModel, from habit: HabitModel, on date: Date)
-    func toggleTask(for task: TaskModel)
+    func updateTask(_ task: TaskModel)
 }
 
 class HabitViewModelMock: HabitViewModelProtocol {
     @Published var habits: [HabitModel] = []
     @Published var selectedHabit: HabitModel?
+    @Published var selectedDate: Date = .now
     @Published var isShowAddNewHabitView: Bool = false
     let getHabitsUseCase: GetHabitsUseCase
     let updateTaskUseCase: UpdateTaskUseCase
+    let updateHabitEntryUseCase: UpdateHabitEntryUseCase
     
-    init(getHabitsUseCase: GetHabitsUseCase, updateTaskUseCase: UpdateTaskUseCase) {
+    init(getHabitsUseCase: GetHabitsUseCase, updateTaskUseCase: UpdateTaskUseCase, updateHabitEntryNoteUseCase: UpdateHabitEntryUseCase) {
         self.getHabitsUseCase = getHabitsUseCase
         self.updateTaskUseCase = updateTaskUseCase
+        self.updateHabitEntryUseCase = updateHabitEntryNoteUseCase
     }
     
+    @MainActor
     func fetchHabits() {
         Task {
             let result = await getHabitsUseCase.execute()
@@ -43,49 +48,23 @@ class HabitViewModelMock: HabitViewModelProtocol {
     }
     
     func updateNote(for entry: DailyHabitEntryModel, from habit: HabitModel, on date: Date) {
-        if let habitIndex = habits.firstIndex(where: { $0 == habit }) {
+        if let habitIndex = habits.firstIndex(where: { $0.id == habit.id }) {
             if let entryIndex = habits[habitIndex].dailyHabitEntries.firstIndex(where: { Calendar.current.isDate($0.date, inSameDayAs: date) }) {
-                habits[habitIndex].dailyHabitEntries[entryIndex] = entry
+                habits[habitIndex].dailyHabitEntries[entryIndex].note = entry.note
+                updateHabitEntryUseCase.execute(habitEntry: habits[habitIndex].dailyHabitEntries[entryIndex])
             }
         }
     }
     
-    func toggleTask(for task: TaskModel) {
-        for indexHabit in habits.indices {
-            for indexDailyHabitEntry in habits[indexHabit].dailyHabitEntries.indices {
-                for indexTask in habits[indexHabit].dailyHabitEntries[indexDailyHabitEntry].tasks.indices {
-                    if habits[indexHabit].dailyHabitEntries[indexDailyHabitEntry].tasks[indexTask].id == task.id {
-                        let foundedTask = habits[indexHabit].dailyHabitEntries[indexDailyHabitEntry].tasks[indexTask]
-                        if foundedTask.isChecked == true {
-                            habits[indexHabit].dailyHabitEntries[indexDailyHabitEntry].tasks[indexTask].isChecked = false
-                            updateTaskUseCase.execute(for: habits[indexHabit].dailyHabitEntries[indexDailyHabitEntry].tasks[indexTask])
-                        } else {
-                            habits[indexHabit].dailyHabitEntries[indexDailyHabitEntry].tasks[indexTask].isChecked = true
-                            updateTaskUseCase.execute(for: habits[indexHabit].dailyHabitEntries[indexDailyHabitEntry].tasks[indexTask])
-                        }
-                    }
+    func updateTask(_ task: TaskModel) {
+        for habitIndex in habits.indices {
+            for dailyHabitEntryIndex in habits[habitIndex].dailyHabitEntries.indices {
+                if let taskIndex = habits[habitIndex].dailyHabitEntries[dailyHabitEntryIndex].tasks.firstIndex(where: { $0.habitEntry?.date == task.habitEntry?.date }) {
+                    habits[habitIndex].dailyHabitEntries[dailyHabitEntryIndex].tasks[taskIndex].isChecked.toggle()
                 }
             }
         }
     }
-    
-//    func checkEntryHabit(for newDate: Date) {
-//        let entries = habits.flatMap { $0.dailyHabitEntries }
-//        if entries.contains(where: { Calendar.current.isDate($0.date, inSameDayAs: newDate) }) {
-//            print("Entry already exists")
-//        } else {
-//            createNewEntry(on: newDate)
-//        }
-//    }
-//
-//    private func createNewEntry(on newDate: Date) {
-//        for index in habits.indices {
-//            var newEntryHabit = DailyHabitEntryModel(date: newDate, note: "")
-//            newEntryHabit.tasks = habits[index].definedTasks
-//            habits[index].dailyHabitEntries.append(newEntryHabit)
-//            print("\(habits[index].habitName) with \(habits[index].dailyHabitEntries.count) entries")
-//        }
-//    }
 }
 
 @MainActor

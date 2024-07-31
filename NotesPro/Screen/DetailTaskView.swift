@@ -3,8 +3,8 @@ import SwiftData
 
 struct DetailTaskView: View {
     @Environment(\.dismiss) var dismiss
-    @ObservedObject var addHabitViewModel: AddHabitViewModell
     @ObservedObject var detailTaskViewModel: DetailTaskViewModel
+    let onSaveTapped: ((TaskModel) -> Void?)
     
     var body: some View {
         NavigationStack {
@@ -42,7 +42,8 @@ struct DetailTaskView: View {
                 
                 ToolbarItem(placement: .topBarTrailing) {
                     Button("Save") {
-                        addHabitViewModel.saveTask(detailTaskViewModel.selectedTask)
+                        onSaveTapped(detailTaskViewModel.selectedTask)
+//                        addHabitViewModel.saveTask(detailTaskViewModel.selectedTask)
                         dismiss()
                     }
                     .foregroundColor(.accentColor)
@@ -55,17 +56,6 @@ struct DetailTaskView: View {
 
 final class DetailTaskViewModel: ObservableObject {
     @Published var selectedTask: TaskModel
-    
-    @Published var isReminderEnabled: Bool = false
-    @Published var reminderDate: Date = .now
-    
-    @Published var isSundayReminderOn: Bool = false
-    @Published var isMondayReminderOn: Bool = false
-    @Published var isTuesdayReminderOn: Bool = false
-    @Published var isWednesdayReminderOn: Bool = false
-    @Published var isThursdayReminderOn: Bool = false
-    @Published var isFridayReminderOn: Bool = false
-    @Published var isSaturdayReminderOn: Bool = false
     
     init(selectedTask: TaskModel) {
         self.selectedTask = selectedTask
@@ -82,13 +72,13 @@ final class DetailTaskViewModel: ObservableObject {
     }
     
     var isEveryday: Bool {
-        return isSundayReminderOn &&
-        isMondayReminderOn &&
-        isTuesdayReminderOn &&
-        isWednesdayReminderOn &&
-        isThursdayReminderOn &&
-        isFridayReminderOn &&
-        isSaturdayReminderOn
+        return selectedTask.isSundayReminderOn &&
+        selectedTask.isMondayReminderOn &&
+        selectedTask.isTuesdayReminderOn &&
+        selectedTask.isWednesdayReminderOn &&
+        selectedTask.isThursdayReminderOn &&
+        selectedTask.isFridayReminderOn &&
+        selectedTask.isSaturdayReminderOn
     }
     
     var reminderLabel: String {
@@ -97,13 +87,13 @@ final class DetailTaskViewModel: ObservableObject {
         }
         
         let days = [
-            (day: "Sun", isSelected: isSundayReminderOn),
-            (day: "Mon", isSelected: isMondayReminderOn),
-            (day: "Tue", isSelected: isTuesdayReminderOn),
-            (day: "Wed", isSelected: isWednesdayReminderOn),
-            (day: "Thu", isSelected: isThursdayReminderOn),
-            (day: "Fri", isSelected: isFridayReminderOn),
-            (day: "Sat", isSelected: isSaturdayReminderOn)
+            (day: "Sun", isSelected: selectedTask.isSundayReminderOn),
+            (day: "Mon", isSelected: selectedTask.isMondayReminderOn),
+            (day: "Tue", isSelected: selectedTask.isTuesdayReminderOn),
+            (day: "Wed", isSelected: selectedTask.isWednesdayReminderOn),
+            (day: "Thu", isSelected: selectedTask.isThursdayReminderOn),
+            (day: "Fri", isSelected: selectedTask.isFridayReminderOn),
+            (day: "Sat", isSelected: selectedTask.isSaturdayReminderOn)
         ]
         
         let selectedDays = days.filter { $0.isSelected }.map { $0.day }
@@ -116,25 +106,25 @@ final class DetailTaskViewModel: ObservableObject {
     }
     
     var reminderDescription: String {
-        if !isReminderEnabled {
+        if !selectedTask.isReminderEnabled {
             return ""
         }
         
         let days = [
-            (day: "Sun", isSelected: isSundayReminderOn),
-            (day: "Mon", isSelected: isMondayReminderOn),
-            (day: "Tue", isSelected: isTuesdayReminderOn),
-            (day: "Wed", isSelected: isWednesdayReminderOn),
-            (day: "Thu", isSelected: isThursdayReminderOn),
-            (day: "Fri", isSelected: isFridayReminderOn),
-            (day: "Sat", isSelected: isSaturdayReminderOn)
+            (day: "Sun", isSelected: selectedTask.isSundayReminderOn),
+            (day: "Mon", isSelected: selectedTask.isMondayReminderOn),
+            (day: "Tue", isSelected: selectedTask.isTuesdayReminderOn),
+            (day: "Wed", isSelected: selectedTask.isWednesdayReminderOn),
+            (day: "Thu", isSelected: selectedTask.isThursdayReminderOn),
+            (day: "Fri", isSelected: selectedTask.isFridayReminderOn),
+            (day: "Sat", isSelected: selectedTask.isSaturdayReminderOn)
         ]
         
         let selectedDays = days.filter { $0.isSelected }.map { $0.day }
         
         let timeFormatter = DateFormatter()
         timeFormatter.dateFormat = "h:mm a"
-        let timeString = timeFormatter.string(from: reminderDate)
+        let timeString = timeFormatter.string(from: selectedTask.reminderTime)
         
         if selectedDays.count == 7 {
             return "Everyday at \(timeString)"
@@ -148,48 +138,48 @@ final class DetailTaskViewModel: ObservableObject {
     func toggleReminder(for day: Weekday) {
         switch day {
         case .sunday:
-            isSundayReminderOn.toggle()
+            selectedTask.isSundayReminderOn.toggle()
         case .monday:
-            isMondayReminderOn.toggle()
+            selectedTask.isMondayReminderOn.toggle()
         case .tuesday:
-            isTuesdayReminderOn.toggle()
+            selectedTask.isTuesdayReminderOn.toggle()
         case .wednesday:
-            isWednesdayReminderOn.toggle()
+            selectedTask.isWednesdayReminderOn.toggle()
         case .thursday:
-            isThursdayReminderOn.toggle()
+            selectedTask.isThursdayReminderOn.toggle()
         case .friday:
-            isFridayReminderOn.toggle()
+            selectedTask.isFridayReminderOn.toggle()
         case .saturday:
-            isSaturdayReminderOn.toggle()
+            selectedTask.isSaturdayReminderOn.toggle()
         }
     }
 
     func toggleReminderForEveryday() {
-       isSundayReminderOn.toggle()
-       isMondayReminderOn.toggle()
-       isTuesdayReminderOn.toggle()
-       isWednesdayReminderOn.toggle()
-       isThursdayReminderOn.toggle()
-       isFridayReminderOn.toggle()
-       isSaturdayReminderOn.toggle()
+        selectedTask.isSundayReminderOn.toggle()
+        selectedTask.isMondayReminderOn.toggle()
+        selectedTask.isTuesdayReminderOn.toggle()
+        selectedTask.isWednesdayReminderOn.toggle()
+        selectedTask.isThursdayReminderOn.toggle()
+        selectedTask.isFridayReminderOn.toggle()
+        selectedTask.isSaturdayReminderOn.toggle()
     }
     
     func iconReminder(for day: Weekday) -> String {
         switch day {
         case .sunday:
-            return isSundayReminderOn ? "checkmark" : ""
+            return selectedTask.isSundayReminderOn ? "checkmark" : ""
         case .monday:
-            return isMondayReminderOn ? "checkmark" : ""
+            return selectedTask.isMondayReminderOn ? "checkmark" : ""
         case .tuesday:
-            return isTuesdayReminderOn ? "checkmark" : ""
+            return selectedTask.isTuesdayReminderOn ? "checkmark" : ""
         case .wednesday:
-            return isWednesdayReminderOn ? "checkmark" : ""
+            return selectedTask.isWednesdayReminderOn ? "checkmark" : ""
         case .thursday:
-            return isThursdayReminderOn ? "checkmark" : ""
+            return selectedTask.isThursdayReminderOn ? "checkmark" : ""
         case .friday:
-            return isFridayReminderOn ? "checkmark" : ""
+            return selectedTask.isFridayReminderOn ? "checkmark" : ""
         case .saturday:
-            return isSaturdayReminderOn ? "checkmark" : ""
+            return selectedTask.isSaturdayReminderOn ? "checkmark" : ""
         }
     }
 }

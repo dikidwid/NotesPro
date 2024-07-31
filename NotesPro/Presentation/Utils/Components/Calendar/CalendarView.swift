@@ -8,9 +8,15 @@
 import SwiftUI
 
 struct CalendarView: View {
-    @ObservedObject var calendarViewModel: CalendarViewModel
+    @StateObject var calendarViewModel: CalendarViewModel
     @State var forAllHabits: Bool = true
-
+    let onTapDate: ((Date) -> Void)
+    
+    init(calendarViewModel: CalendarViewModel, forAllHabits: Bool = false, onTapDate: @escaping (Date) -> Void) {
+        self._calendarViewModel = StateObject(wrappedValue: calendarViewModel)
+        self.forAllHabits = forAllHabits
+        self.onTapDate = onTapDate
+    }
     var body: some View {
         VStack {
             HStack {
@@ -66,6 +72,7 @@ struct CalendarView: View {
                     .onTapGesture {
                         if !calendarViewModel.isFutureDate(day.date) {
                             calendarViewModel.selectedDate = day.date
+                            onTapDate(calendarViewModel.selectedDate)
                             calendarViewModel.selectedDate = day.date
                         }
                     }
@@ -73,12 +80,15 @@ struct CalendarView: View {
                 }
             }
         }
+        .onAppear {
+            calendarViewModel.daysSlider = calendarViewModel.fetchDayOfWeek(for: .now)
+        }
         .padding(.vertical)
         .padding(.horizontal)
         .background(.background)
     }
 }
 
-#Preview {
-    CalendarView(calendarViewModel: CalendarViewModel())
-}
+//#Preview {
+//    CalendarView(calendarViewModel: CalendarViewModel())
+//}

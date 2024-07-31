@@ -28,7 +28,7 @@ struct Message: Identifiable, Equatable {
 struct AIChatView: View {
     @EnvironmentObject private var addHabitViewModel: AddHabitViewModel
     @Environment(\.dismiss) private var dismiss
-
+    
     @State private var messageText = ""
     @State private var chatMessages: [Message] = []
     @State private var currentQuestionIndex = 0
@@ -42,7 +42,7 @@ struct AIChatView: View {
     @State private var keyboardHeight: CGFloat = 0
     
     @FocusState private var isFocused: Bool
-
+    
     @ObservedObject var aiService: AIService = AIService(
         identifier: FakeAPIKey.GPT4o.rawValue, useStreaming: false, isConversation: false)
     
@@ -168,7 +168,7 @@ struct AIChatView: View {
                 }
             }
             .navigationDestination(isPresented: $navigateToAddHabit) {
-//                AddHabitView()
+                //                AddHabitView()
             }
             .toolbar {
                 ToolbarItem(placement: .keyboard) {

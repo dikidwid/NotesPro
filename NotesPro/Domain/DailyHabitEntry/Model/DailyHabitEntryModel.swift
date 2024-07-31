@@ -11,14 +11,14 @@ struct DailyHabitEntryModel: Identifiable, Hashable {
     let id: UUID
     let date: Date
     var note: String
-    let habit: HabitModel?
+    var habit: HabitModel
     var tasks: [TaskModel]
     
     init(
         id: UUID = UUID(),
         date: Date,
         note: String,
-        habit: HabitModel? = nil,
+        habit: HabitModel,
         tasks: [TaskModel] = []
     ) {
         self.id = id
@@ -27,9 +27,5 @@ struct DailyHabitEntryModel: Identifiable, Hashable {
         self.habit = habit
         self.tasks = tasks
     }
-}
-
-extension DailyHabitEntryModel {
-    
 }
 

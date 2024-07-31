@@ -10,6 +10,8 @@ import Foundation
 struct TaskModel: Identifiable, Hashable {
     let id: UUID
     var taskName: String
+    var habit: HabitModel?
+    var habitEntry: DailyHabitEntryModel?
     var isChecked: Bool
     var isReminderEnabled: Bool
     var reminderTime: Date
@@ -20,10 +22,12 @@ struct TaskModel: Identifiable, Hashable {
     var isWednesdayReminderOn: Bool
     var isThursdayReminderOn: Bool
     var isFridayReminderOn: Bool
-    var isSaturdayRemidnerOn: Bool
+    var isSaturdayReminderOn: Bool
     
     init(id: UUID = UUID(),
          taskName: String,
+         habit: HabitModel? = nil,
+         habitEntry: DailyHabitEntryModel? = nil,
          isChecked: Bool = false,
          isReminderEnabled: Bool = false,
          reminderTime: Date = .now,
@@ -37,6 +41,8 @@ struct TaskModel: Identifiable, Hashable {
     ) {
         self.id = id
         self.taskName = taskName
+        self.habit = habit
+        self.habitEntry = habitEntry
         self.isChecked = isChecked
         self.isReminderEnabled = isReminderEnabled
         self.reminderTime = reminderTime
@@ -46,6 +52,6 @@ struct TaskModel: Identifiable, Hashable {
         self.isWednesdayReminderOn = isWednesdayReminderOn
         self.isThursdayReminderOn = isThursdayReminderOn
         self.isFridayReminderOn = isFridayReminderOn
-        self.isSaturdayRemidnerOn = isSaturdayRemidnerOn
+        self.isSaturdayReminderOn = isSaturdayRemidnerOn
     }
 }

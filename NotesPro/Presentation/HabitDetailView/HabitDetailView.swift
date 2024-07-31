@@ -8,31 +8,34 @@
 import SwiftUI
 import SwiftData
 
-struct HabitDetailVieww<HabitViewModel>: View where HabitViewModel: HabitViewModelProtocol {
-    @ObservedObject var habitViewModel: HabitViewModel
+struct HabitDetailVieww: View {
     @ObservedObject var habitDetailViewModel: HabitDetailViewModel
-    @ObservedObject var calendarViewModel: CalendarViewModel
+    @EnvironmentObject private var coordinator: AppCoordinatorImpl
     
     var body: some View {
         ScrollView {
             VStack {
-                StreakCardView(bestStreak: habitDetailViewModel.selectedHabit.bestStreak,
-                               currentStreak: habitDetailViewModel.selectedHabit.currentStreak)
+                StreakCardView(bestStreak: habitDetailViewModel.entryHabit.habit.bestStreak,
+                               currentStreak: habitDetailViewModel.entryHabit.habit.currentStreak)
                 
-                CalendarView(calendarViewModel: calendarViewModel,
-                             forAllHabits: false)
+                CalendarView(calendarViewModel: CalendarViewModel(selectedDate: habitDetailViewModel.entryHabit.date)) {
+                    date in
+                    habitDetailViewModel.refreshHabitEntry(to: date)
+                }
                 
                 Divider()
                 
-                if habitDetailViewModel.selectedHabit.isDefinedTaskEmpty(for: calendarViewModel.selectedDate) {
+                if habitDetailViewModel.entryHabit.tasks.isEmpty {
                     Text("You don't have any specific task for this habit")
                         .font(.system(.subheadline))
                         .foregroundStyle(.secondary)
                         .padding(.vertical)
                 } else {
                     VStack(alignment: .leading, spacing: 10) {
-                        ForEach(habitDetailViewModel.selectedHabit.tasks(for: calendarViewModel.selectedDate)) { task in
-//                            CheckboxTaskVieww(checkboxTaskViewModel: CheckboxTaskViewModel(task: task))
+                        ForEach(habitDetailViewModel.entryHabit.tasks) { task in
+                            CheckboxTaskView(checkboxTaskViewModel: coordinator.container.makeCheckboxTaskViewModel(task: task)) { updatedTask in
+                                habitDetailViewModel.updateTask(updatedTask)
+                            }
                         }
                     }
                     .frame(maxWidth: .infinity, alignment: .leading)
@@ -42,32 +45,33 @@ struct HabitDetailVieww<HabitViewModel>: View where HabitViewModel: HabitViewMod
                 
                 Divider()
                 
-                Text(calendarViewModel.selectedDate.formatted(date: .abbreviated, time: .omitted))
+                Text(habitDetailViewModel.selectedDate.formatted(date: .abbreviated, time: .omitted))
                     .font(.system(.caption2))
                     .foregroundStyle(.secondary)
                     .padding(.vertical, 10)
                 
-                TextField("Add Note", text: $habitDetailViewModel.selectedEntry.note, axis: .vertical)
+                TextField("Add Note", text: $habitDetailViewModel.note, axis: .vertical)
                     .padding(.horizontal, 24)
                     .padding(.bottom)
                     .autocorrectionDisabled()
                 
             }
-            .onChange(of: habitDetailViewModel.selectedEntry.note) {
-                habitViewModel.updateNote(for: habitDetailViewModel.selectedEntry,
-                                          from: habitDetailViewModel.selectedHabit,
-                                          on: calendarViewModel.selectedDate)
+            .onDisappear {
+                habitDetailViewModel.updateHabitEntryNote()
             }
-            .navigationTitle(habitDetailViewModel.selectedHabit.habitName)
+            .onAppear {
+                habitDetailViewModel.updateHabit()
+            }
+            .navigationTitle(habitDetailViewModel.entryHabit.habit.habitName)
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
                     Menu {
                         Button("Edit Habit", systemImage: "pencil") {
-                            habitDetailViewModel.isEditSelectedHabit.toggle()
+                            coordinator.present(.editHabit(habitDetailViewModel.entryHabit.habit))
                         }
                         
                         Button("Delete Habit", systemImage: "trash", role: .destructive) {
-//                            showDeleteAlert = true
+                            habitDetailViewModel.isShowDeleteConfirmation.toggle()
                         }
                     } label: {
                         Image(systemName: "ellipsis.circle")
@@ -107,14 +111,14 @@ struct HabitDetailVieww<HabitViewModel>: View where HabitViewModel: HabitViewMod
                         }
                     }
                 }
-
             }
-
+            .alert("Delete Habit", isPresented: $habitDetailViewModel.isShowDeleteConfirmation) {
+                Button("Cancel", role: .cancel) { }
+                Button("Delete", role: .destructive) { habitDetailViewModel.deleteHabitAndPop(with: coordinator) }
+            } message: {
+                Text("Are you sure you want to delete this habit? This action cannot be undone.")
+            }
         }
-//        .sheet(isPresented: $isEditSheetPresented) {
-//            AddHabitView(addHabitViewModel: addHabitViewModel,
-//                         habitViewModel: habitViewModel)
-//        }
     }
 }
 
@@ -132,50 +136,6 @@ struct HabitDetailVieww<HabitViewModel>: View where HabitViewModel: HabitViewMod
 //    }
 //}
 
-final class HabitDetailViewModel: ObservableObject {
-    @Published var selectedHabit: HabitModel
-    @Published var selectedEntry: DailyHabitEntryModel
-    @Published var note: String = ""
-    @Published var isEditSelectedHabit: Bool = false
-    
-    init(selectedHabit: HabitModel, date: Date) {
-        self.selectedHabit = selectedHabit
-        
-        print("passed date \(date.formatted(date: .complete, time: .complete))")
-        
-        if let existingHabitEntry = selectedHabit.dailyHabitEntries.first(where: { entry in
-            print("date in habit entry \(entry.date.formatted(date: .complete, time: .complete))")
-            return Calendar.current.isDate(date, inSameDayAs: entry.date)
-        }) {
-            self.selectedEntry = existingHabitEntry
-            print("use the existing entry")
-        } else {
-            self.selectedEntry = DailyHabitEntryModel(date: date,
-                                                     note: "", habit: selectedHabit,
-                                                     tasks: selectedHabit.definedTasks)
-            
-            print("use the new entry")
-
-        }
-    }
-    
-//    func selectedDate(date: Date) {
-//       selectedEntry = selectedHabit.hasEntry(for: date)
-//        print(selectedEntry.date)
-//    }
-    
-    func updateNote(for date: Date) {
-        if let index = selectedHabit.dailyHabitEntries.firstIndex(where: { $0.date == selectedEntry.date }) {
-            selectedHabit.dailyHabitEntries[index] = selectedEntry
-            print("note from selectedEntry \(selectedEntry.note)")
-            print("note from the (same) entry \(selectedHabit.dailyHabitEntries[index].note)")
-        }
-    }
-    
-    func updateEntry(for date: Date) {
-        
-    }
-}
 
 struct StreakCardView: View {
     let bestStreak: Int

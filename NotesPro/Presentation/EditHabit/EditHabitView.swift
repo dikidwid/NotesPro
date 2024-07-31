@@ -1,34 +1,32 @@
 //
-//  AddNewHabitView.swift
+//  EditHabitView.swift
 //  NotesPro
 //
-//  Created by Diki Dwi Diro on 22/07/24.
+//  Created by Diki Dwi Diro on 25/07/24.
 //
 
 import SwiftUI
 
-struct AddNewHabitView<HabitViewModel>: View where HabitViewModel: HabitViewModelProtocol {
-    @Environment(\.dismiss) private var dismiss
-    @EnvironmentObject private var appCoordinator: AppCoordinatorImpl
-    @ObservedObject var addHabitViewModel: AddHabitViewModell
-    @ObservedObject var habitViewModel: HabitViewModel
-    
+struct EditHabitView: View {
+    @ObservedObject var editHabitViewModel: EditHabitViewModel
+    @EnvironmentObject var coordinator: AppCoordinatorImpl
+        
     var body: some View {
         NavigationStack {
             Form {
                 Section(header: Text("Habit")) {
-                    TextField("Enter Habit Name", text: $addHabitViewModel.habitName)
+                    TextField("Enter Habit Name", text: $editHabitViewModel.habit.habitName)
                         .autocorrectionDisabled()
                 }
                 
                 Section(header: Text("Tasks")) {
-                    ForEach(addHabitViewModel.tasks) { task in
+                    ForEach(editHabitViewModel.habit.definedTasks) { task in
                         HStack {
                             Image(systemName: "minus.circle.fill")
                                 .foregroundColor(.red)
                                 .font(.title3)
                                 .onTapGesture {
-                                    addHabitViewModel.deleteTask(task)
+                                    editHabitViewModel.deleteTask(task)
                                 }
                             
                             HStack {
@@ -49,14 +47,14 @@ struct AddNewHabitView<HabitViewModel>: View where HabitViewModel: HabitViewMode
                             }
                             .contentShape(Rectangle())
                             .onTapGesture {
-                                addHabitViewModel.setSelectedTask(to: task)
+                                editHabitViewModel.selectedTask = task
                             }
                         }
                         .foregroundColor(.primary)
                     }
                     
                     Button {
-                        addHabitViewModel.createNewTask()
+                        editHabitViewModel.createNewTask()
                     } label: {
                         HStack {
                             Image(systemName: "plus.circle.fill")
@@ -73,35 +71,31 @@ struct AddNewHabitView<HabitViewModel>: View where HabitViewModel: HabitViewMode
                 
                 Section(header: Text("or use AI habit Generator")) {
                     Button("✨ Generate Habits with AI") {
-                        appCoordinator.present(.aiOnboarding)
+                        //                            addHabitViewModel.showAIOnboardingSheet()
                     }
                     .foregroundColor(.accentColor)
                 }
             }
             .background(.black)
-            .navigationTitle("Add Habit")
+            .navigationTitle("Edit Habit")
             .navigationBarTitleDisplayMode(.inline)
-            .navigationDestination(item: $addHabitViewModel.selectedTask) { task in
-                DetailTaskView(detailTaskViewModel: DetailTaskViewModel(selectedTask: task), onSaveTapped: { addHabitViewModel.updateTask($0)})
+            .navigationDestination(item: $editHabitViewModel.selectedTask) { task in
+                coordinator.createDetailTaskView(for: task, onSaveTapped: { editHabitViewModel.updateTask($0)})
             }
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
                     Button("Cancel") {
-                        dismiss()
+                        coordinator.dismissSheet()
                     }
                     .foregroundColor(.accentColor)
                 }
                 
                 ToolbarItem(placement: .topBarTrailing) {
                     Button("Save") {
-                        addHabitViewModel.createHabit()
-                        Task {
-                            await habitViewModel.fetchHabits()
-                        }
-                        dismiss()
+                        editHabitViewModel.saveHabitAndDismiss(with: coordinator)
                     }
-                    .foregroundColor(addHabitViewModel.isValidHabit ? .accentColor : .gray)
-                    .disabled(!addHabitViewModel.isValidHabit)
+                    .foregroundColor(editHabitViewModel.isValidHabit ? .accentColor : .gray)
+                    .disabled(!editHabitViewModel.isValidHabit)
                 }
             }
         }

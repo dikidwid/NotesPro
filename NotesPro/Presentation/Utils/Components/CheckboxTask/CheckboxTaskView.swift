@@ -7,9 +7,9 @@
 
 import SwiftUI
 
-struct CheckboxTaskView<HabitViewModel>: View where HabitViewModel: HabitViewModelProtocol {
-    @StateObject var checkboxTaskViewModel: CheckboxTaskViewModel
-    @EnvironmentObject private var habitViewModel: HabitViewModel
+struct CheckboxTaskView: View {
+    @ObservedObject var checkboxTaskViewModel: CheckboxTaskViewModel
+    let onCheckTask: ((TaskModel) -> Void)
     
     var body: some View {
         HStack(spacing: 16) {
@@ -20,9 +20,7 @@ struct CheckboxTaskView<HabitViewModel>: View where HabitViewModel: HabitViewMod
                 .contentTransition(.symbolEffect(.replace))
                 .onTapGesture {
                     checkboxTaskViewModel.toggleTask()
-                    Task {
-                       await habitViewModel.fetchHabits()
-                    }
+                    onCheckTask(checkboxTaskViewModel.task)
                 }
             
             
@@ -44,24 +42,6 @@ struct CheckboxTaskView<HabitViewModel>: View where HabitViewModel: HabitViewMod
             }
             .strikethrough(checkboxTaskViewModel.task.isChecked)
         }
-    }
-}
-
-final class CheckboxTaskViewModel: ObservableObject {
-    @Published var task: TaskModel
-    let isShowReminderTime: Bool
-    let updateTaskUseCase: UpdateTaskUseCase
-    
-    init(task: TaskModel, isShowReminderTime: Bool = false, updateTaskUseCase: UpdateTaskUseCase = UpdateTaskUseCase(repository: HabitRepositoryMock.shared)) {
-        self.task = task
-        self.isShowReminderTime = isShowReminderTime
-        self.updateTaskUseCase = updateTaskUseCase
-    }
-    
-    func toggleTask() {
-        task.isChecked.toggle()
-        print(task.isChecked)
-        updateTaskUseCase.execute(for: task)
     }
 }
 

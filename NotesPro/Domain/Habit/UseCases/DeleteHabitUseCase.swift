@@ -6,3 +6,11 @@
 //
 
 import Foundation
+
+struct DeleteHabitUseCase {
+    let repository: HabitRepository
+    
+    func execute(for habit: HabitModel) {
+        repository.deleteHabit(habit)
+    }
+}

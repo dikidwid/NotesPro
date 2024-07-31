@@ -37,6 +37,6 @@ extension DailyTaskDefinition {
 
 extension DailyHabitEntry {
     func toDailyHabitEntryModel() -> DailyHabitEntryModel {
-        DailyHabitEntryModel(date: self.day, note: self.userDescription)
+        DailyHabitEntryModel(date: self.day, note: self.userDescription, habit: self.habit!.toHabitModel())
     }
 }

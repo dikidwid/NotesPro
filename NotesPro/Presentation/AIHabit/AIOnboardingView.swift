@@ -10,7 +10,12 @@ import SwiftUI
 struct AIOnboardingView: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.colorScheme) private var colorScheme
-    @EnvironmentObject var addHabitViewModel: AddHabitViewModel
+    @EnvironmentObject private var appCoordinator: AppCoordinatorImpl
+    @StateObject private var aiHabitViewModel: AIHabitViewModel
+    
+    init(aiHabitViewModel: AIHabitViewModel) {
+        self._aiHabitViewModel = StateObject(wrappedValue: aiHabitViewModel)
+    }
     
     var body: some View {
         NavigationStack {
@@ -36,7 +41,7 @@ struct AIOnboardingView: View {
                     Spacer()
                     
                     Button {
-                        addHabitViewModel.showAIChatSheet()
+//                        addHabitViewModel.showAIChatSheet()
                     } label: {
                         RoundedRectangle(cornerRadius: 10)
                             .overlay {
@@ -65,7 +70,7 @@ struct AIOnboardingView: View {
                     }
                 }
             }
-            .navigationDestination(isPresented: $addHabitViewModel.isAIChatSheetPresented) {
+            .navigationDestination(isPresented: $aiHabitViewModel.isShowAIChatSheet) {
                 AIChatView()
             }
         }
@@ -73,6 +78,11 @@ struct AIOnboardingView: View {
 }
 
 #Preview {
-    AIOnboardingView()
-        .environmentObject(AddHabitViewModel())
+    AIOnboardingView(aiHabitViewModel: AIHabitViewModel())
+}
+
+final class AIHabitViewModel: ObservableObject {
+    @Published var isShowAIChatSheet: Bool = false
+    @Published var chatMessages: [Message] = []
+    @Published var recommendations: [Recommendation] = []
 }

@@ -6,3 +6,11 @@
 //
 
 import Foundation
+
+struct UpdateHabitUseCase {
+    let repository: HabitRepository
+    
+    func execute(for habit: HabitModel) {
+        repository.updateHabit(habit)
+    }
+}
