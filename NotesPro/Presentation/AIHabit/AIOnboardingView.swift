@@ -13,9 +13,12 @@ struct AIOnboardingView: View {
     @EnvironmentObject private var appCoordinator: AppCoordinatorImpl
     @StateObject private var aiHabitViewModel: AIHabitViewModel
     
-    init(aiHabitViewModel: AIHabitViewModel) {
+    init(aiHabitViewModel: AIHabitViewModel, onDismiss: @escaping ((Recommendation) -> Void?)) {
         self._aiHabitViewModel = StateObject(wrappedValue: aiHabitViewModel)
+        self.onDismiss = onDismiss
     }
+    
+    var onDismiss: ((Recommendation) -> Void?)
     
     var body: some View {
         NavigationStack {
@@ -41,7 +44,7 @@ struct AIOnboardingView: View {
                     Spacer()
                     
                     Button {
-//                        addHabitViewModel.showAIChatSheet()
+                        aiHabitViewModel.showAIChatSheet()
                     } label: {
                         RoundedRectangle(cornerRadius: 10)
                             .overlay {
@@ -71,18 +74,15 @@ struct AIOnboardingView: View {
                 }
             }
             .navigationDestination(isPresented: $aiHabitViewModel.isShowAIChatSheet) {
-                AIChatView()
+                AIChatView(aiHabitViewModel: aiHabitViewModel, onDismiss: { recommendation in
+                    onDismiss(recommendation)
+                    dismiss()
+                })
             }
         }
     }
 }
 
-#Preview {
-    AIOnboardingView(aiHabitViewModel: AIHabitViewModel())
-}
-
-final class AIHabitViewModel: ObservableObject {
-    @Published var isShowAIChatSheet: Bool = false
-    @Published var chatMessages: [Message] = []
-    @Published var recommendations: [Recommendation] = []
-}
+//#Preview {
+//    AIOnboardingView(aiHabitViewModel: AIHabitViewModel())
+//}

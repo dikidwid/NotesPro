@@ -8,8 +8,10 @@
 import SwiftUI
 
 struct EditHabitView: View {
-    @ObservedObject var editHabitViewModel: EditHabitViewModel
+    @StateObject var editHabitViewModel: EditHabitViewModel
     @EnvironmentObject var coordinator: AppCoordinatorImpl
+    @Environment(\.dismiss) var dismiss
+    let onSaveTapped: ((HabitModel) -> Void?)
         
     var body: some View {
         NavigationStack {
@@ -85,14 +87,16 @@ struct EditHabitView: View {
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
                     Button("Cancel") {
-                        coordinator.dismissSheet()
+                        dismiss()
                     }
                     .foregroundColor(.accentColor)
                 }
                 
                 ToolbarItem(placement: .topBarTrailing) {
                     Button("Save") {
-                        editHabitViewModel.saveHabitAndDismiss(with: coordinator)
+                        editHabitViewModel.saveHabit()
+                        onSaveTapped(editHabitViewModel.habit)
+                        dismiss()
                     }
                     .foregroundColor(editHabitViewModel.isValidHabit ? .accentColor : .gray)
                     .disabled(!editHabitViewModel.isValidHabit)

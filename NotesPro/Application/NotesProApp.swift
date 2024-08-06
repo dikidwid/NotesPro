@@ -6,19 +6,44 @@
 //
 
 import SwiftUI
+import SwiftData
 
 @main
 struct NotesProApp: App {
+    
+    var swiftDataContainer: ModelContainer {
+        do {
+            let configurations = ModelConfiguration(isStoredInMemoryOnly: false)
+            let container = try ModelContainer(for: Habit.self, configurations: configurations)
+            
+            return container
+            
+        } catch {
+            fatalError("\(error)")
+        }
+    }
+    
     var body: some Scene {
         WindowGroup {
-            CoordinatorView()
+            CoordinatorView(coordinator: AppCoordinatorImpl(container: AppDIContainer(swiftDataContainer: swiftDataContainer)))
+        }
+    }
+}
+
+struct DebugSwiftDataView: View {
+    
+    @Query var habits: [Habit]
+    
+    var body: some View {
+        List(habits) { habit in
+            Text(habit.habitName)
         }
     }
 }
 
 struct CoordinatorView: View  {
     
-    @StateObject var coordinator: AppCoordinatorImpl = AppCoordinatorImpl()
+    @StateObject var coordinator: AppCoordinatorImpl
 
     var body: some View {
         NavigationStack(path: $coordinator.path) {
@@ -36,6 +61,6 @@ struct CoordinatorView: View  {
 }
 
 
-#Preview {
-   return CoordinatorView()
-}
+//#Preview {
+//   return CoordinatorView()
+//}

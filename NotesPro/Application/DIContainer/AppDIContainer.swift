@@ -6,10 +6,20 @@
 //
 
 import Foundation
+import SwiftData
 
 class AppDIContainer {
+        
+    init(swiftDataContainer: ModelContainer) {
+        self.habitRepository = HabitRepositoryImpl(dataSource: SwiftDataManager(modelContainer: swiftDataContainer))
+        self.habitEntryRepository = HabitEntryRepositoryImpl(dataSource: SwiftDataManager(modelContainer: swiftDataContainer))
+        self.taskRepository = TaskRepositoryImpl(dataSource: SwiftDataManager(modelContainer: swiftDataContainer))
+    }
+    
     // MARK: - Persistent Mock Repository
-    lazy var habitRepository: HabitRepository = HabitRepositoryMock.shared
+    let habitRepository: HabitRepository
+    let habitEntryRepository: HabitEntryRepository
+    let taskRepository: TaskRepository
     
     // MARK: - Use Cases
     func makeAddHabitUseCase() -> AddHabitUseCase {
@@ -21,7 +31,11 @@ class AppDIContainer {
     }
     
     func makeGetHabitEntryUseCase() -> GetHabitEntryUseCase {
-        GetHabitEntryUseCase(repository: habitRepository)
+        GetHabitEntryUseCase(repository: habitEntryRepository)
+    }
+    
+    func makeUpdateHabitEntryUseCase() -> UpdateHabitEntryUseCase {
+        UpdateHabitEntryUseCase(repository: habitEntryRepository)
     }
     
     func makeUpdateHabitUseCase() -> UpdateHabitUseCase {
@@ -31,29 +45,17 @@ class AppDIContainer {
     func makeDeleteHabitUseCase() -> DeleteHabitUseCase {
         DeleteHabitUseCase(repository: habitRepository)
     }
-    
-    func makeAddTaskUseCase() -> AddTaskUseCase {
-        AddTaskUseCase(repository: habitRepository)
-    }
-    
+
     func makeUpdateTaskUseCase() -> UpdateTaskUseCase {
-        UpdateTaskUseCase(repository: habitRepository)
-    }
-    
-    func makeDeleteTaskUseCase() -> DeleteTaskUseCase {
-        DeleteTaskUseCase(repository: habitRepository)
-    }
-    
-    func makeUpdateHabitEntryUseCase() -> UpdateHabitEntryUseCase {
-        UpdateHabitEntryUseCase(repository: habitRepository)
+        UpdateTaskUseCase(repository: taskRepository)
     }
 
     
     // MARK: - ViewModel
-    func makeHabitViewModel() -> HabitViewModelMock {
-        HabitViewModelMock(getHabitsUseCase: makeGetHabitsUseCase(), 
-                           updateTaskUseCase: makeUpdateTaskUseCase(),
-                           updateHabitEntryNoteUseCase: makeUpdateHabitEntryUseCase())
+    func makeHabitViewModel() -> HabitListViewModelMock {
+        HabitListViewModelMock(getHabitsUseCase: makeGetHabitsUseCase(),
+                               updateTaskUseCase: makeUpdateTaskUseCase(),
+                               updateHabitEntryNoteUseCase: makeUpdateHabitEntryUseCase())
     }
     
     func makeHabitDetailViewModel(for habit: HabitModel, with date: Date) -> HabitDetailViewModel {
@@ -69,20 +71,23 @@ class AppDIContainer {
     }
     
     func makeEditHabitViewModel(habit: HabitModel) -> EditHabitViewModel {
-        EditHabitViewModel(habit: habit, addTaskUseCase: makeAddTaskUseCase(),
-                           updateHabitUseCase: makeUpdateHabitUseCase(),
-                           deleteTaskUseCase: makeDeleteTaskUseCase())
+        EditHabitViewModel(habit: habit,
+                           updateHabitUseCase: makeUpdateHabitUseCase())
     }
     
     
     func makeAIHabitViewModel() -> AIHabitViewModel {
-        AIHabitViewModel()
+        AIHabitViewModel(aiService: makeAIService())
     }
     
+    func makeAIService() -> AIService {
+        AIService(identifier: AICreds.freeAICreds.rawValue,
+                  useStreaming: false,
+                  isConversation: false)
+    }
     
-    
-    func makeCheckboxTaskViewModel(task: TaskModel) -> CheckboxTaskViewModel {
-        CheckboxTaskViewModel(task: task, updateTaskUseCase: makeUpdateTaskUseCase())
+    func makeCheckboxTaskViewModel(task: TaskModel, habit: HabitModel, date: Date) -> CheckboxTaskViewModel {
+        CheckboxTaskViewModel(task: task, taskHabit: habit, taskDate: date, updateTaskUseCase: makeUpdateTaskUseCase())
     }
     
     func makeDetailTaskViewModel(task: TaskModel) -> DetailTaskViewModel {

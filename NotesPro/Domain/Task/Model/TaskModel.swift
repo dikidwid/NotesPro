@@ -10,8 +10,6 @@ import Foundation
 struct TaskModel: Identifiable, Hashable {
     let id: UUID
     var taskName: String
-    var habit: HabitModel?
-    var habitEntry: DailyHabitEntryModel?
     var isChecked: Bool
     var isReminderEnabled: Bool
     var reminderTime: Date
@@ -26,8 +24,6 @@ struct TaskModel: Identifiable, Hashable {
     
     init(id: UUID = UUID(),
          taskName: String,
-         habit: HabitModel? = nil,
-         habitEntry: DailyHabitEntryModel? = nil,
          isChecked: Bool = false,
          isReminderEnabled: Bool = false,
          reminderTime: Date = .now,
@@ -41,8 +37,6 @@ struct TaskModel: Identifiable, Hashable {
     ) {
         self.id = id
         self.taskName = taskName
-        self.habit = habit
-        self.habitEntry = habitEntry
         self.isChecked = isChecked
         self.isReminderEnabled = isReminderEnabled
         self.reminderTime = reminderTime
@@ -53,5 +47,37 @@ struct TaskModel: Identifiable, Hashable {
         self.isThursdayReminderOn = isThursdayReminderOn
         self.isFridayReminderOn = isFridayReminderOn
         self.isSaturdayReminderOn = isSaturdayRemidnerOn
+    }
+}
+
+extension TaskModel {
+    func getReminderDescription() -> String {
+        if !isReminderEnabled {
+            return ""
+        }
+        
+        let days = [
+            (day: "Sun", isSelected: isSundayReminderOn),
+            (day: "Mon", isSelected: isMondayReminderOn),
+            (day: "Tue", isSelected: isTuesdayReminderOn),
+            (day: "Wed", isSelected: isWednesdayReminderOn),
+            (day: "Thu", isSelected: isThursdayReminderOn),
+            (day: "Fri", isSelected: isFridayReminderOn),
+            (day: "Sat", isSelected: isSaturdayReminderOn)
+        ]
+        
+        let selectedDays = days.filter { $0.isSelected }.map { $0.day }
+        
+        let timeFormatter = DateFormatter()
+        timeFormatter.dateFormat = "h:mm a"
+        let timeString = timeFormatter.string(from: reminderTime)
+        
+        if selectedDays.count == 7 {
+            return "Everyday at \(timeString)"
+        } else if selectedDays.count == 1 {
+            return "Every \(selectedDays[0]) at \(timeString)"
+        } else {
+            return selectedDays.joined(separator: ", ") + " at \(timeString)"
+        }
     }
 }

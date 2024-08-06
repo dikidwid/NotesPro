@@ -15,33 +15,9 @@ enum Screen: Identifiable {
     var id: Self { return self }
 }
 
-extension Screen: Hashable {
-    // Hashable conformance
-    func hash(into hasher: inout Hasher) {
-        switch self {
-        case .detailTask:
-            hasher.combine(0)
-        case .listHabit:
-            hasher.combine(0)
-        case .detailHabit(_, _):
-            hasher.combine(0)
-        }
-    }
-
-    static func == (lhs: Screen, rhs: Screen) -> Bool {
-        switch(lhs, rhs) {
-        case(.detailTask, .detailTask):
-            return true
-        default:
-            return false
-        }
-    }
-}
-
-enum Sheet: Identifiable, Hashable {
-    case addHabit
-    case editHabit(HabitModel)
-    case aiOnboarding
+enum Sheet: Identifiable {
+    case addHabit(onDismiss: ((HabitModel) -> Void?))
+    case aiOnboarding(onDismiss: ((Recommendation) -> Void?))
     
     var id: Self { return self }
 }
@@ -61,4 +37,54 @@ protocol AppCoordinatorProtocol: ObservableObject {
     func popToRoot()
     func dismissSheet()
     func dismissFullScreenOver()
+}
+
+//MARK:-- Conformance to Hashable Protocol beaase of closure on detailTask case
+extension Screen: Hashable {
+    // Conform to Hashable
+    func hash(into hasher: inout Hasher) {
+        switch self {
+        case .detailTask:
+            hasher.combine("detailTask")
+        case .listHabit:
+            hasher.combine("listHabit")
+        case .detailHabit(_, _):
+            hasher.combine("detailHabit")
+        }
+    }
+
+    // Conform to Equatable
+    static func == (lhs: Screen, rhs: Screen) -> Bool {
+        switch(lhs, rhs) {
+        case(.detailTask, .detailTask):
+            return true
+        default:
+            return false
+        }
+    }
+}
+
+//MARK:-- Conformance to Hashable Protocol beaase of closure on aiOnboarding case
+extension Sheet: Hashable {
+    // Conform to Equatable
+    static func == (lhs: Sheet, rhs: Sheet) -> Bool {
+        switch(lhs, rhs) {
+        case (.addHabit, .addHabit):
+            return true
+        default:
+            return false
+        }
+    }
+    
+    // Conform to Hashable
+    func hash(into hasher: inout Hasher) {
+        switch self {
+        case .addHabit:
+            hasher.combine("addHabit")
+        case .aiOnboarding(_):
+            hasher.combine("aiOnboarding")
+
+        }
+    }
+    
 }

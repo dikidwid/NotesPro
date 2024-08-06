@@ -12,8 +12,12 @@ final class AppCoordinatorImpl: AppCoordinatorProtocol {
     @Published var sheet: Sheet?
     @Published var fullScreenCover: FullScreenCover?
     
-    let container: AppDIContainer = AppDIContainer()
+    init(container: AppDIContainer) {
+        self.container = container
+    }
     
+    let container: AppDIContainer
+        
     // MARK: - Navigation functions
     func push(_ screen: Screen) {
         path.append(screen)
@@ -50,25 +54,24 @@ final class AppCoordinatorImpl: AppCoordinatorProtocol {
     }
     
     func createHabitDetailView(for habit: HabitModel, with date: Date) -> some View {
-        HabitDetailVieww(habitDetailViewModel: container.makeHabitDetailViewModel(for: habit, with: date))
+        HabitDetailVieww(habitDetailViewModel: self.container.makeHabitDetailViewModel(for: habit, with: date))
     }
     
     #warning("Update the AddHabitView to not dependandt to habitVIewModel")
-    func createAddHabitView() -> some View {
-        AddNewHabitView(addHabitViewModel: container.makeAddHabitViewModel(habitRepository: container.habitRepository),
-                        habitViewModel: container.makeHabitViewModel())
+    func createAddHabitView(onDismiss: @escaping ((HabitModel) -> Void?)) -> some View {
+        AddNewHabitView(addHabitViewModel: container.makeAddHabitViewModel(habitRepository: container.habitRepository), onDismiss: onDismiss)
     }
     
-    func createEditHabitView(for habit: HabitModel) -> some View {
-        EditHabitView(editHabitViewModel: container.makeEditHabitViewModel(habit: habit))
+    func createEditHabitView(for habit: HabitModel, onSaveTapped: @escaping ((HabitModel) -> Void?)) -> some View {
+        EditHabitView(editHabitViewModel: self.container.makeEditHabitViewModel(habit: habit), onSaveTapped: onSaveTapped)
     }
     
     func createDetailTaskView(for task: TaskModel, onSaveTapped: @escaping ((TaskModel) -> Void?)) -> some View {
         DetailTaskView(detailTaskViewModel: container.makeDetailTaskViewModel(task: task), onSaveTapped: onSaveTapped)
     }
     
-    func createAIOnBoardingView() -> some View {
-        AIOnboardingView(aiHabitViewModel: container.makeAIHabitViewModel())
+    func createAIOnBoardingView(onDismiss: @escaping ((Recommendation) -> Void?)) -> some View {
+        AIOnboardingView(aiHabitViewModel: container.makeAIHabitViewModel(), onDismiss: onDismiss)
     }
 
     // MARK: - Presentation Style Providers
@@ -87,12 +90,10 @@ final class AppCoordinatorImpl: AppCoordinatorProtocol {
     @ViewBuilder
     func build(_ sheet: Sheet) -> some View {
         switch sheet {
-        case .addHabit:
-            createAddHabitView()
-        case .editHabit(let habit):
-            createEditHabitView(for: habit)
-        case .aiOnboarding:
-            createAIOnBoardingView()
+        case .addHabit(let onDismiss):
+            createAddHabitView(onDismiss: onDismiss)
+        case .aiOnboarding(let onDismiss):
+            createAIOnBoardingView(onDismiss: onDismiss)
         }
     }
     

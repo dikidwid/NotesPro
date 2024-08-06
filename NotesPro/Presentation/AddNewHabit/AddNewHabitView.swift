@@ -7,22 +7,21 @@
 
 import SwiftUI
 
-struct AddNewHabitView<HabitViewModel>: View where HabitViewModel: HabitViewModelProtocol {
-    @Environment(\.dismiss) private var dismiss
+struct AddNewHabitView: View {
     @EnvironmentObject private var appCoordinator: AppCoordinatorImpl
     @ObservedObject var addHabitViewModel: AddHabitViewModell
-    @ObservedObject var habitViewModel: HabitViewModel
+    let onDismiss: ((HabitModel) -> Void?)
     
     var body: some View {
         NavigationStack {
             Form {
                 Section(header: Text("Habit")) {
-                    TextField("Enter Habit Name", text: $addHabitViewModel.habitName)
+                    TextField("Enter Habit Name", text: $addHabitViewModel.habit.habitName)
                         .autocorrectionDisabled()
                 }
                 
                 Section(header: Text("Tasks")) {
-                    ForEach(addHabitViewModel.tasks) { task in
+                    ForEach(addHabitViewModel.habit.definedTasks) { task in
                         HStack {
                             Image(systemName: "minus.circle.fill")
                                 .foregroundColor(.red)
@@ -73,7 +72,7 @@ struct AddNewHabitView<HabitViewModel>: View where HabitViewModel: HabitViewMode
                 
                 Section(header: Text("or use AI habit Generator")) {
                     Button("✨ Generate Habits with AI") {
-                        appCoordinator.present(.aiOnboarding)
+                        addHabitViewModel.showAIOnboardingView()
                     }
                     .foregroundColor(.accentColor)
                 }
@@ -84,21 +83,21 @@ struct AddNewHabitView<HabitViewModel>: View where HabitViewModel: HabitViewMode
             .navigationDestination(item: $addHabitViewModel.selectedTask) { task in
                 DetailTaskView(detailTaskViewModel: DetailTaskViewModel(selectedTask: task), onSaveTapped: { addHabitViewModel.updateTask($0)})
             }
+            .sheet(isPresented: $addHabitViewModel.isShowAIOnboardingView) {
+                appCoordinator.createAIOnBoardingView { addHabitViewModel.populateFromRecommendation($0) }
+            }
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
                     Button("Cancel") {
-                        dismiss()
+                        appCoordinator.dismissSheet()
                     }
                     .foregroundColor(.accentColor)
                 }
                 
                 ToolbarItem(placement: .topBarTrailing) {
                     Button("Save") {
-                        addHabitViewModel.createHabit()
-                        Task {
-                            await habitViewModel.fetchHabits()
-                        }
-                        dismiss()
+                        addHabitViewModel.createHabit { onDismiss($0) }
+                        appCoordinator.dismissSheet()
                     }
                     .foregroundColor(addHabitViewModel.isValidHabit ? .accentColor : .gray)
                     .disabled(!addHabitViewModel.isValidHabit)

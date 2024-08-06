@@ -16,7 +16,7 @@ struct HabitModel: Identifiable, Hashable {
     var lastCompletedDate: Date?
     
     var definedTasks: [TaskModel]
-    var dailyHabitEntries: [DailyHabitEntryModel]
+    var dailyHabitEntries: [HabitEntryModel]
         
     init (
         id: UUID = UUID(),
@@ -25,7 +25,7 @@ struct HabitModel: Identifiable, Hashable {
         bestStreak: Int = 0,
         lastCompletedDate: Date? = nil,
         definedTasks: [TaskModel] = [],
-        dailyHabitEntries: [DailyHabitEntryModel] = []
+        dailyHabitEntries: [HabitEntryModel] = []
     ) {
         self.id = id
         self.habitName = habitName
@@ -38,16 +38,16 @@ struct HabitModel: Identifiable, Hashable {
 }
 
 extension HabitModel {
-    func hasEntry(for date: Date) -> DailyHabitEntryModel {
-        self.dailyHabitEntries.first { Calendar.current.isDate($0.date, inSameDayAs: date) } ?? DailyHabitEntryModel(date: date, note: "", habit: self, tasks: self.definedTasks)
+    func hasEntry(for date: Date) -> HabitEntryModel? {
+        self.dailyHabitEntries.first { Calendar.current.isDate($0.date, inSameDayAs: date) }
     }
 
     func tasks(for date: Date) -> [TaskModel] {
-        hasEntry(for: date).tasks.sorted(by: { $0.taskName < $1.taskName })
+        hasEntry(for: date)?.tasks.sorted(by: { $0.taskName < $1.taskName }) ?? []
     }
     
     func isAllTaskDone(for date: Date) -> Bool {
-        hasEntry(for: date).tasks.filter { $0.isChecked == false }.count == 0
+        hasEntry(for: date)?.tasks.filter { $0.isChecked == false }.count == 0
     }
     
     func isDefinedTaskEmpty(for date: Date) -> Bool {

@@ -2,6 +2,7 @@
   "sourceLanguage" : "en",
   "strings" : {
     " so that I can" : {
+      "extractionState" : "stale",
       "localizations" : {
         "id" : {
           "stringUnit" : {
@@ -12,6 +13,7 @@
       }
     },
     "," : {
+      "extractionState" : "stale",
       "localizations" : {
         "id" : {
           "stringUnit" : {
@@ -22,6 +24,7 @@
       }
     },
     ", and I" : {
+      "extractionState" : "stale",
       "localizations" : {
         "id" : {
           "stringUnit" : {
@@ -32,6 +35,7 @@
       }
     },
     "." : {
+      "extractionState" : "stale",
       "localizations" : {
         "id" : {
           "stringUnit" : {
@@ -243,6 +247,7 @@
       }
     },
     "AI Recommendations:" : {
+      "extractionState" : "stale",
       "localizations" : {
         "id" : {
           "stringUnit" : {
@@ -287,6 +292,7 @@
       }
     },
     "as my reward." : {
+      "extractionState" : "stale",
       "localizations" : {
         "id" : {
           "stringUnit" : {
@@ -297,6 +303,7 @@
       }
     },
     "at " : {
+      "extractionState" : "stale",
       "localizations" : {
         "id" : {
           "stringUnit" : {
@@ -337,6 +344,7 @@
       }
     },
     "Content" : {
+      "extractionState" : "stale",
       "localizations" : {
         "id" : {
           "stringUnit" : {
@@ -357,6 +365,7 @@
       }
     },
     "Currently, I" : {
+      "extractionState" : "stale",
       "localizations" : {
         "id" : {
           "stringUnit" : {
@@ -448,6 +457,7 @@
       }
     },
     "Failed to create preview: %@" : {
+      "extractionState" : "stale",
       "localizations" : {
         "id" : {
           "stringUnit" : {
@@ -469,6 +479,7 @@
       }
     },
     "Generate AI Recommendations" : {
+      "extractionState" : "stale",
       "localizations" : {
         "id" : {
           "stringUnit" : {
@@ -515,6 +526,7 @@
 
     },
     "habit you want to build" : {
+      "extractionState" : "stale",
       "localizations" : {
         "id" : {
           "stringUnit" : {
@@ -545,6 +557,7 @@
       }
     },
     "I want to " : {
+      "extractionState" : "stale",
       "localizations" : {
         "id" : {
           "stringUnit" : {
@@ -555,6 +568,7 @@
       }
     },
     "I'll do it every " : {
+      "extractionState" : "stale",
       "localizations" : {
         "id" : {
           "stringUnit" : {
@@ -597,6 +611,7 @@
       }
     },
     "New notes you create will appear here." : {
+      "extractionState" : "stale",
       "localizations" : {
         "id" : {
           "stringUnit" : {
@@ -617,6 +632,7 @@
       }
     },
     "No Notes" : {
+      "extractionState" : "stale",
       "localizations" : {
         "id" : {
           "stringUnit" : {
@@ -630,6 +646,7 @@
 
     },
     "Notes" : {
+      "extractionState" : "stale",
       "localizations" : {
         "id" : {
           "stringUnit" : {
@@ -711,6 +728,7 @@
       }
     },
     "Search" : {
+      "extractionState" : "stale",
       "localizations" : {
         "id" : {
           "stringUnit" : {
@@ -721,6 +739,7 @@
       }
     },
     "Settings" : {
+      "extractionState" : "stale",
       "localizations" : {
         "id" : {
           "stringUnit" : {
@@ -731,6 +750,7 @@
       }
     },
     "Settings Screen" : {
+      "extractionState" : "stale",
       "localizations" : {
         "id" : {
           "stringUnit" : {
@@ -741,6 +761,7 @@
       }
     },
     "small reward I wanted after done my habits" : {
+      "extractionState" : "stale",
       "localizations" : {
         "id" : {
           "stringUnit" : {
@@ -751,6 +772,7 @@
       }
     },
     "something that you do repeatedly" : {
+      "extractionState" : "stale",
       "localizations" : {
         "id" : {
           "stringUnit" : {
@@ -761,6 +783,7 @@
       }
     },
     "somethings that you want" : {
+      "extractionState" : "stale",
       "localizations" : {
         "id" : {
           "stringUnit" : {
@@ -816,6 +839,7 @@
       }
     },
     "The AI is Generating Your Habits..." : {
+      "extractionState" : "stale",
       "localizations" : {
         "id" : {
           "stringUnit" : {
@@ -847,6 +871,7 @@
       }
     },
     "Title" : {
+      "extractionState" : "stale",
       "localizations" : {
         "id" : {
           "stringUnit" : {
@@ -889,6 +914,7 @@
       }
     },
     "when you want to do it" : {
+      "extractionState" : "stale",
       "localizations" : {
         "id" : {
           "stringUnit" : {
@@ -899,6 +925,7 @@
       }
     },
     "where you want to do it" : {
+      "extractionState" : "stale",
       "localizations" : {
         "id" : {
           "stringUnit" : {

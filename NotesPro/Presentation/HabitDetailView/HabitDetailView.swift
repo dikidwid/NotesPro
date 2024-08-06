@@ -9,14 +9,14 @@ import SwiftUI
 import SwiftData
 
 struct HabitDetailVieww: View {
-    @ObservedObject var habitDetailViewModel: HabitDetailViewModel
+    @StateObject var habitDetailViewModel: HabitDetailViewModel
     @EnvironmentObject private var coordinator: AppCoordinatorImpl
     
     var body: some View {
         ScrollView {
             VStack {
-                StreakCardView(bestStreak: habitDetailViewModel.entryHabit.habit.bestStreak,
-                               currentStreak: habitDetailViewModel.entryHabit.habit.currentStreak)
+                StreakCardView(bestStreak: habitDetailViewModel.habit.bestStreak,
+                               currentStreak: habitDetailViewModel.habit.currentStreak)
                 
                 CalendarView(calendarViewModel: CalendarViewModel(selectedDate: habitDetailViewModel.entryHabit.date)) {
                     date in
@@ -33,9 +33,8 @@ struct HabitDetailVieww: View {
                 } else {
                     VStack(alignment: .leading, spacing: 10) {
                         ForEach(habitDetailViewModel.entryHabit.tasks) { task in
-                            CheckboxTaskView(checkboxTaskViewModel: coordinator.container.makeCheckboxTaskViewModel(task: task)) { updatedTask in
-                                habitDetailViewModel.updateTask(updatedTask)
-                            }
+                            CheckboxTaskView(checkboxTaskViewModel: coordinator.container.makeCheckboxTaskViewModel(task: task, habit: habitDetailViewModel.habit, date: habitDetailViewModel.selectedDate), onCheckTask: { _ in
+                            })
                         }
                     }
                     .frame(maxWidth: .infinity, alignment: .leading)
@@ -50,7 +49,7 @@ struct HabitDetailVieww: View {
                     .foregroundStyle(.secondary)
                     .padding(.vertical, 10)
                 
-                TextField("Add Note", text: $habitDetailViewModel.note, axis: .vertical)
+                TextField("Add Note", text: $habitDetailViewModel.entryHabit.note, axis: .vertical)
                     .padding(.horizontal, 24)
                     .padding(.bottom)
                     .autocorrectionDisabled()
@@ -59,15 +58,12 @@ struct HabitDetailVieww: View {
             .onDisappear {
                 habitDetailViewModel.updateHabitEntryNote()
             }
-            .onAppear {
-                habitDetailViewModel.updateHabit()
-            }
-            .navigationTitle(habitDetailViewModel.entryHabit.habit.habitName)
+            .navigationTitle(habitDetailViewModel.habit.habitName)
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
                     Menu {
                         Button("Edit Habit", systemImage: "pencil") {
-                            coordinator.present(.editHabit(habitDetailViewModel.entryHabit.habit))
+                            habitDetailViewModel.isShowEditHabitView.toggle()
                         }
                         
                         Button("Delete Habit", systemImage: "trash", role: .destructive) {
@@ -112,6 +108,10 @@ struct HabitDetailVieww: View {
                     }
                 }
             }
+            .sheet(isPresented: $habitDetailViewModel.isShowEditHabitView) {
+                coordinator.createEditHabitView(for: habitDetailViewModel.habit) { habitDetailViewModel.updateHabit($0) }
+            }
+             
             .alert("Delete Habit", isPresented: $habitDetailViewModel.isShowDeleteConfirmation) {
                 Button("Cancel", role: .cancel) { }
                 Button("Delete", role: .destructive) { habitDetailViewModel.deleteHabitAndPop(with: coordinator) }
